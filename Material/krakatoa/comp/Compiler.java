@@ -37,7 +37,7 @@ public class Compiler {
 			auxiliar = classDec();
 
 			if(auxiliar.getName().equals("Program")) {
-				if(!auxiliar.hasPublicMethod){
+				if(!auxiliar.hasPublicMethod()){
 					signalError.showError("No run method in class Program!");
 				}
 			}
@@ -145,7 +145,7 @@ public class Compiler {
 			String superclassName = lexer.getStringValue();
 
 			if(className.equals(superclassName))
-				signalError.showError("Class can't inheritate from itself")
+				signalError.showError("Class can't inheritate from itself");
 
 			if(symbolTable.getInGlobal(superclassName) == null)
 				signalError.showError("SuperClass not declared : " + superclassName);
@@ -259,6 +259,11 @@ public class Compiler {
 			v = new Variable(lexer.getStringValue(), type);
 			lexer.nextToken();
 		}
+			
+		if (lexer.token != Symbol.SEMICOLON) {
+			signalError.showError("; expected");
+		}
+		lexer.nextToken();
 
 		// --------- PRECISA DO RETORNO ---------
 	}
@@ -300,9 +305,14 @@ public class Compiler {
 				result = Type.stringType;
 				break;
 			case IDENT:
-				// # corrija: fa�a uma busca na TS para buscar a classe
-				// IDENT deve ser uma classe.
-				result = null;
+				// FEITO # corrija: fa�a uma busca na TS para buscar a classe
+				// FEITO IDENT deve ser uma classe.
+				String className = lexer.getStringValue();
+				KraClass typedClass = symbolTable.getInGlobal(className);
+				if (typedClass == null) {
+					signalError.showError("Type '" + className + "' was not found");
+				}
+				result = typedClass;
 				break;
 			default:
 				signalError.showError("Type expected");
@@ -682,21 +692,25 @@ public class Compiler {
 				signalError.showError("Identifier expected");
 
 			String className = lexer.getStringValue();
-			/*
+			/* FEITO
 			 * // encontre a classe className in symbol table KraClass 
 			 *      aClass = symbolTable.getInGlobal(className); 
 			 *      if ( aClass == null ) ...
-			 */
+			 FEITO */
+			KraClass aClass = symbolTable.getInGlobal(className);
+			if (aClass == null) {
+				signalError.showError("Class '" + className + "' was not found");
+			}
 
 			lexer.nextToken();
 			if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("( expected");
 			lexer.nextToken();
 			if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError(") expected");
 			lexer.nextToken();
-			/*
+			/* FEITO
 			 * return an object representing the creation of an object
-			 */
-			return null;
+			 FEITO */
+			return new KraClassExpr(aClass);
 			/*
           	 * PrimaryExpr ::= "super" "." Id "(" [ ExpressionList ] ")"  | 
           	 *                 Id  |

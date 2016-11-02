@@ -19,7 +19,7 @@ public class MethodList {
     }
 
     public boolean addMethod(Method m){
-        return listaMetodos.addElement(m);
+        return listaMetodos.add(m);
     }
 
     public boolean contains(String m){
@@ -28,5 +28,9 @@ public class MethodList {
         }
 
         return false;
+    }
+    
+    public int getSize() {
+        return listaMetodos.size();
     }
 }

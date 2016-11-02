@@ -3,11 +3,11 @@ package ast;
 public class KraClass extends Type {
 	
    public KraClass( String name ) {
-      superclass = null;
+      super(name);
+	  superclass = null;
       instanceVariableList = new InstanceVariableList();
       publicMethodList = new MethodList();
       privateMethodList = new MethodList();
-      super(name);
    }
    
    public String getCname() {
@@ -34,5 +34,9 @@ public class KraClass extends Type {
 
    public void setVariableList(InstanceVariableList ivl){
       this.instanceVariableList = ivl;
+   }
+   
+   public boolean hasPublicMethod() {
+	   return this.publicMethodList.getSize() != 0;
    }
 }
