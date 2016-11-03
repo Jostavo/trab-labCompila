@@ -5,24 +5,24 @@ import java.util.*;
 public class ParamList {
 
     public ParamList() {
-       paramList = new ArrayList<Variable>();
+       paramList = new ArrayList<Parameter>();
     }
 
-    public ArrayList<Variable> getParamList(){
+    public ArrayList<Parameter> getParamList(){
         return paramList;
     }
 
-    public void addElement(Variable v) {
-       paramList.add(v);
+    public void addElement(Parameter p) {
+       paramList.add(p);
     }
 
-    public void addList(ArrayList<Variable> listaParametros){
+    public void addList(ArrayList<Parameter> listaParametros){
         for(Variable v: listaParametros){
             this.addElement(v);
         }
     }
 
-    public Iterator<Variable> elements() {
+    public Iterator<Parameter> elements() {
         return paramList.iterator();
     }
 
@@ -30,6 +30,6 @@ public class ParamList {
         return paramList.size();
     }
 
-    private ArrayList<Variable> paramList;
+    private ArrayList<Parameter> paramList;
 
 }

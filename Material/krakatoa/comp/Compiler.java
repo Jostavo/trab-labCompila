@@ -343,6 +343,7 @@ public class Compiler {
 
 	private void localDec() {
 		// LocalDec ::= Type IdList ";"
+		LocalVariableList lclvList;
 		Type type = type();
 		String name;
 
@@ -381,25 +382,38 @@ public class Compiler {
 		lexer.nextToken(); // PAREI AQUI
 
 		// --------- PRECISA DO RETORNO ---------
-	}
+	} //INCOMPLETO - NECESSITA DA CRIAÇÃO DO RETURN DA DECLARAÇÃO
 
-	private void formalParamDec() {
+	private ParamList formalParamDec() {
 		// FormalParamDec ::= ParamDec { "," ParamDec }
+		ParamList listaParametros;
 
-		paramDec(); // --------- PRECISA DE RETORNO ---------
+		listaParametros.addElement(paramDec());
 
 		while (lexer.token == Symbol.COMMA) { // --------- PRECISA TRATAR COM LISTAS ---------
 			lexer.nextToken();
-			paramDec();
+			listaParametros.addElement(paramDec());
 		}
+
+		return listaParametros;
 	}
 
 	private void paramDec() {
 		// ParamDec ::= Type Id
+		Type tipo;
+		String name;
+		Parameter retorno;
 
-		type(); // --------- PRECISA DE RETORNO ---------
-		if ( lexer.token != Symbol.IDENT ) signalError.showError("Identifier expected");
-		lexer.nextToken(); // --------- TRATAR CRIAÇÃO DA VARIÁVEL ---------
+		tipo = type();
+		if ( lexer.token != Symbol.IDENT )
+			signalError.showError("Identifier expected");
+
+		name = lexer.getStringValue();
+		retorno = new Parameter(name, tipo);
+		symbolTable.putInLocal(name, retorno);
+		lexer.nextToken();
+
+		return retorno;
 	}
 
 	private Type type() {
@@ -419,9 +433,7 @@ public class Compiler {
 			case STRING:
 				result = Type.stringType;
 				break;
-			case IDENT:
-				// FEITO # corrija: fa�a uma busca na TS para buscar a classe
-				// FEITO IDENT deve ser uma classe.
+			case IDENT: //VERIFICAR ISSO DAQUI
 				String className = lexer.getStringValue();
 				KraClass typedClass = symbolTable.getInGlobal(className);
 				if (typedClass == null) {
@@ -434,27 +446,42 @@ public class Compiler {
 				result = Type.undefinedType;
 		}
 		lexer.nextToken();
+
 		return result;
 	}
 
-	private void compositeStatement() {
+	private CompositeStmt compositeStatement() {
+		StatementList listaStmt;
+		CompositeStatement compStmt;
 
 		lexer.nextToken();
-		statementList(); // --------- PRECISA DE RETORNO ---------
+		listaStmt = statementList();
+
 		if ( lexer.token != Symbol.RIGHTCURBRACKET )
 			signalError.showError("} expected");
 		else
 			lexer.nextToken();
+
+		compStmt = new CompositeStatement(listaStmt);
+
+		return compStmt;
 	}
 
-	private void statementList() { // --------- ?????? REVER ---------
+	private StatementList statementList() {
 		// CompStatement ::= "{" { Statement } "}"
 		Symbol tk;
-		// statements always begin with an identifier, if, read, write, ...
-		while ((tk = lexer.token) != Symbol.RIGHTCURBRACKET
-				&& tk != Symbol.ELSE)
-			statement();
-	}
+		StatementList stmtList = new StatementList();
+		Statement auxiliar;
+
+		while ((tk = lexer.token) != Symbol.RIGHTCURBRACKET && tk != Symbol.ELSE) { //Aqui a gente vai salvando os statements
+			//STATEMENT LIST NÃO ESTÁ PRONTA
+			auxiliar = statement();
+			stmtList.addStmt(auxiliar); //NO MÉTODO PRA ADICIONAR DEVO LEMBRAR DE VERIFICAR SE É UM RETURN E TAMBÉM DEVEMOS VERIFICAR
+			// SE O STMT NÃO É NULO
+		}
+
+		return stmtList;
+	} //INCOMPLETO
 
 	private void statement() {
 		/*
@@ -470,37 +497,37 @@ public class Compiler {
 			case INT:
 			case BOOLEAN:
 			case STRING:
-				assignExprLocalDec();
+				return assignExprLocalDec();
 				break;
-			case ASSERT:
+			case ASSERT: //NÃO FAÇO IDEIA DO QUE FAZER AQUI
 				assertStatement();
 				break;
 			case RETURN:
-				returnStatement();
+				return returnStatement();
 				break;
 			case READ:
-				readStatement();
+				return readStatement();
 				break;
 			case WRITE:
-				writeStatement();
+				return writeStatement();
 				break;
 			case WRITELN:
-				writelnStatement();
+				return writelnStatement();
 				break;
 			case IF:
-				ifStatement();
+				return ifStatement();
 				break;
 			case BREAK:
-				breakStatement();
+				return breakStatement();
 				break;
 			case WHILE:
-				whileStatement();
+				return whileStatement();
 				break;
 			case SEMICOLON:
-				nullStatement();
+				return nullStatement();
 				break;
 			case LEFTCURBRACKET:
-				compositeStatement();
+				return compositeStatement();
 				break;
 			default:
 				signalError.showError("Statement expected");
@@ -528,10 +555,6 @@ public class Compiler {
 		return new StatementAssert(e, lineNumber, message);
 	}
 
-	/*
-	 * retorne true se 'name' � uma classe declarada anteriormente. � necess�rio
-	 * fazer uma busca na tabela de s�mbolos para isto.
-	 */
 	private boolean isType(String name) {
 		return this.symbolTable.getInGlobal(name) != null;
 	}
@@ -539,37 +562,43 @@ public class Compiler {
 	/*
 	 * AssignExprLocalDec ::= Expression [ ``$=$'' Expression ] | LocalDec
 	 */
-	private Expr assignExprLocalDec() {
+	private Statement assignExprLocalDec() {
+		LocalVariableList lvList;
 
-		if ( lexer.token == Symbol.INT || lexer.token == Symbol.BOOLEAN
-				|| lexer.token == Symbol.STRING ||
-				// token � uma classe declarada textualmente antes desta
-				// instru��o
+		if ( lexer.token == Symbol.INT || lexer.token == Symbol.BOOLEAN || lexer.token == Symbol.STRING ||
 				(lexer.token == Symbol.IDENT && isType(lexer.getStringValue())) ) {
 			/*
-			 * uma declara��o de vari�vel. 'lexer.token' � o tipo da vari�vel
-			 * 
-			 * AssignExprLocalDec ::= Expression [ ``$=$'' Expression ] | LocalDec 
 			 * LocalDec ::= Type IdList ``;''
 			 */
-			localDec();
+			lvList = localDec();
+			lexer.nextToken();
+
+			return null; //Não tenho certeza se volta null
 		}
 		else {
 			/*
 			 * AssignExprLocalDec ::= Expression [ ``$=$'' Expression ]
 			 */
-			expr();
-			if ( lexer.token == Symbol.ASSIGN ) {
+			Expr esq = null;
+			Expr dir = null;
+
+			esq = expr();
+
+			if ( lexer.token == Symbol.ASSIGN ) { //PAREI AQUI
 				lexer.nextToken();
 				expr();
 				if ( lexer.token != Symbol.SEMICOLON )
 					signalError.showError("';' expected", true);
 				else
 					lexer.nextToken();
+			}else if(){
+
+			}else{
+				signalError.showError("Expected '.' or '='");
 			}
 		}
 		return null;
-	}
+	} //PAREI NESSA FUNÇÃO
 
 	private ExprList realParameters() {
 		ExprList anExprList = null;
