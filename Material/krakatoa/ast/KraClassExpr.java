@@ -13,6 +13,11 @@ public class KraClassExpr extends Expr {
 	}
 	
 	@Override
+	public void genKra( PW pw, boolean putParenthesis ) {
+		pw.println(this.kraClass.getName() + "()");
+	}
+	
+	@Override
 	public Type getType() {
 		return kraClass;
 	}

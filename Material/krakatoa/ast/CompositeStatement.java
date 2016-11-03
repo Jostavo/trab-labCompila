@@ -6,4 +6,12 @@ public class CompositeStatement {
 	public CompositeStatement(StatementList stList) {
 		this.stmtList = stList;
 	}
+	
+	public void genKra(PW pw) {
+		pw.println("{");
+		pw.add();
+		stmtList.genKra(pw);
+		pw.sub();
+		pw.printlnIdent("}");
+	}
 }

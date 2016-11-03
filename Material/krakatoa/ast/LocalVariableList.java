@@ -19,6 +19,12 @@ public class LocalVariableList {
     public int getSize() {
         return localList.size();
     }
+    
+    public void genKra(PW pw) {
+    	for (Variable v: localList) {
+    		pw.printlnIdent(v.getType().getName() + " " + v.getName() + ";");
+    	}
+    }
 
     private ArrayList<Variable> localList;
 

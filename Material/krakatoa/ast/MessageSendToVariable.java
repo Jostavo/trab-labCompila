@@ -10,6 +10,10 @@ public class MessageSendToVariable extends MessageSend {
     public void genC( PW pw, boolean putParenthesis ) {
         
     }
+    
+    public void genKra( PW pw, boolean putParenthesis ) {
+        
+    }
 
     
 }    

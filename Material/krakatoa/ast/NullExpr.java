@@ -6,6 +6,11 @@ public class NullExpr extends Expr {
       pw.printIdent("NULL");
    }
    
+   @Override
+   public void genKra(PW pw, boolean putParenthesis) {
+	   pw.printIdent("null");
+   }
+   
    public Type getType() {
       //# corrija
       return null;

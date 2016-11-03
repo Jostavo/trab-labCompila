@@ -29,6 +29,16 @@ public class ParamList {
     public int getSize() {
         return paramList.size();
     }
+    
+    public void genKra(PW pw) {
+    	int size = paramList.size();
+    	for (Parameter p: paramList) {
+    		pw.print(p.getType() + " " + p.getName());
+    		if ( --size > 0 ) {
+    			pw.print(", ");
+    		}
+    	}
+    }
 
     private ArrayList<Parameter> paramList;
 

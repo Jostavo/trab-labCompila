@@ -17,6 +17,13 @@ public class StatementAssert extends Statement {
 		pw.printlnIdent("}");
 
 	}
+	
+	@Override
+	public void genKra(PW pw) {
+		pw.printIdent("assert ");
+		this.expr.genKra(pw, false);
+		pw.println(", \"" + this.message + "\"");
+	}
 
 	public Expr getExpr() {
 		return expr;

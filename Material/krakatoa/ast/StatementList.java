@@ -14,4 +14,10 @@ public class StatementList{
 	public void addStmt(Statement stmt) {
 		this.listaStmt.add(stmt);
 	}
+	
+	public void genKra(PW pw) {
+		for (Statement s: listaStmt) {
+			s.genKra(pw);
+		}
+	}
 }

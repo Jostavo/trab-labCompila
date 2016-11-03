@@ -37,4 +37,10 @@ public class MethodList {
     public int getSize() {
         return listaMetodos.size();
     }
+    
+    public void genKra (PW pw) {
+    	for (Method m: this.listaMetodos) {
+    		m.genKra(pw);
+    	}
+    }
 }

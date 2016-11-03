@@ -1,36 +1,17 @@
 package ast;
 
 //MethodDec ::= Qualifier Type Id "("[ FormalParamDec ] ")" "{" StatementList "}"
-public class Method {
+public class Method extends Variable {
 
-	private String name;
-    private Type tipo;
     private ParamList paramList;
     private LocalVariableList localVList;
     private StatementList stmtList;
 
     public Method(String nome, Type tipo){
-        this.name = nome;
-        this.tipo = tipo;
+    	super(nome, tipo);
         this.paramList = new ParamList();
         this.localVList = new LocalVariableList();
         this.stmtList = new StatementList();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Type getType() {
-        return tipo;
-    }
-
-    public void setType(Type tipo) {
-        this.tipo = tipo;
     }
 
     public void setParamList(ParamList paramList) {
@@ -63,5 +44,17 @@ public class Method {
 
     public void addParameter(Parameter p){
         this.paramList.addElement(p);
+    }
+    
+    public void genKra(PW pw) {
+    	pw.printIdent(this.getType() + " " + this.getName() + "(");
+    	if (this.paramList != null) {
+    		this.paramList.genKra(pw);
+    	}
+    	pw.println(") {");
+    	pw.add();
+    	this.stmtList.genKra(pw);
+    	pw.sub();
+    	pw.printlnIdent("}");
     }
 }

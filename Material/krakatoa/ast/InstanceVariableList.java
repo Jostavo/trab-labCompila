@@ -48,6 +48,12 @@ public class InstanceVariableList {
 
         return false;
     }
+    
+    public void genKra(PW pw) {
+    	for(InstanceVariable v: instanceVariableList) {
+    		v.genKra(pw);
+    	}
+    }
 
     private ArrayList<InstanceVariable> instanceVariableList;
 }
