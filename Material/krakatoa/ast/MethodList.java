@@ -30,6 +30,10 @@ public class MethodList {
         return false;
     }
     
+    public Iterator<Method> elements() {
+        return listaMetodos.iterator();
+    }
+    
     public int getSize() {
         return listaMetodos.size();
     }

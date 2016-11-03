@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.Iterator;
+
 public class KraClass extends Type {
 	
    public KraClass( String name ) {
@@ -57,12 +59,14 @@ public class KraClass extends Type {
    }
 
    public Method getMethod(String m){
-      for(Method aux: publicMethodList){
-         if(aux.getName().equals(m)){
-            return aux;
-         }
-      }
-
-      return null;
+	  Iterator<Method> methodIterator = publicMethodList.elements();
+	  while (methodIterator.hasNext()) {
+		  Method aux = methodIterator.next();
+		  if (aux.getName().equals(m)) {
+			  return aux;
+		  }
+	  }
+	  
+	  return null;
    }
 }

@@ -299,7 +299,7 @@ public class Compiler {
 			signalError.showError("')' expected");
 
 		if(classAtual.getName().equals("Program") && metodoDeclarado.getName().equals("run")) {
-			if (metodoDeclarado.getSizer() > 0)
+			if (metodoDeclarado.getParamList().getSize() > 0)
 				signalError.showError("Program's method 'run' must not have any parameters!");
 			if (metodoDeclarado.getType() != Type.voidType)
 				signalError.showError("Program's method 'run' must be of type 'Void'");
@@ -353,9 +353,9 @@ public class Compiler {
 		return metodoDeclarado;
 	}
 
-	private void localDec() {
+	private LocalVariableList localDec() {
 		// LocalDec ::= Type IdList ";"
-		LocalVariableList lclvList;
+		LocalVariableList lclvList = new LocalVariableList();
 		Type type = type();
 		String name;
 
@@ -366,7 +366,7 @@ public class Compiler {
 
 		if(symbolTable.getInLocal(name) == null && classAtual.hasInstanceVariable(name)){
 			symbolTable.putInLocal(name, v);
-			metodoAtual.setLocalVariable(v);
+			metodoAtual.addLocalVariable(v);
 		}else
 			signalError.showError("Variable " + name + " was already declared");
 
@@ -381,7 +381,8 @@ public class Compiler {
 
 			if(symbolTable.getInLocal(name) == null && classAtual.hasInstanceVariable(name)){
 				symbolTable.putInLocal(name, v);
-				metodoAtual.setLocalVariable(v);
+				metodoAtual.addLocalVariable(v);
+				lclvList.addElement(v);
 			}else
 				signalError.showError("Variable " + name + " was already declared");
 
@@ -393,12 +394,12 @@ public class Compiler {
 		}
 		lexer.nextToken(); // PAREI AQUI
 
-		// --------- PRECISA DO RETORNO ---------
+		return lclvList;
 	} //INCOMPLETO - NECESSITA DA CRIAÇÃO DO RETURN DA DECLARAÇÃO
 
 	private ParamList formalParamDec() {
 		// FormalParamDec ::= ParamDec { "," ParamDec }
-		ParamList listaParametros;
+		ParamList listaParametros = new ParamList();
 
 		listaParametros.addElement(paramDec());
 
@@ -410,7 +411,7 @@ public class Compiler {
 		return listaParametros;
 	}
 
-	private void paramDec() {
+	private Parameter paramDec() {
 		// ParamDec ::= Type Id
 		Type tipo;
 		String name;
@@ -462,7 +463,7 @@ public class Compiler {
 		return result;
 	}
 
-	private CompositeStmt compositeStatement() {
+	private CompositeStatement compositeStatement() {
 		StatementList listaStmt;
 		CompositeStatement compStmt;
 
@@ -495,7 +496,7 @@ public class Compiler {
 		return stmtList;
 	} //INCOMPLETO
 
-	private void statement() {
+	private Statement statement() {
 		/*
 		 * Statement ::= Assignment ";" | IfStat |WhileStat | MessageSend
 		 *                ";" | ReturnStat ";" | ReadStat ";" | WriteStat ";" |
@@ -940,11 +941,13 @@ public class Compiler {
 					}
 					else if ( lexer.token == Symbol.LEFTPAR ) {
 						// Id "." Id "(" [ ExpressionList ] ")"
+						KraClass firstClass = symbolTable.getInGlobal(firstId);
+						Method calledMethod = firstClass.getMethod(id);
+						if (calledMethod == null) {
+							signalError.showError("Method '" + id + "' was not found in class '" + firstId + "' or its superclasses");
+						}
 						exprList = this.realParameters();
-						/*
-						 * para fazer as confer�ncias sem�nticas, procure por
-						 * m�todo 'ident' na classe de 'firstId'
-						 */
+						//PRECISA CHECAR SE OS PARAMETROS ESTAO CORRETOS
 					}
 					else {
 						// retorne o objeto da ASA que representa Id "." Id

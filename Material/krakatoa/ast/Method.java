@@ -2,14 +2,15 @@ package ast;
 
 //MethodDec ::= Qualifier Type Id "("[ FormalParamDec ] ")" "{" StatementList "}"
 public class Method {
-    private String name;
+
+	private String name;
     private Type tipo;
     private ParamList paramList;
     private LocalVariableList localVList;
     private StatementList stmtList;
 
     public Method(String nome, Type tipo){
-        this.nome = nome;
+        this.name = nome;
         this.tipo = tipo;
         this.paramList = new ParamList();
         this.localVList = new LocalVariableList();
@@ -30,10 +31,6 @@ public class Method {
 
     public void setType(Type tipo) {
         this.tipo = tipo;
-    }
-
-    public ParamList getParamList() {
-        return paramList;
     }
 
     public void setParamList(ParamList paramList) {

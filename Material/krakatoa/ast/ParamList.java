@@ -17,8 +17,8 @@ public class ParamList {
     }
 
     public void addList(ArrayList<Parameter> listaParametros){
-        for(Variable v: listaParametros){
-            this.addElement(v);
+        for(Parameter p: listaParametros){
+            this.addElement(p);
         }
     }
 

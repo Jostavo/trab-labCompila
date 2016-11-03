@@ -26,19 +26,19 @@ public class InstanceVariableList {
     }
 
     public void addList(InstanceVariableList listaVariaveis){
-        for(InstanceVariable v: listaVariaveis){
-            this.addElement(v);
-        }
+    	Iterator<InstanceVariable> instanceVariableIterator = listaVariaveis.elements();
+    	while (instanceVariableIterator.hasNext()) {
+    		this.addElement(instanceVariableIterator.next());
+    	}
     }
 
-    public boolean getVariable(String m){
+    public InstanceVariable getVariable(String m){
         for(InstanceVariable aux: instanceVariableList){
             if(aux.getName().equals(m))
                 return aux;
         }
 
         return null;
-
     }
 
     public boolean contains(String m){
