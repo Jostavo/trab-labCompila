@@ -22,6 +22,10 @@ public class ExprList {
         }
     }
 
+    public ArrayList<Expr> getExprList(){
+        return exprList;
+    }
+
     private ArrayList<Expr> exprList;
 
 }
