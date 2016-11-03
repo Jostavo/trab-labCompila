@@ -12,6 +12,7 @@ public class Compiler {
 	// p_input.lenght
 	private KraClass classAtual;
 	private Method metodoAtual;
+	private boolean hasProgram;
 
 	public Program compile(char[] input, PrintWriter outError) {
 
@@ -40,21 +41,30 @@ public class Compiler {
 			auxiliar = classDec();
 
 			if(auxiliar.getName().equals("Program")) {
+				hasProgram = true;
 				if(!auxiliar.hasPublicMethod("run")){
-					signalError.showError("No run method in class Program!");
+					signalError.showError("Method 'run' was not found in class 'Program'");
 				}
 			}
 
 			kraClassList.add(auxiliar);
 
 			while ( lexer.token == Symbol.CLASS ) {
-				auxiliar = kraClassList.add(classDec());
+				auxiliar = classDec();
+				kraClassList.add(auxiliar);
 
 				if (auxiliar.getName().equals("Program")) {
+					hasProgram = true;
 					if (!auxiliar.hasPublicMethod("run")) {
-						signalError.showError("No run method in class Program!");
+						signalError.showError("Method 'run' was not found in class 'Program'");
 					}
+				} else if (hasProgram) {
+					signalError.showError("New class after Program");
 				}
+			}
+			
+			if (!hasProgram) {
+				signalError.showError("Source code without a class 'Program'");
 			}
 
 			if ( lexer.token != Symbol.EOF ) {
@@ -62,6 +72,7 @@ public class Compiler {
 			}
 
 			//PROGRAM deve ser a última classe declarada. Devemos verificar isso aqui?
+			//Fiz uma flag pra quando a classe Program já foi declarada
 		}
 		catch( RuntimeException e) {
 			signalError.showError("Problem compiling the classes");
@@ -130,8 +141,9 @@ public class Compiler {
 	private KraClass classDec() {
 
 		KraClass retorno = null;
-		InstanceVariableList listaVariaveis;
-		MethodList listaPublicMetodos, listaPrivateMetodos;
+		InstanceVariableList listaVariaveis = new InstanceVariableList();
+		MethodList listaPublicMetodos = new MethodList();
+		MethodList listaPrivateMetodos = new MethodList();
 
 		if ( lexer.token != Symbol.CLASS )
 			signalError.showError("'class' expected");
@@ -173,7 +185,7 @@ public class Compiler {
 		}
 
 		if ( lexer.token != Symbol.LEFTCURBRACKET )
-			signalError.showError("{ expected", true);
+			signalError.showError("'{' expected", true);
 		lexer.nextToken();
 
 		while (lexer.token == Symbol.PRIVATE || lexer.token == Symbol.PUBLIC) {
@@ -208,13 +220,13 @@ public class Compiler {
 				else
 					listaPublicMetodos.addMethod(methodDec(t, name, qualifier));
 			else if ( qualifier != Symbol.PRIVATE )
-				signalError.showError("Attempt to declare a public instance variable");
+				signalError.showError("Attempt to declare public instance variable '" + name + "'");
 			else
 				listaVariaveis.addList(instanceVarDec(t, name));
 		}
 
 		if ( lexer.token != Symbol.RIGHTCURBRACKET )
-			signalError.showError("public/private or \"}\" expected");
+			signalError.showError("'public', 'private', or '}' expected");
 
 		lexer.nextToken();
 
@@ -274,7 +286,7 @@ public class Compiler {
 		if(classAtual.hasPublicMethod(name) || classAtual.hasPrivateMethod(name)){
 			signalError.showError("Method " + name + " was already declared");
 		}else if(classAtual.hasInstanceVariable(name)){
-			signalError.showError("Method " + name + " was already declared as a variable in this class")
+			signalError.showError("Method " + name + " was already declared as a variable in this class");
 		}
 
 		Method metodoDeclarado = new Method(name, type);
@@ -284,7 +296,7 @@ public class Compiler {
 		if ( lexer.token != Symbol.RIGHTPAR )
 			listaParametros = formalParamDec(); // --------- PRECISA DO RETORNO ---------
 		if ( lexer.token != Symbol.RIGHTPAR )
-			signalError.showError(") expected");
+			signalError.showError("')' expected");
 
 		if(classAtual.getName().equals("Program") && metodoDeclarado.getName().equals("run")) {
 			if (metodoDeclarado.getSizer() > 0)
@@ -322,7 +334,7 @@ public class Compiler {
 
 		lexer.nextToken();
 		if ( lexer.token != Symbol.LEFTCURBRACKET )
-			signalError.showError("{ expected");
+			signalError.showError("'{' expected");
 
 		lexer.nextToken();
 		listaStmt = statementList(); // --------- PRECISA DO RETORNO --------- PRECISA VERIFICAR SE O STATEMENT TEM RETURN
@@ -376,7 +388,7 @@ public class Compiler {
 		}
 			
 		if (lexer.token != Symbol.SEMICOLON) {
-			signalError.showError("; expected");
+			signalError.showError("Missing ';'");
 		}
 		lexer.nextToken(); // PAREI AQUI
 
@@ -574,10 +586,10 @@ public class Compiler {
 	private ExprList realParameters() {
 		ExprList anExprList = null;
 
-		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("( expected");
+		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("Missing '('");
 		lexer.nextToken();
 		if ( startExpr(lexer.token) ) anExprList = exprList();
-		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError(") expected");
+		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError("')' expected");
 		lexer.nextToken();
 		return anExprList;
 	}
@@ -585,10 +597,10 @@ public class Compiler {
 	private void whileStatement() {
 
 		lexer.nextToken();
-		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("( expected");
+		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("Missing '('");
 		lexer.nextToken();
 		expr();
-		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError(") expected");
+		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError("')' expected");
 		lexer.nextToken();
 		statement();
 	}
@@ -596,10 +608,10 @@ public class Compiler {
 	private void ifStatement() {
 
 		lexer.nextToken();
-		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("( expected");
+		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("Missing '('");
 		lexer.nextToken();
 		expr();
-		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError(") expected");
+		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError("')' expected");
 		lexer.nextToken();
 		statement();
 		if ( lexer.token == Symbol.ELSE ) {
@@ -619,7 +631,7 @@ public class Compiler {
 
 	private void readStatement() {
 		lexer.nextToken();
-		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("( expected");
+		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("Missing '('");
 		lexer.nextToken();
 		while (true) {
 			if ( lexer.token == Symbol.THIS ) {
@@ -638,7 +650,7 @@ public class Compiler {
 				break;
 		}
 
-		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError(") expected");
+		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError("')' expected");
 		lexer.nextToken();
 		if ( lexer.token != Symbol.SEMICOLON )
 			signalError.show(ErrorSignaller.semicolon_expected);
@@ -648,10 +660,10 @@ public class Compiler {
 	private void writeStatement() {
 
 		lexer.nextToken();
-		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("( expected");
+		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("Missing '('");
 		lexer.nextToken();
 		exprList();
-		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError(") expected");
+		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError("')' expected");
 		lexer.nextToken();
 		if ( lexer.token != Symbol.SEMICOLON )
 			signalError.show(ErrorSignaller.semicolon_expected);
@@ -661,10 +673,10 @@ public class Compiler {
 	private void writelnStatement() {
 
 		lexer.nextToken();
-		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("( expected");
+		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("Missing '('");
 		lexer.nextToken();
 		exprList();
-		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError(") expected");
+		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError("')' expected");
 		lexer.nextToken();
 		if ( lexer.token != Symbol.SEMICOLON )
 			signalError.show(ErrorSignaller.semicolon_expected);
@@ -787,7 +799,7 @@ public class Compiler {
 		case LEFTPAR:
 			lexer.nextToken();
 			anExpr = expr();
-			if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError(") expected");
+			if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError("')' expected");
 			lexer.nextToken();
 			return new ParenthesisExpr(anExpr);
 
@@ -818,9 +830,9 @@ public class Compiler {
 			}
 
 			lexer.nextToken();
-			if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("( expected");
+			if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("Missing '('");
 			lexer.nextToken();
-			if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError(") expected");
+			if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError("')' expected");
 			lexer.nextToken();
 			/* FEITO
 			 * return an object representing the creation of an object

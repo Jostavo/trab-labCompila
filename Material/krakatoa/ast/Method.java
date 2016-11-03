@@ -4,14 +4,14 @@ package ast;
 public class Method {
     private String name;
     private Type tipo;
-    private ParameterList paramList;
+    private ParamList paramList;
     private LocalVariableList localVList;
     private StatementList stmtList;
 
     public Method(String nome, Type tipo){
         this.nome = nome;
         this.tipo = tipo;
-        this.paramList = new ParameterList();
+        this.paramList = new ParamList();
         this.localVList = new LocalVariableList();
         this.stmtList = new StatementList();
     }
@@ -32,15 +32,15 @@ public class Method {
         this.tipo = tipo;
     }
 
-    public ParameterList getParamList() {
+    public ParamList getParamList() {
         return paramList;
     }
 
-    public void setParamList(ParameterList paramList) {
+    public void setParamList(ParamList paramList) {
         this.paramList = paramList;
     }
 
-    public ParameterList getParamList(){
+    public ParamList getParamList(){
         return this.paramList;
     }
 
