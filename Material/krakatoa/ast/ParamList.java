@@ -8,8 +8,18 @@ public class ParamList {
        paramList = new ArrayList<Variable>();
     }
 
+    public ArrayList<Variable> getParamList(){
+        return paramList;
+    }
+
     public void addElement(Variable v) {
        paramList.add(v);
+    }
+
+    public void addList(ArrayList<Variable> listaParametros){
+        for(Variable v: listaParametros){
+            this.addElement(v);
+        }
     }
 
     public Iterator<Variable> elements() {

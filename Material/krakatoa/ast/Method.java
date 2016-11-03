@@ -40,6 +40,10 @@ public class Method {
         this.paramList = paramList;
     }
 
+    public ParameterList getParamList(){
+        return this.paramList;
+    }
+
     public LocalVariableList getLocalVList() {
         return localVList;
     }

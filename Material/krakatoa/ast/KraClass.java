@@ -24,6 +24,10 @@ public class KraClass extends Type {
       this.superclass = superClasse;
    }
 
+   public KraClass getSuper(){
+      return superclass;
+   }
+
    public void setPublicMethodList(MethodList publicm){
       this.publicMethodList = publicm;
    }
@@ -38,5 +42,27 @@ public class KraClass extends Type {
    
    public boolean hasPublicMethod() {
 	   return this.publicMethodList.getSize() != 0;
+   }
+
+   public boolean hasPublicMethod(String m){
+      return this.publicMethodList.contains(m);
+   }
+
+   public boolean hasPrivateMethod(String m){
+      return this.privateMethodList.contains(m);
+   }
+
+   public boolean hasInstanceVariable(String m){
+      return this.instanceVariableList.contains(m);
+   }
+
+   public Method getMethod(String m){
+      for(Method aux: publicMethodList){
+         if(aux.getName().equals(m)){
+            return aux;
+         }
+      }
+
+      return null;
    }
 }

@@ -10,6 +10,9 @@ public class Compiler {
 
 	// compile must receive an input with an character less than
 	// p_input.lenght
+	private KraClass classAtual;
+	private Method metodoAtual;
+
 	public Program compile(char[] input, PrintWriter outError) {
 
 		ArrayList<CompilationError> compilationErrorList = new ArrayList<>();
@@ -37,19 +40,28 @@ public class Compiler {
 			auxiliar = classDec();
 
 			if(auxiliar.getName().equals("Program")) {
-				if(!auxiliar.hasPublicMethod()){
+				if(!auxiliar.hasPublicMethod("run")){
 					signalError.showError("No run method in class Program!");
 				}
 			}
 
 			kraClassList.add(auxiliar);
 
-			while ( lexer.token == Symbol.CLASS )
-				kraClassList.add(classDec());
+			while ( lexer.token == Symbol.CLASS ) {
+				auxiliar = kraClassList.add(classDec());
+
+				if (auxiliar.getName().equals("Program")) {
+					if (!auxiliar.hasPublicMethod("run")) {
+						signalError.showError("No run method in class Program!");
+					}
+				}
+			}
 
 			if ( lexer.token != Symbol.EOF ) {
 				signalError.showError("End of file expected");
 			}
+
+			//PROGRAM deve ser a última classe declarada. Devemos verificar isso aqui?
 		}
 		catch( RuntimeException e) {
 			signalError.showError("Problem compiling the classes");
@@ -119,6 +131,7 @@ public class Compiler {
 
 		KraClass retorno = null;
 		InstanceVariableList listaVariaveis;
+		MethodList listaPublicMetodos, listaPrivateMetodos;
 
 		if ( lexer.token != Symbol.CLASS )
 			signalError.showError("'class' expected");
@@ -135,6 +148,8 @@ public class Compiler {
 
 		symbolTable.putInGlobal(className, retorno = new KraClass(className));
 		lexer.nextToken();
+
+		classAtual = retorno;
 
 		if ( lexer.token == Symbol.EXTENDS ) {
 			lexer.nextToken();
@@ -188,11 +203,14 @@ public class Compiler {
 			lexer.nextToken();
 
 			if ( lexer.token == Symbol.LEFTPAR )
-				methodDec(t, name, qualifier); // --------- PRECISA DE RETORNO ---------
+				if(qualifier == Symbol.PRIVATE)
+					listaPrivateMetodos.addMethod(methodDec(t, name, qualifier));
+				else
+					listaPublicMetodos.addMethod(methodDec(t, name, qualifier));
 			else if ( qualifier != Symbol.PRIVATE )
 				signalError.showError("Attempt to declare a public instance variable");
 			else
-				instanceVarDec(t, name); // --------- PRECISA DE RETORNO ---------
+				listaVariaveis.addList(instanceVarDec(t, name));
 		}
 
 		if ( lexer.token != Symbol.RIGHTCURBRACKET )
@@ -200,11 +218,24 @@ public class Compiler {
 
 		lexer.nextToken();
 
+		retorno.setVariableList(listaVariaveis);
+		retorno.setPublicMethodList(listaPublicMetodos);
+		retorno.setPrivateMethodList(listaPrivateMetodos);
+
 		return retorno;
 	}
 
-	private void instanceVarDec(Type type, String name) { // --------- RECEBE NOME E TIPO PARA INICIALIZAR ---------
+	private InstanceVariableList instanceVarDec(Type type, String name) {
 		// InstVarDec ::= [ "static" ] "private" Type IdList ";"
+		InstanceVariableList listaVariaveis = new InstanceVariableList();
+
+		if(classAtual.hasInstanceVariable(name)){
+			signalError.showError("Variable " + name + " was already declared in this class");
+		}else if(classAtual.hasPrivateMethod(name) || classAtual.hasPublicMethod(name)){
+			signalError.showError("Variable " + name + " was already declared as a method in this class");
+		}
+
+		listaVariaveis.addElement(name, type);
 
 		while (lexer.token == Symbol.COMMA) { // --------- AQUI VERIFICA SE POSSUI MAIS VARIÁVEIS ---------
 			lexer.nextToken();
@@ -214,56 +245,140 @@ public class Compiler {
 
 			String variableName = lexer.getStringValue(); // --------- NECESSÁRIO VÁRIOS RETORNOS ------------------ VERIFICAR ------------------
 			lexer.nextToken();
+
+			if(classAtual.hasInstanceVariable(variableName)){
+				signalError.showError("Variable " + variableName + " was already declared in this class");
+			}else if(classAtual.hasPrivateMethod(variableName) || classAtual.hasPublicMethod(variableName)){
+				signalError.showError("Variable " + variableName + " was already declared as a method in this class");
+			}
+
+			listaVariaveis.addElement(variableName, type);
 		}
 
 		if ( lexer.token != Symbol.SEMICOLON )
 			signalError.show(ErrorSignaller.semicolon_expected);
 
 		lexer.nextToken();
+
+		return listaVariaveis;
 	}
 
-	private void methodDec(Type type, String name, Symbol qualifier) {
+	private Method methodDec(Type type, String name, Symbol qualifier) {
 		/*
 		 * MethodDec ::= Qualifier Return Id "("[ FormalParamDec ] ")" "{"
 		 *                StatementList "}"
 		 */
+		ParamList listaParametros;
+		StatementList listaStmt;
+
+		if(classAtual.hasPublicMethod(name) || classAtual.hasPrivateMethod(name)){
+			signalError.showError("Method " + name + " was already declared");
+		}else if(classAtual.hasInstanceVariable(name)){
+			signalError.showError("Method " + name + " was already declared as a variable in this class")
+		}
+
+		Method metodoDeclarado = new Method(name, type);
+		metodoAtual = metodoDeclarado;
 
 		lexer.nextToken();
-		if ( lexer.token != Symbol.RIGHTPAR ) formalParamDec(); // --------- PRECISA DO RETORNO ---------
-		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError(") expected");
+		if ( lexer.token != Symbol.RIGHTPAR )
+			listaParametros = formalParamDec(); // --------- PRECISA DO RETORNO ---------
+		if ( lexer.token != Symbol.RIGHTPAR )
+			signalError.showError(") expected");
+
+		if(classAtual.getName().equals("Program") && metodoDeclarado.getName().equals("run")) {
+			if (metodoDeclarado.getSizer() > 0)
+				signalError.showError("Program's method 'run' must not have any parameters!");
+			if (metodoDeclarado.getType() != Type.voidType)
+				signalError.showError("Program's method 'run' must be of type 'Void'");
+		}
+
+		KraClass sClass = classAtual.getSuperClass();
+
+		while(sClass != null){
+			if(sClass.hasPublicMethod(name)){
+				Method scMethod = sClass.getMethod(m);
+				break;
+			}else
+				sClass = sClass.getSuper();
+		}
+
+		if (scMethod != null){
+			if(type != scMethod.getType())
+				signalError.showError("Can't override a method using a different type");
+			if(scMethod.getParamList().size() != listaParametros.size())
+				signalError.showError("Can't override a method using different number of parameters");
+
+			ParamList scMethodParam = scMethod.getParamList();
+
+			int i = 0;
+			for(Variable aux: scMethodParam){
+				if(aux.getType() != scMethodParam.getParamList().get(i).getType())
+					signalError.showError("Can't override a parameter using a differente type");
+
+				i++;
+			}
+		}
 
 		lexer.nextToken();
-		if ( lexer.token != Symbol.LEFTCURBRACKET ) signalError.showError("{ expected");
+		if ( lexer.token != Symbol.LEFTCURBRACKET )
+			signalError.showError("{ expected");
 
 		lexer.nextToken();
-		statementList(); // --------- PRECISA DO RETORNO ---------
-		if ( lexer.token != Symbol.RIGHTCURBRACKET ) signalError.showError("} expected");
+		listaStmt = statementList(); // --------- PRECISA DO RETORNO --------- PRECISA VERIFICAR SE O STATEMENT TEM RETURN
+		metodoDeclarado.setStmtList(listaStmt);
+
+		if(type != Type.voidType && !listaStmt.hasReturn()) // IMPLEMENTAR LISTA STMT
+			signalError.showError("Method must have a return statement");
+		if ( lexer.token != Symbol.RIGHTCURBRACKET )
+			signalError.showError("} expected");
 
 		lexer.nextToken();
 
+		metodoDeclarado.setParamList(listaParametros);
+		metodoDeclarado.setStmtList(listaStmt);
+
+		return metodoDeclarado;
 	}
 
 	private void localDec() {
 		// LocalDec ::= Type IdList ";"
-
 		Type type = type();
-		if ( lexer.token != Symbol.IDENT ) signalError.showError("Identifier expected");
+		String name;
 
-		Variable v = new Variable(lexer.getStringValue(), type); // --------- PRECISA TRATAR COM LISTAS ---------
+		if ( lexer.token != Symbol.IDENT )
+			signalError.showError("Identifier expected");
+
+		Variable v = new Variable(name = lexer.getStringValue(), type);
+
+		if(symbolTable.getInLocal(name) == null && classAtual.hasInstanceVariable(name)){
+			symbolTable.putInLocal(name, v);
+			metodoAtual.setLocalVariable(v);
+		}else
+			signalError.showError("Variable " + name + " was already declared");
 
 		lexer.nextToken();
 		while (lexer.token == Symbol.COMMA) {
 			lexer.nextToken();
+
 			if ( lexer.token != Symbol.IDENT )
 				signalError.showError("Identifier expected");
-			v = new Variable(lexer.getStringValue(), type);
+
+			v = new Variable(name = lexer.getStringValue(), type);
+
+			if(symbolTable.getInLocal(name) == null && classAtual.hasInstanceVariable(name)){
+				symbolTable.putInLocal(name, v);
+				metodoAtual.setLocalVariable(v);
+			}else
+				signalError.showError("Variable " + name + " was already declared");
+
 			lexer.nextToken();
 		}
 			
 		if (lexer.token != Symbol.SEMICOLON) {
 			signalError.showError("; expected");
 		}
-		lexer.nextToken();
+		lexer.nextToken(); // PAREI AQUI
 
 		// --------- PRECISA DO RETORNO ---------
 	}
