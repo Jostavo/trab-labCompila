@@ -1,6 +1,6 @@
 package ast;
 
 
-abstract class MessageSend  extends Expr  {
+abstract class MessageSend extends Expr{
 }
 
