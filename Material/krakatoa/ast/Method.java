@@ -6,12 +6,22 @@ public class Method extends Variable {
     private ParamList paramList;
     private LocalVariableList localVList;
     private StatementList stmtList;
+    private String qualifier;
 
-    public Method(String nome, Type tipo){
+    public Method(String nome, Type tipo, String qualifier){
     	super(nome, tipo);
         this.paramList = new ParamList();
         this.localVList = new LocalVariableList();
         this.stmtList = new StatementList();
+        this.qualifier = qualifier;
+    }
+    
+    public boolean isPrivate(){
+        if(qualifier.equals("private")){
+            return true;
+        }
+        
+        return false;
     }
 
     public void setParamList(ParamList paramList) {
@@ -40,6 +50,12 @@ public class Method extends Variable {
 
     public void addLocalVariable(Variable v){
         this.localVList.addElement(v);
+    }
+    
+    public void addLocalVariableList(LocalVariableList list){
+        for(Variable aux: list.getLocalVariableList()){
+            this.addLocalVariable(aux);
+        }
     }
 
     public void addParameter(Parameter p){

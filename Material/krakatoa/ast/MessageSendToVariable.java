@@ -2,6 +2,12 @@ package ast;
 
 
 public class MessageSendToVariable extends MessageSend { 
+    
+    public MessageSendToVariable(Variable v, Method m, ExprList l){
+        this.variable = v;
+        this.method = m;
+        this.list = l;
+    }
 
     public Type getType() { 
         return null;
@@ -15,5 +21,7 @@ public class MessageSendToVariable extends MessageSend {
         
     }
 
-    
+    Variable variable;
+    Method method;
+    ExprList list;
 }    

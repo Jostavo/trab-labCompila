@@ -29,6 +29,10 @@ public class KraClass extends Type {
    public KraClass getSuper(){
       return superclass;
    }
+   
+   public InstanceVariable getVariable(String m){
+      return instanceVariableList.getVariable(m);
+   }
 
    public void setPublicMethodList(MethodList publicm){
       this.publicMethodList = publicm;
@@ -68,6 +72,19 @@ public class KraClass extends Type {
 	  }
 	  
 	  return null;
+   }
+   
+   public Method getMethodS(String m){
+       if(this.superclass != null){
+           Method retorno = this.superclass.getMethod(m);
+           
+           if (retorno == null)
+               return this.superclass.getMethodS(m);
+           else
+               return retorno;
+       }      
+       
+       return null;
    }
    
    public void genKra(PW pw) {

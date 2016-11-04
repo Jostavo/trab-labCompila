@@ -45,6 +45,9 @@ public class SymbolTable {
          localTable.clear();
     }
 
+    public void removeVarLocalIdent(String key, Variable value){
+    	localTable.remove(key, value);
+    }
 
     private HashMap<String, KraClass> globalTable;
     private HashMap<String, Variable> localTable;

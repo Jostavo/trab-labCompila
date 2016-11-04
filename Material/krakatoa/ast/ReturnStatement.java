@@ -10,6 +10,10 @@ public class ReturnStatement extends Statement {
 	public Expr getExpr() {
 		return expr;
 	}
+        
+        public Type getType(){
+            return expr.getType();
+        }
 
 	public void setExpr(Expr expr) {
 		this.expr = expr;

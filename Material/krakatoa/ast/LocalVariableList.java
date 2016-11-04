@@ -7,6 +7,10 @@ public class LocalVariableList {
     public LocalVariableList() {
        localList = new ArrayList<Variable>();
     }
+    
+    public ArrayList<Variable> getLocalVariableList(){
+        return localList;
+    }
 
     public void addElement(Variable v) {
        localList.add(v);
