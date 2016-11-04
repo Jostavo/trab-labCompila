@@ -1,7 +1,6 @@
 package ast;
 
-public class MessageSendStatement extends Statement { 
-
+public class MessageSendStatement extends Statement {
 
    public void genC( PW pw ) {
       pw.printIdent("");
@@ -15,8 +14,11 @@ public class MessageSendStatement extends Statement {
 	   pw.println(";");
    }
 
-   private MessageSend  messageSend;
+   private Expr messageSend;
 
+   public MessageSendStatement(Expr messageSend){
+      this.messageSend = messageSend;
+   }
 }
 
 
