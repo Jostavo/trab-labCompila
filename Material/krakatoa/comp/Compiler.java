@@ -366,7 +366,7 @@ public class Compiler {
 
 		Variable v = new Variable(name = lexer.getStringValue(), type);
 
-		if(symbolTable.getInLocal(name) == null && classAtual.hasInstanceVariable(name)){
+		if(symbolTable.getInLocal(name) == null && classAtual.hasInstanceVariable(name)){ // VERIFICAR MAIS PRA FRENTE, TALVEZ ESSA VARIÁVEL NÃO DEVA EXISTIR COMO INSTANCE
 			symbolTable.putInLocal(name, v);
 			metodoAtual.addLocalVariable(v);
 		}else
@@ -397,7 +397,7 @@ public class Compiler {
 		lexer.nextToken(); // PAREI AQUI
 
 		return lclvList;
-	} //INCOMPLETO - NECESSITA DA CRIAÇÃO DO RETURN DA DECLARAÇÃO
+	} //INCOMPLETO - NECESSITA DA CRIAÇÃO DO RETURN DA DECLARAÇÃO -------- VERIFICAR AS VALIDAÇÕES
 
 	private ParamList formalParamDec() {
 		// FormalParamDec ::= ParamDec { "," ParamDec }
@@ -567,7 +567,7 @@ public class Compiler {
 			lexer.nextToken();
 		
 		return new StatementAssert(e, lineNumber, message);
-	}
+	} // IGNORAR O ASSERT
 
 	private boolean isType(String name) {
 		return this.symbolTable.getInGlobal(name) != null;
@@ -587,7 +587,7 @@ public class Compiler {
 			lvList = localDec();
 			lexer.nextToken();
 
-			return null; //Não tenho certeza se volta null
+			return null; //Não tenho certeza se volta null ------ Verificar o retorno
 		}
 		else {
 			/*
@@ -932,7 +932,7 @@ public class Compiler {
 			}else
 				signalError.showError("Different number of parameters!");
 
-			return new MessageSendToSuper(metodoAnalisado, exprList, classAtual); //VERIFICAR ----------------- NÃO ESTÁ PRONTO
+			return new MessageSendToSuper(metodoAnalisado, exprList, classAtual); //VERIFICAR ----------------- NÃO ESTÁ PRONTO (não faço ideia do que o message faz)
 		case IDENT:
 			/*
           	 * PrimaryExpr ::=  
