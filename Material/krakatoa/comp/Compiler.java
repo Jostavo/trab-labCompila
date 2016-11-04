@@ -625,39 +625,46 @@ public class Compiler {
 		return anExprList;
 	}
 
-	private void whileStatement() {
+	private WhileStatement whileStatement() {
 
 		lexer.nextToken();
 		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("Missing '('");
 		lexer.nextToken();
-		expr();
+		Expr wlExpr = expr();
 		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError("')' expected");
 		lexer.nextToken();
-		statement();
+		Statement wlStmt = statement();
+		
+		return new WhileStatement(wlExpr, wlStmt);
 	}
 
-	private void ifStatement() {
+	private IfStatement ifStatement() {
 
 		lexer.nextToken();
 		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("Missing '('");
 		lexer.nextToken();
-		expr();
+		Expr ifExpr = expr();
 		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError("')' expected");
 		lexer.nextToken();
-		statement();
+		Statement ifStmt = statement();
+		Statement elseStmt = null;
 		if ( lexer.token == Symbol.ELSE ) {
 			lexer.nextToken();
-			statement();
+			elseStmt = statement();
 		}
+		
+		return new IfStatement(ifExpr, ifStmt, elseStmt);
 	}
 
-	private void returnStatement() {
+	private ReturnStatement returnStatement() {
 
 		lexer.nextToken();
-		expr();
+		Expr rtExpr = expr();
 		if ( lexer.token != Symbol.SEMICOLON )
 			signalError.show(ErrorSignaller.semicolon_expected);
 		lexer.nextToken();
+		
+		return new ReturnStatement(rtExpr);
 	}
 
 	private void readStatement() {
