@@ -11,9 +11,9 @@ public class ReturnStatement extends Statement {
 		return expr;
 	}
         
-        public Type getType(){
-            return expr.getType();
-        }
+	public Type getType() {
+		return expr.getType();
+	}
 
 	public void setExpr(Expr expr) {
 		this.expr = expr;

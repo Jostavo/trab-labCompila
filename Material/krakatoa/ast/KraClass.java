@@ -73,6 +73,7 @@ public class KraClass extends Type {
 	  
 	  return null;
    }
+	   
    
    public Method getMethodS(String m){
        if(this.superclass != null){
@@ -85,6 +86,18 @@ public class KraClass extends Type {
        }      
        
        return null;
+   }
+   
+   public void setPublicMethod(Method m) {
+	   publicMethodList.addMethod(m);
+   }
+   
+   public void setPrivateMethod(Method m) {
+	   privateMethodList.addMethod(m);
+   }
+   
+   public void setInstanceVariable(InstanceVariable v) {
+	   instanceVariableList.addElement(v);
    }
    
    public void genKra(PW pw) {

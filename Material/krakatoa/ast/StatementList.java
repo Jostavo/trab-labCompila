@@ -8,6 +8,7 @@ public class StatementList{
         private ArrayList<ReturnStatement> retornoStmt;
 
 	public StatementList() {
+		this.retornoStmt = new ArrayList<ReturnStatement>();
 		this.listaStmt = new ArrayList<Statement>();
 		this.temRetorno = false;
 	}
@@ -25,9 +26,9 @@ public class StatementList{
 
 	public void addStmt(Statement stmt) {
 		if(stmt instanceof ReturnStatement){
-			this.setTemRetorno(true);
-                        this.retornoStmt.add((ReturnStatement) stmt);
-                }
+			this.temRetorno = true;
+			this.retornoStmt.add((ReturnStatement) stmt);
+		}
 		this.listaStmt.add(stmt);
 	}
 
