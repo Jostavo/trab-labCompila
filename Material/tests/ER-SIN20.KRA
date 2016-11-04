@@ -1,0 +1,11 @@
+@ce(7, "Falta ';' após o primeiro 'write'",
+   "Missing ';'", "comp.Compiler.writeStatement()")
+      
+class Program {
+  
+    public void run() {
+       write(0)                //#
+       write(1);
+    }
+
+}

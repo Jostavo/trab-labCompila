@@ -1,0 +1,33 @@
+@ce(16, "'Método 'put' redefinido na classe 'B' com parâmetros diferentes daqueles da superclasse 'A'", 
+  "Method 'put' of the subclass 'B' has a signature different from the same method of superclass 'A',
+  "comp.Compiler.methodDec() or comp.Compiler.classDec()")
+
+
+class A {
+    
+   public void put() {
+   }   
+
+}
+
+
+class B extends A {
+   
+   public void put(int x) {  //#
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      a.put();
+   }   
+
+}
+
+

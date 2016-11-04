@@ -1,0 +1,131 @@
+@nce
+
+/*
+  @filename   ok-chk07.kra
+
+  @comment    Este programa 'e usado para testar o 'refactoring'  'extract class'.
+   Note que o codigo resultante do refactoring pode NAO compilar.
+   'E o caso deste exemplo.
+
+*/
+
+class Person {
+   
+   private String  course;
+   private int number;
+   private int age;
+   private String  name;
+   
+   public String  getCourse() {
+      return this.course;
+   }   
+   
+   public void setCourse(String  course) {
+      this.course = course;
+   }   
+   
+   public int getNumber() {
+      return this.number;
+   }   
+   
+   public void setNumber(int number) {
+      this.number = number;
+   }   
+   
+   public void init(String  name, int age) {
+      this.name = name;
+      this.age = age;
+   }   
+   
+   public String  getName() {
+      return this.name;
+   }   
+   
+   public int getAge() {
+      return this.age;
+   }   
+   
+   public void print() {
+      write( "Name = ", this.name );
+      write( "Age = ", this.age );
+   }   
+
+}
+
+
+class Group {
+   
+   private Person first;
+   private Person second;
+   
+   public void set(Person first, Person second) {
+      this.first = first;
+      this.second = second;
+   }   
+   
+   public Person getFirst() {
+      return this.first;
+   }   
+   
+   public Person getSecond() {
+      return this.second;
+   }   
+   
+   public void print() {
+      write( "First: ", this.first.getName() );
+      write( "Second: ", this.second.getName() );
+   }   
+
+}
+
+
+class University {
+   
+   private String  name;
+   private int numberOfStudents;
+   private String  city;
+   
+   public void init(String  name, String  city, int numberOfStudents) {
+      this.name = name;
+      this.city = city;
+      this.numberOfStudents = numberOfStudents;
+   }   
+   
+   public void print() {
+      write( this.name );
+      write( this.city );
+      write( this.numberOfStudents );
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      University s;
+      Person joao;
+      Person maria;
+      Group g;
+      
+      s = new University();
+      s.init("UFSCar", "Sao Carlos", 7000);
+      s.print();
+      joao = new Person();
+      joao.init("Joao", 21);
+      joao.setCourse("EnC");
+      joao.setNumber(6729);
+      maria = new Person();
+      maria.init("Maria", 20);
+      maria.setCourse("Fisioterapia");
+      maria.setNumber(8607);
+      joao.print();
+      maria.print();
+      g = new Group();
+      g.set(joao, maria);
+      g.print();
+   }   
+
+}
+
+

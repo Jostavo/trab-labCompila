@@ -1,0 +1,26 @@
+@ce(10, "Dois métodos com mesmo nome, um público e outro privado", 
+    "Method 'm' is being redefined", 
+	"comp.Compiler.methodDec()" )
+
+class A {
+  
+    public void m() {
+    }
+  
+    private void m() {   //#
+    }
+
+}
+
+
+
+class Program {
+  
+    public void run() {
+
+       A a;
+       a = new A();
+       a.m();
+    }
+
+}

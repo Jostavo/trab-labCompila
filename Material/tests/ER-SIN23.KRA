@@ -1,0 +1,13 @@
+@ce(8, "'else' sem 'if'", 
+  "Statement expected", "comp.Compiler.statement()")
+
+class Program {
+  
+    public void run() {
+        
+       else            //#
+          write(0);
+          
+    }
+
+}

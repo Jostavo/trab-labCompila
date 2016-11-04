@@ -1,0 +1,17 @@
+@ce(12, "Método final sendo redeclarado", 
+  "Redeclaration of final method 'finalMethod'",
+  "comp.Compiler.methodDec()" )
+
+class SuperProgram {
+    final public void finalMethod() { }
+
+}
+
+class Program extends SuperProgram {
+    
+	public void finalMethod() { }   //#
+	
+    public void run() {  
+    }
+
+}

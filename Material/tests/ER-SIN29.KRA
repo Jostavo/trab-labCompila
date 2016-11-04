@@ -1,0 +1,16 @@
+@ce(7, "Classe sem corpo",
+   "'private',  'public', or '}' expected", "comp.Compiler.classDec()")
+
+class A {
+  
+
+class Program {       //#
+  
+    public void run() {
+       A a;
+
+       a = new A();
+       a.m();
+    }
+
+}

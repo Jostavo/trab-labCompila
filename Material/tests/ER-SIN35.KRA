@@ -1,0 +1,12 @@
+@ce(6, "falta ',' na declaração dos parâmetros",
+   "')' expected", "comp.Compiler.methodDec")
+
+class Program {
+    
+    public void m( int x, int y  boolean ok ) {  //#
+    }
+
+    public void run() {
+    }
+
+}

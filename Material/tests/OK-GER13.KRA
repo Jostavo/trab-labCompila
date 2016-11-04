@@ -1,0 +1,67 @@
+@nce
+
+/*
+  @filename   ok-ger09.kra
+
+  @comment    Testa se a geracao de codigo para this e super estao corretas.
+  Deve escrever
+  1 1 2 2 3 3 4 4
+
+  */
+
+class A {
+   private int n;
+   
+   public int get() { return this.n; }
+   public void set(int n) { this.n = n; }
+   
+   public void m1() {
+      write( this.n );
+   }   
+
+}
+
+
+class B extends A {
+
+   public void m2() {
+   }   
+}
+
+
+class C extends B {
+
+   public void m1() {
+      write( 8 );
+   }   
+   
+   public void teste() {
+      super.m1();
+   }   
+
+}
+
+class D extends C {
+   public void m1() {
+      write( 9 );
+   }   
+   
+}
+
+class Program {
+   
+   public void run() {
+      D d;
+      
+      writeln("");
+      writeln("Ok-ger09");
+      writeln("The output should be :");
+      writeln("0");
+      d = new D();
+	  d.set(0);
+      d.teste();
+   }   
+
+}
+
+

@@ -1,0 +1,17 @@
+@ce(6, "classe 'A' herda de si mesma", 
+  "Class 'A' is inheriting from itself",
+  "comp.Compiler.classDec()")
+  
+
+class A extends A {   //#
+}
+
+
+class Program {
+   
+   public void run() {
+   }   
+
+}
+
+

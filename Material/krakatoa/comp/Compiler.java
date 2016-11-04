@@ -157,11 +157,12 @@ public class Compiler {
 
 		if(symbolTable.getInGlobal(className) != null)
 			signalError.showError("Class already declared: " + className);
+                
+                retorno = new KraClass(className);
+                classAtual = retorno;
 
-		symbolTable.putInGlobal(className, retorno = new KraClass(className));
+		symbolTable.putInGlobal(className, retorno);
 		lexer.nextToken();
-
-		classAtual = retorno;
 
 		if ( lexer.token == Symbol.EXTENDS ) {
 			lexer.nextToken();
@@ -214,11 +215,14 @@ public class Compiler {
 			String name = lexer.getStringValue(); // --------- AQUI A GENTE PRECISA ADICIONAR AO LOCAL DA VARIAVEL ESSAS COISAS ---------
 			lexer.nextToken();
 
-			if ( lexer.token == Symbol.LEFTPAR )
+			if ( lexer.token == Symbol.LEFTPAR ){
+                                if(listaPrivateMetodos.getMethod(name) != null || listaPublicMetodos.getMethod(name) != null)
+                                    signalError.showError("Method " + name + " was already declared in this scope");
 				if(qualifier == Symbol.PRIVATE)
 					listaPrivateMetodos.addMethod(methodDec(t, name, qualifier));
 				else
 					listaPublicMetodos.addMethod(methodDec(t, name, qualifier));
+                        }
 			else if ( qualifier != Symbol.PRIVATE )
 				signalError.showError("Attempt to declare public instance variable '" + name + "'");
 			else
@@ -280,8 +284,8 @@ public class Compiler {
 		 * MethodDec ::= Qualifier Return Id "("[ FormalParamDec ] ")" "{"
 		 *                StatementList "}"
 		 */
-		ParamList listaParametros;
-		StatementList listaStmt;
+		ParamList listaParametros = null;
+		StatementList listaStmt = null;
 
 		if(classAtual.hasPublicMethod(name) || classAtual.hasPrivateMethod(name)){
 			signalError.showError("Method " + name + " was already declared");
@@ -299,17 +303,18 @@ public class Compiler {
 			signalError.showError("')' expected");
 
 		if(classAtual.getName().equals("Program") && metodoDeclarado.getName().equals("run")) {
-			if (metodoDeclarado.getParamList().getSize() > 0)
+			if (listaParametros.getSize() > 0)
 				signalError.showError("Program's method 'run' must not have any parameters!");
 			if (metodoDeclarado.getType() != Type.voidType)
 				signalError.showError("Program's method 'run' must be of type 'Void'");
 		}
 
-		KraClass sClass = classAtual.getSuperClass();
+		KraClass sClass = classAtual.getSuper();
+                Method scMethod = null;
 
 		while(sClass != null){
 			if(sClass.hasPublicMethod(name)){
-				Method scMethod = sClass.getMethod(m);
+				scMethod = sClass.getMethod(name);
 				break;
 			}else
 				sClass = sClass.getSuper();
@@ -318,13 +323,13 @@ public class Compiler {
 		if (scMethod != null){
 			if(type != scMethod.getType())
 				signalError.showError("Can't override a method using a different type");
-			if(scMethod.getParamList().size() != listaParametros.size())
+			if(scMethod.getParamList().getSize() != listaParametros.getSize())
 				signalError.showError("Can't override a method using different number of parameters");
 
 			ParamList scMethodParam = scMethod.getParamList();
 
 			int i = 0;
-			for(Variable aux: scMethodParam){
+			for(Variable aux: scMethodParam.getParamList()){
 				if(aux.getType() != scMethodParam.getParamList().get(i).getType())
 					signalError.showError("Can't override a parameter using a differente type");
 
@@ -512,62 +517,30 @@ public class Compiler {
 			case BOOLEAN:
 			case STRING:
 				return assignExprLocalDec();
-				break;
-			case ASSERT: //NÃO FAÇO IDEIA DO QUE FAZER AQUI
-				assertStatement();
-				break;
 			case RETURN:
 				return returnStatement();
-				break;
 			case READ:
 				return readStatement();
-				break;
 			case WRITE:
 				return writeStatement();
-				break;
 			case WRITELN:
 				return writelnStatement();
-				break;
 			case IF:
 				return ifStatement();
-				break;
 			case BREAK:
 				return breakStatement();
-				break;
 			case WHILE:
 				return whileStatement();
-				break;
 			case SEMICOLON:
 				return nullStatement();
-				break;
 			case LEFTCURBRACKET:
 				return compositeStatement();
-				break;
 			default:
 				signalError.showError("Statement expected");
 		}
+                
+                return null;
 	}
-
-	private Statement assertStatement() {
-		lexer.nextToken();
-		int lineNumber = lexer.getLineNumber();
-		Expr e = expr();
-		if ( e.getType() != Type.booleanType )
-			signalError.showError("boolean expression expected");
-		if ( lexer.token != Symbol.COMMA ) {
-			this.signalError.showError("',' expected after the expression of the 'assert' statement");
-		}
-		lexer.nextToken();
-		if ( lexer.token != Symbol.LITERALSTRING ) {
-			this.signalError.showError("A literal string expected after the ',' of the 'assert' statement");
-		}
-		String message = lexer.getLiteralStringValue();
-		lexer.nextToken();
-		if ( lexer.token == Symbol.SEMICOLON )
-			lexer.nextToken();
-		
-		return new StatementAssert(e, lineNumber, message);
-	} // IGNORAR O ASSERT
 
 	private boolean isType(String name) {
 		return this.symbolTable.getInGlobal(name) != null;
@@ -605,8 +578,6 @@ public class Compiler {
 					signalError.showError("';' expected", true);
 				else
 					lexer.nextToken();
-			}else if(){
-
 			}else{
 				signalError.showError("Expected '.' or '='");
 			}
@@ -923,13 +894,13 @@ public class Compiler {
 			Method metodoAnalisado = superclasse.getMethod(messageName);
 			ParamList plMethod = metodoAnalisado.getParamList();
 
-			if(exprList.getSize() == plMethod.getSize()){
+			if(exprList.getExprList().size() == plMethod.getSize()){
 				int i = 0;
 				int erros = 0;
-				for(Parameter aux: plMethod){
-					if(!comparaTipos(aux.getType(), exprList.getExprList().get(i).getType())){ // CRIAR ESSA FUNÇÃO DE COMPARAÇÃO DE TIPOS --------------------
+				for(Parameter aux: plMethod.getParamList()){
+					//if(!comparaTipos(aux.getType(), exprList.getExprList().get(i).getType())){ // CRIAR ESSA FUNÇÃO DE COMPARAÇÃO DE TIPOS --------------------
 						erros++;
-					}
+					//}
 					i++;
 				}
 
@@ -939,7 +910,8 @@ public class Compiler {
 			}else
 				signalError.showError("Different number of parameters!");
 
-			return new MessageSendToSuper(metodoAnalisado, exprList, classAtual); //VERIFICAR ----------------- NÃO ESTÁ PRONTO (não faço ideia do que o message faz)
+			//return new MessageSendToSuper(metodoAnalisado, exprList, classAtual); //VERIFICAR ----------------- NÃO ESTÁ PRONTO (não faço ideia do que o message faz)
+                        return null;
 		case IDENT:
 			/*
           	 * PrimaryExpr ::=  
@@ -956,7 +928,7 @@ public class Compiler {
 				if(classAtual.hasPublicMethod(firstId) || classAtual.hasPrivateMethod(firstId))
 					signalError.showError("Use 'this.' to call instance methods");
 
-				if(symbolTable.getInLocal(firstId) && classAtual.hasInstanceVariable(firstId))
+				if(symbolTable.getInLocal(firstId) != null && classAtual.hasInstanceVariable(firstId)) //verificar --------
 					signalError.showError("Use 'this.' to call instance variables");
 				else if(symbolTable.getInLocal(firstId) == null)
 					signalError.showError("Id " + firstId + " was not previously declared");

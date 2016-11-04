@@ -1,0 +1,12 @@
+@ce(8, "Testa se =< é e aceito como válido. Não deve ser",
+      "')' expected OR Unknown sequence of symbols", 
+	  "comp.Compiler.ifStatement OR lexer.Lexer.nextToken()")
+
+class Program {
+  
+    public void run() {
+       if ( 4 =< 3 ) {      //#
+       }
+    }
+
+}

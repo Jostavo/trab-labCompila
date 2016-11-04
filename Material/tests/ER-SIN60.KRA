@@ -1,0 +1,17 @@
+@ce(14, "'(' deve vir depois de 'while'", 
+  "'(' expected after 'while'", 
+  "comp.Compiler.doWhileStatement()")
+
+class Program {
+
+    public void run() {
+
+    	int i;
+	    i = 0;
+		do {
+		    i = i + 1;
+		}
+		while i < 10);	
+    }
+
+}

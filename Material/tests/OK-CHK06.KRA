@@ -1,0 +1,59 @@
+@nce
+
+/*
+  @filename   ok-chk06.kra
+
+  @comment    variaveis de tres classes sao declaradas. Mas nenhum objeto 'e criado.
+
+*/
+
+class A {
+     
+   public void run() { }
+   
+   public void m() {
+      A a;
+      
+      a = null;
+      a.m();
+   }   
+
+}
+
+
+class B {
+
+   public int run(int n) { return n; }
+   
+   public void m() {
+   }   
+
+}
+
+
+class C {
+   
+   private B b;
+   
+   public void m() {
+      this.b.m();
+   }   
+   public B get() {
+      return this.b;
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      C c;
+      
+      c = null;
+      c.m();
+   }   
+
+}
+
+

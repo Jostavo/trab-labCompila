@@ -1,0 +1,104 @@
+@nce
+
+/*
+  @filename   ok-ger01.kra
+
+  @comment    Cada teste ok-ger*.kra possui uma instrucao write,
+  executada antes de qualquer outra, que imprime
+  a saida esperada do programa. 
+     Para conferir se o seu programa esta gerando
+  codigo correto, faca o seguinte: chame o seu
+  compilador para gerar codigo em C (ou Java) a
+  partir de ok-ger01.kra. Compile o codigo com um
+  compilador C e o execute. Esta execucao devera 
+  imprimir na tela 
+     The output should be :  
+     7 0 1 2 3 4 5 6 7
+     7 0 1 2 3 4 5 6 7
+  A primeira e segunda linhas foram impressas pelos
+  comandos 
+      write("The output should be :");  
+      write("7 0 1 2 3 4 5 6 7");
+  e a terceira linha pelos comandos write espalhados
+  pelo programa Simples. Lembre-se de gerar o codigo
+     puts("uma string");
+  em C para o comando Simples
+     write("uma string");
+
+  Se as duas saidas forem diferentes, o seu compilador
+  esta gerando codigo errado. Se estiver, o seu programa
+  podera escrever algo como 
+     7 0 1 3 4 5 7
+
+
+  Este programa, ok-ger01.kra, testa se o codigo para os operadores
+  de comparacao sao gerados corretamente.
+  */
+
+class A {
+   
+   public void m() {
+      write( 7 );
+      if (1 > 0) {
+         write( 0 );
+      }
+      if (1 >= 0) {
+         write( 1 );
+      }
+      if (1 != 0) {
+         write( 2 );
+      }
+      if (0 < 1) {
+         write( 3 );
+      }
+      if (0 <= 1) {
+         write( 4 );
+      }
+      if (0 == 0) {
+         write( 5 );
+      }
+      if (0 >= 0) {
+         write( 6 );
+      }
+      if (0 <= 0) {
+         write( 7 );
+      }
+      if (1 == 0) {
+         write( 18 );
+      }
+      if (0 > 1) {
+         write( 10 );
+      }
+      if (0 >= 1) {
+         write( 11 );
+      }
+      if (0 != 0) {
+         write( 12 );
+      }
+      if (1 < 0) {
+         write( 13 );
+      }
+      if (1 <= 0) {
+         write( 14 );
+      }
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      writeln("");
+      writeln("Ok-ger01");
+      writeln("The output should be :");
+      writeln("7 0 1 2 3 4 5 6 7");
+      a = new A();
+      a.m();
+   }   
+
+}
+
+

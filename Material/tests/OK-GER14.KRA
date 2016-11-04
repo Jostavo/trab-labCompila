@@ -1,0 +1,101 @@
+@nce
+
+/*
+  @filename   ok-ger14.kra
+
+  @comment    Teste se esta correta a geracao de codigo para variaveis de instancia
+  envolvendo varias classes em uma hierarquia.
+  Deve escrever
+
+  4  3  2  1
+
+  */
+
+class A {
+   
+   private int k;
+   
+   public int get_A() {
+      return this.k;
+   }   
+   public void init() {
+      this.k = 1;
+   }   
+
+}
+
+
+class B extends A {
+   
+   private int k;
+   
+   public int get_B() {
+      return this.k;
+   }   
+   
+   public void init() {
+      super.init();
+      this.k = 2;
+   }   
+
+}
+
+
+class C extends B {
+   
+   private int k;
+   
+   public int get_C() {
+      return this.k;
+   }  
+   
+   public void init() {
+      super.init();
+      this.k = 3;
+   }   
+
+}
+
+
+class D extends C {
+   
+   private int k;
+   
+   public int get_D() {
+      return this.k;
+   }   
+   
+   public void init() {
+      super.init();
+      this.k = 4;
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      B b;
+      C c;
+      D d;
+      
+      writeln("");
+      writeln("Ok-ger14");
+      writeln("The output should be :");
+      writeln("4 3 2 1");
+      d = new D();
+      d.init();
+      write( d.get_D() );
+      c = d;
+      write( c.get_C() );
+      b = c;
+      write( b.get_B() );
+      a = b;
+      write( a.get_A() );
+   }   
+
+}
+
+

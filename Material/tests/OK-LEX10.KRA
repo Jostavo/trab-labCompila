@@ -1,0 +1,29 @@
+@nce
+
+	/*
+  @filename   ok-lex10.kra
+
+  @comment    Testa se o lexico aceita tab's na primeira posicao do arquivo.
+
+  */
+
+class A {
+   
+   public void m() {
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      a.m();
+   }   
+
+}
+
+

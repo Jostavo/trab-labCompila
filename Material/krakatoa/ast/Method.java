@@ -47,7 +47,7 @@ public class Method extends Variable {
     }
     
     public void genKra(PW pw) {
-    	pw.printIdent(this.getType() + " " + this.getName() + "(");
+    	pw.printIdent(this.getType().getCname() + " " + this.getName() + "(");
     	if (this.paramList != null) {
     		this.paramList.genKra(pw);
     	}
@@ -55,6 +55,6 @@ public class Method extends Variable {
     	pw.add();
     	this.stmtList.genKra(pw);
     	pw.sub();
-    	pw.printlnIdent("}");
+    	pw.printlnIdent("}\n");
     }
 }

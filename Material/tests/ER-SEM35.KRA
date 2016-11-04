@@ -1,0 +1,26 @@
+@ce(9, "Método que não deve retornar nada possui instrução 'return'", 
+  "Illegal 'return' statement. Method returns 'void'",
+  "comp.Compiler.returnStatement()")
+  
+
+class A {
+   
+   public void m() {
+      return 0;         //#
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      a.m();
+   }   
+
+}
+
+

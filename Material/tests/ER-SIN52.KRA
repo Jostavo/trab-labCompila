@@ -1,0 +1,14 @@
+@ce(7, "Palavras 'public' ou 'private' ausentes",
+   "'public' or 'private' expected", "comp.Compiler.classDec() OR comp.Compiler.methodDec()")
+
+
+class Program {
+    
+    static void m() {  //#
+    }
+  
+    public void run() {
+        Program.m();
+    }
+
+}

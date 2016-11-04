@@ -1,0 +1,14 @@
+@ce(9, "'=>' não é um operador válido",
+   "Expression expected OR invalid sequence of symbols",
+    "comp.Compiler.ifStatement() OR lexer.Lexer.nextToken()")  
+
+class Program {
+  
+    public void run() {
+        
+      if ( 4 => 3 ) {       //#
+      }
+      
+    }
+
+}

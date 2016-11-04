@@ -1,0 +1,40 @@
+@nce
+
+/*
+  @filename   ok-sem14.kra
+
+  @comment    Testa se o compilador aceita atribuicao a null e comparacoes
+              == e !=
+  */
+
+class A {
+}
+
+
+class B extends A {
+}
+
+
+class Program {
+   
+   public void run() {
+      A a, a2;
+      B b;
+      
+      a = null;
+      b = null;
+      a2 = null;
+      if (a == b) {
+         write( 0 );
+      }
+      if (b == a) {
+         write( 1 );
+      }
+      if (a == a2) {
+         write( 2 );
+      }
+   }   
+
+}
+
+

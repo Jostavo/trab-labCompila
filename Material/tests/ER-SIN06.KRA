@@ -1,0 +1,12 @@
+@ce(8, "Expressão ausente após ','", 
+   "Expression expected", "comp.Compiler.factor()")
+
+class Program {
+  
+    public void run() {
+        
+       write( 1, 2, 3, );  //#
+       
+    }
+
+}

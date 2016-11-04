@@ -1,0 +1,16 @@
+@ce(10, "Redeclaração da variável  'i'", "Variable 'i' is being redeclared",
+  "comp.Compiler.localDec()")
+  
+  
+      
+class Program {
+  
+    public void run() {
+       int i;
+       int i;   //#
+       
+       read(i);
+       write(i);
+    }
+
+}

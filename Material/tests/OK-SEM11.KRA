@@ -1,0 +1,29 @@
+@nce
+
+/*
+  @filename   ok-sem11.kra
+
+  @comment    Testa se o compilador aceita metodo com mesmo nome
+  que classe.
+  */
+
+class A {
+   
+   public void A() {
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      a.A();
+   }   
+
+}
+
+

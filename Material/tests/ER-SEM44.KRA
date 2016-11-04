@@ -1,0 +1,31 @@
+@ce(26, "Não se pode escrever objetos", 
+  "Command 'write' does not accept objects", "comp.Compiler.writeStatement()")
+  
+
+class A {
+      
+   private int n;
+   
+   public void set(int n) {
+      this.n = n;
+   }   
+   public int get() {
+      return this.n;
+   }   
+
+
+} 
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      write( a );   //#
+   }   
+
+}
+
+

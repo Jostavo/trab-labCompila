@@ -1,0 +1,13 @@
+@ce(9, "Falta um ';' após 'read'",
+   "Missing ';'", "comp.Compiler.readStatement()")
+
+class Program {
+  
+    public void run() {
+
+       int i;
+       read(i)        //#
+       read(i);
+    }
+
+}

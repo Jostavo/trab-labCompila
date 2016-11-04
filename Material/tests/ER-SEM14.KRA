@@ -1,0 +1,17 @@
+@ce(12, "Expressoes booleanas nao podem ser escritas", 
+  "Command 'write' does not accept 'boolean' expressions",
+  "comp.Compiler.writeStatement()")
+  
+
+class Program {
+   
+   public void run() {
+      boolean b;
+
+      b = false;
+      write( b );   //#
+   }   
+
+}
+
+

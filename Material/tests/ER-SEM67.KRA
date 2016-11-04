@@ -1,0 +1,19 @@
+@ce(12, "chamada a método não existente", 
+   "'.' or '=' expected after an identifier OR statement expected", 
+   "comp.Compiler.factor()")
+
+
+class Program {
+    
+    public void p() { 
+    }
+    
+    static public void m() {  
+        p();                      //#
+    }
+  
+ 
+    public void run() {
+    }
+
+}

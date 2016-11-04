@@ -1,0 +1,17 @@
+@ce(10, "Expressao do while deve ser booleana", 
+  "non-boolean expression in 'while' command",
+   "comp.Compiler.whileStatement()")
+
+
+class Program {
+   
+   public void run() {
+    
+      while ( 0 )      //#
+         write( 0 );
+         
+   }   
+
+}
+
+

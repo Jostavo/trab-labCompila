@@ -1,0 +1,11 @@
+@ce(6, "Após 'static' deve aparecer 'private'",
+   "'private' expected", "comp.Compiler.classDec()")
+
+class Program {
+    
+    static int x; //#
+    
+    public void run() {
+    }
+
+}

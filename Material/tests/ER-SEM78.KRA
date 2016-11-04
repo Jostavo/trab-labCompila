@@ -1,0 +1,10 @@
+@ce(10, "classe Program ausente", 
+  "Source code without a class 'Program'",
+  "comp.Compiler.program()")
+
+class A {
+    
+    public void m() {
+    }
+
+} //#

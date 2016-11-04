@@ -1,0 +1,18 @@
+@ce(5, "nome da classe ausente",
+   "Identifier expected", "comp.Compiler.classDec()")
+
+
+class { //#
+
+   public void m() {
+   }
+
+}
+
+
+class Program {
+  
+    public void run() {
+    }
+
+}

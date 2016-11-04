@@ -1,0 +1,48 @@
+@nce
+
+/*
+  @filename   ok-sin09.kra
+
+  @comment    Testa :
+    - aceitacao de declaracao de metodos privados;
+    - chamada destes metodos usando this;
+    - uso de variaveis de instancia pelos metodos privados
+  */
+
+class A {
+   
+   private int n;
+   private int k;
+   
+   private int m1() {
+      return this.n + 1;
+   }   
+   
+   private void m2(int pk) {
+      this.k = pk;
+   }   
+   
+   public int m() {
+      this.m2(0);
+      return this.m1() + this.k;
+   }   
+   public void init() {
+      this.k = 1;
+      this.n = 0;
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      write( a.m() );
+   }   
+
+}
+
+

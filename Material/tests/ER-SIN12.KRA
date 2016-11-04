@@ -1,0 +1,14 @@
+@ce(10, "'{' usado em expressão", 
+  "Expression expected", "comp.Compiler.factor()")
+      
+class Program {
+  
+    public void run() {
+
+       int i;
+
+       i = { 0 };          //#
+       write(i);
+    }
+
+}

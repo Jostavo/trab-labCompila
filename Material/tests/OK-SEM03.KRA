@@ -1,0 +1,26 @@
+@nce
+
+/*
+  @filename   ok-sem03.kra
+
+  @comment    testa se o compilador aceita comparacoes com == e != com
+              Strings e null 
+  */
+
+
+class Program {
+   
+   public void run() {
+      String r, s;
+
+      r = "Ola";
+      s = "Tudo bem?";
+      if ( (r == s) && (r != s) && (r == null) && (null == r) &&
+           (r == "Ola") && ("Ola" == r) && (r != null) && (r != "Ola") &&
+           ("Ola" != r) && ("null" == null) )
+         write("impossivel");
+   }   
+
+}
+
+

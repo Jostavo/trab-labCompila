@@ -1,0 +1,36 @@
+@nce
+
+/*
+  @filename   ok-sin16.kra
+
+  @comment    test do-while
+
+*/
+
+
+class Program {
+
+    public void run() {
+
+		boolean b;
+		b = false;
+		do { } while ( false );
+		do{}while(b);
+		int i, j, n;
+		i = 0;
+		j = 0;
+		n = 10;
+		
+		do { 
+		    do { 
+			    ++i;
+				write(i);
+			} 
+			while (i < n);
+			++j;
+		}
+		while ( j < n );
+    }
+
+}
+

@@ -1,0 +1,19 @@
+@ce(15, 
+  "Uso de variável de instância sem 'this'", 
+  "Identifier 'a' was not found",
+  "comp.Compiler.factor()" )
+  
+
+class Program {
+  
+   private int a;
+  
+   public void run() {
+
+      int b;
+      b = 1;
+      a = b;    //#
+    }
+
+}
+

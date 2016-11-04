@@ -1,0 +1,16 @@
+@ce(11, "Variaveis booleanas nao podem ser lidas", 
+  "Command 'read' does not accept 'boolean' variables",
+  "comp.Compiler.readStatement()")
+  
+
+class Program {
+   
+   public void run() {
+      boolean b;
+      
+      read( b );  //#
+   }   
+
+}
+
+

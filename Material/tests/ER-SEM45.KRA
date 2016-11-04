@@ -1,0 +1,18 @@
+@ce(13, "Não se pode ler objetos", "'int' or 'String' expression expected",
+    "comp.Compiler.readStatement()")
+
+class A {
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      read(a);      //#
+   }   
+
+}
+
+
