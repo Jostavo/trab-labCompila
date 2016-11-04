@@ -1,10 +1,13 @@
 package ast;
 
-public class CompositeStatement {
+public class CompositeStatement extends Statement{
 	private StatementList stmtList;
 	
 	public CompositeStatement(StatementList stList) {
 		this.stmtList = stList;
+	}
+	
+	public void genC(PW pw){
 	}
 	
 	public void genKra(PW pw) {

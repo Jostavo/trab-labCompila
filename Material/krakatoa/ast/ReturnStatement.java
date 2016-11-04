@@ -19,5 +19,7 @@ public class ReturnStatement extends Statement {
 	}
 	
 	public void genKra(PW pw){
+		pw.printIdent("return");
+		this.expr.genKra(pw, false);
 	}
 }

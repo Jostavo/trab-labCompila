@@ -512,39 +512,29 @@ public class Compiler {
 			case BOOLEAN:
 			case STRING:
 				return assignExprLocalDec();
-				break;
 			case ASSERT: //NÃO FAÇO IDEIA DO QUE FAZER AQUI
-				assertStatement();
-				break;
+				return assertStatement();
 			case RETURN:
 				return returnStatement();
-				break;
 			case READ:
 				return readStatement();
-				break;
 			case WRITE:
 				return writeStatement();
-				break;
 			case WRITELN:
 				return writelnStatement();
-				break;
 			case IF:
 				return ifStatement();
-				break;
 			case BREAK:
 				return breakStatement();
-				break;
 			case WHILE:
 				return whileStatement();
-				break;
 			case SEMICOLON:
-				return nullStatement();
-				break;
+				return null;
 			case LEFTCURBRACKET:
 				return compositeStatement();
-				break;
 			default:
 				signalError.showError("Statement expected");
+				return null;
 		}
 	}
 
@@ -667,12 +657,20 @@ public class Compiler {
 		return new ReturnStatement(rtExpr);
 	}
 
-	private void readStatement() {
+	private ReadStatement readStatement() {
+		ArrayList<String> leftValues = new ArrayList<String>();
+		boolean isThis, isSub;
+		
 		lexer.nextToken();
 		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("Missing '('");
 		lexer.nextToken();
+		
 		while (true) {
+			isThis = false;
+			isSub = false;
+			String name, subName = null;
 			if ( lexer.token == Symbol.THIS ) {
+				isThis = true;
 				lexer.nextToken();
 				if ( lexer.token != Symbol.DOT ) signalError.showError(". expected");
 				lexer.nextToken();
@@ -680,8 +678,27 @@ public class Compiler {
 			if ( lexer.token != Symbol.IDENT )
 				signalError.show(ErrorSignaller.ident_expected);
 
-			String name = lexer.getStringValue();
+			name = lexer.getStringValue();
 			lexer.nextToken();
+			
+			if ( lexer.token == Symbol.DOT ) {
+				isSub = true;
+				lexer.nextToken();
+				if (lexer.token != Symbol.IDENT) {
+					signalError.show(ErrorSignaller.ident_expected);
+				}
+				subName = lexer.getStringValue();
+				lexer.nextToken();
+			}
+			
+			if (isThis) {
+				leftValues.add("this." + name);
+			} else if (isSub) {
+				leftValues.add(name + "." + subName);
+			} else {
+				leftValues.add(name);
+			}
+			
 			if ( lexer.token == Symbol.COMMA )
 				lexer.nextToken();
 			else
@@ -693,39 +710,47 @@ public class Compiler {
 		if ( lexer.token != Symbol.SEMICOLON )
 			signalError.show(ErrorSignaller.semicolon_expected);
 		lexer.nextToken();
+		
+		return new ReadStatement(leftValues);
 	}
 
-	private void writeStatement() {
+	private WriteStatement writeStatement() {
 
 		lexer.nextToken();
 		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("Missing '('");
 		lexer.nextToken();
-		exprList();
+		ExprList exprListStmt = exprList();
 		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError("')' expected");
 		lexer.nextToken();
 		if ( lexer.token != Symbol.SEMICOLON )
 			signalError.show(ErrorSignaller.semicolon_expected);
 		lexer.nextToken();
+		
+		return new WriteStatement(exprListStmt);
 	}
 
-	private void writelnStatement() {
+	private WritelnStatement writelnStatement() {
 
 		lexer.nextToken();
 		if ( lexer.token != Symbol.LEFTPAR ) signalError.showError("Missing '('");
 		lexer.nextToken();
-		exprList();
+		ExprList exprListStmt = exprList();
 		if ( lexer.token != Symbol.RIGHTPAR ) signalError.showError("')' expected");
 		lexer.nextToken();
 		if ( lexer.token != Symbol.SEMICOLON )
 			signalError.show(ErrorSignaller.semicolon_expected);
 		lexer.nextToken();
+		
+		return new WritelnStatement(exprListStmt);
 	}
 
-	private void breakStatement() {
+	private BreakStatement breakStatement() {
 		lexer.nextToken();
 		if ( lexer.token != Symbol.SEMICOLON )
 			signalError.show(ErrorSignaller.semicolon_expected);
 		lexer.nextToken();
+		
+		return new BreakStatement();
 	}
 
 	private void nullStatement() {

@@ -38,5 +38,17 @@ public class IfStatement extends Statement {
 	}
 	
 	public void genKra(PW pw){
+		pw.printIdent("if (");
+		this.expr.genKra(pw, false);
+		pw.println(")");
+		pw.add();
+		this.ifStmt.genKra(pw);
+		pw.sub();
+		if (elseStmt != null) {
+			pw.printlnIdent("else");
+			pw.add();
+			this.elseStmt.genKra(pw);
+			pw.sub();
+		}
 	}
 }
