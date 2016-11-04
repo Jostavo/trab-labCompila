@@ -1,0 +1,13 @@
+@ce(9, "'write' sem argumentos", 
+  "Command 'write' without arguments", 
+  "comp.Compiler.writeStatement()")
+
+class Program {
+  
+    public void run() {
+        
+       write();      //#
+       
+    }
+
+}

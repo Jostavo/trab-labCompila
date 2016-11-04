@@ -1,0 +1,14 @@
+@ce(9, "Caracteres minúsculos e maiúsculos são diferentes", "Variable 'I' was not declared", "comp.Compiler.assignExprLocalDec()")
+  
+      
+class Program {
+  
+    public void run() {
+        
+       int i;
+       I = 0;      //#
+       
+       write(i);
+    }
+
+}

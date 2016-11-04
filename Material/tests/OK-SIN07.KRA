@@ -1,0 +1,116 @@
+@nce
+
+/*
+  @filename   ok-sin07.kra
+
+  @comment    Testa:
+    - o uso de this em atribuicoes e envios de mensagens;
+    - o uso de super
+
+  */
+
+class A {
+   
+   private int n;
+   
+   public void put(int pn) {
+      this.n = pn;
+   }   
+   public int get() {
+      return this.n;
+   }   
+
+}
+
+
+class No {
+   
+   private No next;
+   private A a;
+   
+   public void setNext(No p_next) {
+      this.next = p_next;
+   }   
+   public No getNext() {
+      return this.next;
+   }   
+   public void set(A pa) {
+      this.a = pa;
+   }   
+   public A get() {
+      return this.a;
+   }   
+
+}
+
+
+class B extends A {
+   
+   private int k;
+   private No first;
+   
+   public int get() {
+      write( this.k );
+      return super.get();
+   }   
+   
+   public void init(int pk) {
+      this.k = pk;
+   }  
+   
+   public void buildList() {
+      int i;
+      No w;
+      No newNo;
+      A a;
+      
+      i = this.get();
+      this.first = new No();
+      w = this.first;
+      w.setNext(null);
+      a = new A();
+      a.put(i);
+      w.set(a);
+      while ( true ) {         
+         i = i - 1;
+         if (i <= 0) {
+            break;
+         }
+         newNo = new No();
+         newNo.setNext(this.first);
+         a = new A();
+         a.put(i);
+         newNo.set(a);
+         this.first = newNo;
+      }   
+   }   
+   
+   public void list() {
+      No w;
+      A a;
+      
+      w = this.first;
+      while ( w != null )       {
+         a = w.get();
+         write( a.get() );
+         w = w.getNext();
+      }
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      B b;
+      
+      b = new B();
+      b.put(10);
+      b.buildList();
+      b.list();
+   }   
+
+}
+
+

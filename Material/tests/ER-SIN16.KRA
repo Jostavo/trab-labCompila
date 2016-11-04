@@ -1,0 +1,12 @@
+@ce(9, "Tipo usado como variável",
+   "Identifier expected", "comp.Compiler.localDec()")
+
+   
+
+class Program {
+  
+    public void run() {
+       String int;        //#
+    }
+
+}

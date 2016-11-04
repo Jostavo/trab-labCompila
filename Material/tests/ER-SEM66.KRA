@@ -1,0 +1,16 @@
+@ce(9, "chamada a método não existente", 
+   "Static method 'p' was not found in class 'Program'",
+   "comp.Compiler.factor()")
+
+
+class Program {
+    
+    static public void m() {  
+        Program.p();            //#
+    }
+  
+ 
+    public void run() {
+    }
+
+}

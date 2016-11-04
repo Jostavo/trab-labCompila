@@ -1,0 +1,19 @@
+@ce(16, "chamada a método estático através de variável", 
+  "Method 'm' was not found in class 'A' or its superclasses",
+  "comp.Compiler.factor()")
+
+class A {
+   static public void m() {
+   }
+}
+
+
+class Program {
+    
+    public void run() {
+        A a;
+        a = new A();
+        a.m();             //#
+    }
+
+}

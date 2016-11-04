@@ -1,0 +1,10 @@
+@ce(7, "método run deve ser publico", 
+  "Method 'run' of class 'Program' cannot be private",
+  "comp.Compiler.methodDec()" )
+
+class Program {
+    
+    private void run() {  //#
+    }
+
+}

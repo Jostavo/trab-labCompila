@@ -1,0 +1,48 @@
+@nce
+
+/*
+  @filename   ok-sin14.kra
+
+  @comment    testa se aceita envio de mensagens a variaveis de instancia,
+  como 
+     this.p.set(0, 0);
+
+*/
+
+class Point {
+   
+   private int x;
+   private int y;
+   
+   public void set(int x, int y) {
+      this.x = x;
+      this.y = y;
+   }   
+   
+   public int getX() {
+      return this.x;
+   }   
+   
+   public int getY() {
+      return this.y;
+   }   
+
+}
+
+
+class Program {
+   
+   private Point p;
+   
+   public void run() {
+      this.p = new Point();
+      this.p.set(0, 0);
+   }   
+   
+   public Point getPoint() {
+      return this.p;
+   }   
+
+}
+
+

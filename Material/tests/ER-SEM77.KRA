@@ -1,0 +1,10 @@
+@ce(10, "Classe 'Program' sem método 'run'", 
+  "Method 'run' was not found in class 'Program'",
+  "comp.Compiler.classDec()")
+
+class Program {
+    
+    public void m() {
+    }
+
+} //#

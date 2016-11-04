@@ -1,0 +1,20 @@
+@ce(4, "Palavras chave não pode estar em maiúscula",
+   "'class' expected", "comp.Compiler.program()")
+      
+CLASS A {   //#
+  
+    public void m() {
+    }
+      
+}
+
+class Program {
+  
+    public void run() {
+       A a;
+
+       a = new A();
+       a.m();
+    }
+
+}

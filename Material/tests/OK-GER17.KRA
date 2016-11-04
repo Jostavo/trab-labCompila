@@ -1,0 +1,47 @@
+@nce
+
+/*
+  @filename   ok-ger17.kra
+
+  @comment    testa geracao de codigo para metodo estatico
+
+*/
+
+class A {
+   static public int get0() {
+       return 0;
+   }
+   static public int get1() {
+       return 1;
+   }
+   static public int ident(int n) {
+       return n;
+   }
+}
+
+class B {
+    static private int get() {
+        return 3;
+    }
+    static public void print() {
+        write( A.ident(2) );
+        write( B.get() );
+        write( 4 );
+    }
+}
+
+
+class Program {
+    
+    public void run() {
+      writeln("");
+      writeln("Ok-ger17");
+      writeln("The output should be: ");
+      writeln("0 1 2 3 4");
+
+      write( A.get0() );
+      write( A.get1() );
+      B.print();
+    }
+
+}

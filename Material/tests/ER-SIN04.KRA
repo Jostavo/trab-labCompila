@@ -1,0 +1,12 @@
+@ce(8, "'i' não é uma instrução", 
+    "Statement expected", "comp.Compiler.assignExprLocalDec()")
+
+class Program {
+  
+    public void run() {
+        
+       i;   //#
+       
+    }
+
+}

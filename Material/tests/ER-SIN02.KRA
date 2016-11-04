@@ -1,0 +1,12 @@
+@ce(8, "Falta identificador após ','", 
+  "Missing identifier", "comp.Compiler.localDec()")
+
+class Program {
+  
+    public void run() {
+        
+       int i, j, ;       //#
+       
+    }
+
+}

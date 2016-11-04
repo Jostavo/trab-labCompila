@@ -1,0 +1,21 @@
+@ce(6, "';' após assinatura de método",
+   "'{' expected", "comp.Compiler.methodDec()")
+
+class A {
+  
+   public int get() ; {  //#
+       return 0;
+   }
+
+}
+
+class Program {
+  
+    public void run() {
+       A a;
+
+       a = new A();
+       write( a.get() );
+    }
+
+}

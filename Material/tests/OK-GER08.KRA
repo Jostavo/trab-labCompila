@@ -1,0 +1,47 @@
+@nce
+
+/*
+  @filename   ok-ger08.kra
+
+  @comment    Testa se a passagem de parametros e a chamada de metodos
+  estao corretas.
+  Deve escrever
+    1 1 2 2 3 3
+
+  */
+
+class A {
+   
+   public void m1(int n) {
+      write( 1, n );
+   }   
+   
+   public void m2(int n) {
+      write( 2, n );
+   }   
+   
+   public void m3(int n) {
+      write( 3, n );
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      writeln("");
+      writeln("Ok-ger08");
+      writeln("The output should be :");
+      writeln("1 1 2 2 3 3" );
+      a = new A();
+      a.m1(1);
+      a.m2(2);
+      a.m3(3);
+   }   
+
+}
+
+

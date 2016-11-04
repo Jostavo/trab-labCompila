@@ -1,0 +1,11 @@
+@ce(8, "Não pode existir comentário no meio de um número",
+   "')' expected", "comp.Compiler.writeStatement()")
+      
+
+class Program {
+  
+    public void run() {
+       write( 2/*A*/4 );       //#
+    }
+
+}

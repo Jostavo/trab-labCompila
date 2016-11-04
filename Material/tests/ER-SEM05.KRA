@@ -1,0 +1,15 @@
+@ce(10, "Erro de tipos", "'int' cannot be assigned to 'boolean'", 
+  "comp.Compiler.assignExprLocalDec()")
+
+
+class Program {
+   
+   public void run() {
+      boolean b;
+      
+      b = 0;   //#
+   }   
+
+}
+
+

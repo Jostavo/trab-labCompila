@@ -1,0 +1,25 @@
+@ce(21, "Testa se o compilador sinaliza erro nas comparações com '=='",
+   "Incompatible types cannot be compared with '==' because the result will always be 'false'",
+   "comp.Compiler.expr()")
+
+class A {
+}
+
+
+class B {
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      B b;
+      
+      a = null;
+      b = null;
+      if ( a == b )  //#
+         write( 0 );
+   }
+
+}

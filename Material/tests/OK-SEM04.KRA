@@ -1,0 +1,29 @@
+@nce
+
+/*
+  @filename   ok-sem04.kra
+
+  @comment    testa se o compilador aceita comparacoes com == e != com
+              int e boolean
+  */
+
+
+class Program {
+   
+   public void run() {
+      int a, b;
+      boolean e, f;
+
+      a = 1;
+      b = 1;
+      e = true;
+      f = false;
+
+      if ( (a == b) && (a == 1) && (1 == b) && (a != b) && (e == f)
+           && (true == f) && (e != f) && (true != f) )
+         write("impossivel");
+   }   
+
+}
+
+

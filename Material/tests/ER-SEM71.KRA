@@ -1,0 +1,15 @@
+@ce(9, "acesso a variável de instância em método estático", 
+  "Attempt to access an instance variable using 'this' in a static method", "comp.Compiler.factor()")
+
+class Program {
+    
+    private int x;
+    
+    static public void set() {  
+        this.x = 0;           //#
+    }
+  
+    public void run() {
+    }
+
+}

@@ -1,0 +1,13 @@
+@ce(6, "Tipo de retorno ausente",
+  "Identifier expected", "comp.Compiler.methodDec()")
+
+class Program {
+    
+    static public m() {  //#
+    }
+  
+    public void run() {
+        Program.m();
+    }
+
+}

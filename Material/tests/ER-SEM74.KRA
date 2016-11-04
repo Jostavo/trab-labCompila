@@ -1,0 +1,22 @@
+@ce(12, "chamada ilegal a método estático", 
+  "'.' or '=' expected after identifier OR statement expected",
+  "comp.Compiler.factor()" )
+
+class A {
+   static public void m() {
+   }
+}
+
+class B extends A {
+    static public void p() {   
+        m();                       //#
+    }
+}
+
+
+class Program {
+    
+    public void run() {
+    }
+
+}

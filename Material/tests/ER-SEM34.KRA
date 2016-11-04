@@ -1,0 +1,24 @@
+@ce(19, "Envio de mensagem 'a.m()' retorna um valor mas está sendo utilizado como uma instrução",
+        "Message send 'a.m()' returns a value that is not used",
+		"comp.Compiler.statement()")
+
+class A {
+   public int m() {
+      return 0;
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      a.m();            //#
+   }   
+
+}
+
+

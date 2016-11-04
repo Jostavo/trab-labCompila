@@ -1,0 +1,17 @@
+@ce(8, "Tipos básicos não podem ser herdados, pois não são classes",
+   "Class expected", "comp.Compiler.classDec()")
+
+class A {
+}
+
+
+class B extends int {  //#
+
+}
+
+class Program {
+  
+    public void run() {
+    }
+
+}

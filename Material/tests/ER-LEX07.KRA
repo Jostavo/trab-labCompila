@@ -1,0 +1,11 @@
+@ce(8, "'.' não é um caractere permitido", 
+    "Unknown character", "lexer.Lexer.nextToken()")
+
+	
+class Program {
+  
+    public void run() {
+       int i0.0;   /* .  'e um carater ilegal  */   //#
+    }
+
+}

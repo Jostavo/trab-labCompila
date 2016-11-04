@@ -1,0 +1,14 @@
+@ce(9, "Testa se << é aceito como válido",
+  "Expression expected OR Unknown sequence of symbols",
+  "comp.Compiler.expr() OR lexer.Lexer.nextToken()")
+
+class Program {
+  
+    public void run() {
+        
+       if ( 3 << 4 ) {      //#
+       }
+       
+    }
+
+}

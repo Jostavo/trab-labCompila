@@ -1,0 +1,15 @@
+@ce(10  , "operadores de comparação não podem ser usados em sequência",
+   "')' expected",
+   "comp.Compiler.ifStatement()")
+      
+
+class Program {
+  
+    public void run() {
+        
+       if ( 3 > 2 > 1 )    //#
+          write(0);
+          
+    }
+
+}

@@ -1,0 +1,11 @@
+@ce(6, "Declarações devem ser precedidas de 'public' ou 'private'",
+  "'public', 'private', or '}' expected", "comp.Compiler.classDec()")
+
+class Program {
+
+   int x;      //#
+   
+   public void run() {
+   }
+
+}

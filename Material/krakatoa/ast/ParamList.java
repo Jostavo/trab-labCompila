@@ -33,7 +33,7 @@ public class ParamList {
     public void genKra(PW pw) {
     	int size = paramList.size();
     	for (Parameter p: paramList) {
-    		pw.print(p.getType() + " " + p.getName());
+    		pw.print(p.getType().getCname() + " " + p.getName());
     		if ( --size > 0 ) {
     			pw.print(", ");
     		}

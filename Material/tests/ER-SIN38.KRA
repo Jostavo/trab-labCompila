@@ -1,0 +1,13 @@
+@ce(13, "Falta fechar com '}' o 'while' ou, se preferir, a classe",
+  "'}' expected", "comp.Compiler.classDec()")
+
+class Program {
+  
+    public void run() {
+        
+       while ( true ) {
+        
+    }
+
+}
+//#

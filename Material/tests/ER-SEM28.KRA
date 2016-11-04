@@ -1,0 +1,29 @@
+@ce(10, "Variável 'i' declarada duas vezes, mas não em sequência", 
+  "Variable 'i' is being redeclared",
+  "comp.Compiler.localDec()")
+  
+
+class A {
+   
+   private int i;
+   private int j;
+   private int i;   //#
+   
+   public void m() {
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      a.m();
+   }   
+
+}
+
+

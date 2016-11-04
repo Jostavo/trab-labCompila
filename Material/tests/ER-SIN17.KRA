@@ -1,0 +1,11 @@
+@ce(7, "Falta ';' após declaração do 'i'", 
+  "Missing ';'", "comp.Compiler.localDec()")
+      
+class Program {
+  
+    public void run() {
+       int i                    //#
+       write(0);                
+    }
+
+}

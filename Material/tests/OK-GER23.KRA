@@ -1,0 +1,37 @@
+@nce
+
+/*
+    @filename   ok-ger23.kra
+
+    @comment    testa geracao de codigo do-while
+
+*/
+
+class Program {
+  
+	public void run() {
+		writeln("");
+		writeln("Ok-ger23");
+		int i, j, n;
+		i = 0;
+		j = 0;
+		n = 10;
+		boolean b;
+		b = false;
+		do { n = n + 1; } while ( false );
+		assert n == 11, "'do-while' statement with 'false' as expression'";
+		n = 10;
+		int sum = 0;
+		do { 
+		    do { 
+			    ++i;
+				sum = sum + 1;
+			} 
+			while (i < n);
+			++j;
+		}
+		while ( j < n );
+		assert sum == 100, "Nested 'do-while' statement with two indexes"
+  }
+
+}

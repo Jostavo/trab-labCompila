@@ -1,0 +1,15 @@
+@ce(10, "Variável de tipo básico não pode receber 'null'", 
+     "Type error: 'null' cannot be assigned to a variable of a basic type",
+	 "comp.Compiler.assignExprLocalDec()")
+
+class Program {
+   
+   public void run() {
+      int i;
+      
+      i = null;     //#
+   }   
+
+}
+
+

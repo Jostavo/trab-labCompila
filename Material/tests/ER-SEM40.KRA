@@ -1,0 +1,45 @@
+@ce(40, "Erro de tipos. O tipo de 'a', 'A', não é subclasse de 'B', o tipo do parâmetro",
+      "Type error: the type of the real parameter is not subclass of the type of the formal parameter",
+	  "comp.Compiler.factor()")
+  
+
+class A {
+   
+   private int n;
+   
+   public void set(int n) {
+      this.n = n;
+   }   
+   public int get() {
+      return this.n;
+   }   
+
+}
+
+
+class B extends A {
+   
+   public void set(int pn) {
+      write( pn );
+      super.set(pn);
+   }   
+
+}
+
+
+class Program {
+   
+   public void m(B b) {
+      b.set(0);
+   }   
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      this.m(a);    //#
+   }   
+
+}
+
+

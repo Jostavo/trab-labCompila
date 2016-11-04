@@ -1,0 +1,75 @@
+@nce
+
+/*
+  @filename   ok-ger10.kra
+
+  @comment    Teste se a geracao de codigo para variaveis de instancia esta
+  correta.
+  Deve escrever
+  1 1 2 2 3 3 4 4
+
+  */
+
+class A {
+   
+   private int k;
+   
+   public void m1(int n) {
+      this.k = 1;
+      write( this.k, n );
+   }   
+   public int getK() {
+      return this.k;
+   }   
+
+}
+
+
+class B extends A {
+   
+   private int k;
+   
+   public void m2(int n) {
+      this.k = 2;
+      super.m1(1);
+      write( this.k, n );
+   }   
+   
+   public int getK() {
+      return this.k;
+   }   
+
+}
+
+
+class C extends B {
+   
+   public void m3(int n) {
+      super.m2(2);
+      write( 3, n );
+   }   
+   
+   public void m4(int n) {
+      this.m3(3);
+      write( 4, n );
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      C c;
+      
+      writeln("");
+      writeln("Ok-ger10");
+      writeln("The output should be :");
+      writeln("1 1 2 2 3 3 4 4");
+      c = new C();
+      c.m4(4);
+   }   
+
+}
+
+

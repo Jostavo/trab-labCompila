@@ -1,0 +1,33 @@
+@nce
+
+/*
+  @filename   ok-ger07.kra
+      
+  @comment    Testa se o compilador considera o numero abaixo como zero
+  */
+
+class A {
+   
+   public void m() {
+      write( 000000000000000000000000000000000000000000000000000000000000000000000000000000 );
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      writeln("");
+      writeln("Ok-ger07");
+      writeln("The output should be :");
+      writeln("0" );
+      a = new A();
+      a.m();
+   }   
+
+}
+
+

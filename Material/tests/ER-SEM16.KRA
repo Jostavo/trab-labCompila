@@ -1,0 +1,16 @@
+@ce(11, "Menos unário aplicado a booleano", 
+  "Operator '-' does not accepts 'boolean' expressions",
+  "comp.Compiler.signalFactor()")
+  
+
+class Program {
+   
+   public void run() {
+      boolean b;
+	  b = false;
+      write( -b );  //#
+   }   
+
+}
+
+
