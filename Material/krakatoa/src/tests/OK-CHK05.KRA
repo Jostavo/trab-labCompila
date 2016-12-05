@@ -1,0 +1,45 @@
+@nce
+
+/*
+  @filename   ok-chk05.kra
+
+  @comment    uma classe 'e declarada mas nao usada. Mas uma de suas subclasses 'e.
+
+*/
+
+class A {
+   
+   public void m() {
+   }   
+
+}
+
+
+class B extends A {
+   
+   public void m() {
+   }   
+
+}
+
+
+class C extends B {
+   
+   public void p() {
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      C c;
+      
+      c = new C();
+      c.m();
+   }   
+
+}
+
+

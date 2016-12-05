@@ -1,0 +1,12 @@
+@ce(9, "Tipo da variável 'i' é a variável 'k'", "Type 'k' was not found",
+   "comp.Compiler.localDec()")
+  
+      
+class Program {
+  
+    public void run() {
+       int  k;
+       k i;    //#
+    }
+
+}

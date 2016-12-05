@@ -1,0 +1,28 @@
+@ce(25, "Chamada a método privado", 
+   "Method 'p' was not found in the public interface of 'A' or its superclasses",
+   "comp.Compiler.factor()")
+  
+
+
+class A {
+  
+    private void p() {
+    }
+  
+    public void m() {
+       this.p();
+    }
+
+}
+
+
+class Program {
+  
+    public void run() {
+       A a;
+
+       a = new A();
+       a.p();  //#
+    }
+
+}

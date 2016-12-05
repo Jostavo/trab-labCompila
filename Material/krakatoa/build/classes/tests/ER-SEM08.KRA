@@ -1,0 +1,13 @@
+@ce(8, "Uso de operador aritmético com valores booleanos", 
+   "type boolean does not support operation '+'", "comp.Compiler.simpleExpr()")
+  
+
+class Program {
+   
+   public void run() {
+      write( true + false );   //#
+   }   
+
+}
+
+

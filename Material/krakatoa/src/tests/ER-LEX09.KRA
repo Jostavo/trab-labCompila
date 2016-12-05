@@ -1,0 +1,9 @@
+@ce(6, "Número fora dos limites permitidos", "literal int out of limits", "lexer.Lexer.nextToken()")
+      
+class Program {
+  
+    public void run() {
+       write( 4000000000000000000 );   //#
+    }
+
+}

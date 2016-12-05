@@ -1,0 +1,24 @@
+@ce(16, "Erro de tipos. O tipo de 'new A()', que é 'A', não é subclasse do tipo de retorno, 'B'",
+      "Type error: type of the expression returned is not subclass of the method return type",
+	  "comp.Compiler.returnStatement()")
+
+class A {
+}
+
+
+class B extends A {
+}
+
+
+class Program {
+   
+   public B m() {
+      return new A();   //#
+   }   
+   
+   public void run() {
+   }   
+
+}
+
+

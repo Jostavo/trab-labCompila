@@ -1,0 +1,42 @@
+@nce
+
+/*
+  @filename   ok-sem15.kra
+
+  @comment    Testa se o compilador aceita this onde se espera objeto de superclasse
+  */
+
+class A {
+   
+   public void print() {
+      write( 0 );
+   }   
+   
+   public void accept(A x) {
+      x.print();
+   }   
+
+}
+
+
+class B extends A {
+   
+   public void m() {
+      super.accept(this);
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      B b;
+      
+      b = new B();
+      b.m();
+   }   
+
+}
+
+

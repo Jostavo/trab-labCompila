@@ -1,0 +1,17 @@
+@ce(9, "! aplicado a inteiro", 
+  "Operator '!' does not accepts 'int' values", "comp.Compiler.factor()")
+ 
+class Program {
+   
+   public void run() {
+      int i;
+	  i = 0;
+      if ( ! i ) {  //#
+      }
+      
+   }   
+
+}
+
+
+

@@ -1,0 +1,16 @@
+@ce(11, "Dois métodos públicos com mesmo nome", 
+  "Method 'm' is being redeclared",
+  "comp.Compiler.methodDec()")
+  
+
+class Program {
+
+    public void m() {
+    }
+
+    public void m() {  //#
+    }
+  
+    public void run() {
+    }
+}

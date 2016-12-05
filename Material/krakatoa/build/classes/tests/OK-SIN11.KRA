@@ -1,0 +1,30 @@
+@nce
+
+/*
+  @filename   ok-sin11.kra
+
+  @comment    Testa se o compilador aceita ; como comando
+  */
+
+class Program {
+   
+   public void run() {
+      ;
+      ;
+      ;
+      ;
+      ;
+      write( 1 );
+      ;
+      ;
+      if ( true ) 
+        ;
+      while ( false ) 
+         ;
+      ;
+      
+   }   
+
+}
+
+

@@ -1,0 +1,17 @@
+@ce(7, "Palavras chave não podem estar em maiúscula", 
+  "'public', 'private' or '}' expected", 
+  "comp.Compiler.classDec()")
+
+class Program {
+
+    PUBLIC void m() {  //#
+    }
+
+    public void run() {
+
+       A a;
+       a = new A();
+       a.m();
+    }
+
+}

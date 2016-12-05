@@ -1,0 +1,27 @@
+@ce(11, "Método público e privado com mesmos nomes",  
+  "Method 'm' is being redeclared", 
+  "comp.Compiler.methodDec()")
+  
+
+class A {
+  
+    private void m() {
+    }
+  
+    public void m() {  //#
+    }
+
+}
+
+
+
+class Program {
+  
+    public void run() {
+
+       A a;
+       a = new A();
+       a.m();
+    }
+
+}

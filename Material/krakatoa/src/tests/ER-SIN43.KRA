@@ -1,0 +1,12 @@
+@ce(6, "métodos devem ser públicos ou privados",
+   "'public', 'private', or '}' expected", "comp.Compiler.classDec()")
+
+class Program {
+
+   void m() {      //#
+   }
+   
+   public void run() {
+   }
+
+}

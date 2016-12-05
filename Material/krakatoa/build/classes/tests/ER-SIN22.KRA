@@ -1,0 +1,14 @@
+@ce(11, "falta ';' após a atribuição",
+    "Missing ';'", "comp.Compiler.assignExprLocalDec()")
+
+class Program {
+  
+    public void run() {
+
+       int i;
+       read(i);
+       if ( 3 > 0 )
+          i = 1        //#
+    }
+
+}

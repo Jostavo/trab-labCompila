@@ -1,0 +1,32 @@
+@nce
+
+/*
+  @filename   ok-lex02.kra
+  
+  @comment    Testa se nao aceita comentario aninhado como
+  /* aninhado. O comentario termina aqui: */
+
+class A {
+   
+   public void m() {
+      int i;
+      
+      i = 1;
+      write( i );
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      a.m();
+   }   
+
+}
+
+

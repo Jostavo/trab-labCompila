@@ -1,0 +1,10 @@
+@ce(7, "Falta '(' após 'write'",
+  "Missing '('", "comp.Compiler.writeStatement()")
+
+class Program {
+  
+    public void run() {
+      write 3);       //#
+    }
+
+}

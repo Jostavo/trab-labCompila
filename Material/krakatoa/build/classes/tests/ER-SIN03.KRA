@@ -1,0 +1,12 @@
+@ce(8, "Falta a variável", 
+   "Identifier expected", "comp.Compiler.localDec()")
+
+class Program {
+  
+    public void run() {
+        
+       int ;       //#
+       
+    }
+
+}

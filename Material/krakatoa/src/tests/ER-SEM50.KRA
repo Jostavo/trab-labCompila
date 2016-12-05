@@ -1,0 +1,22 @@
+@ce(17, "O compilador deverá sinalizar 'break fora de while'",
+   "Command 'break' outside a command 'while'",
+   "comp.Compiler.breakStatement()")
+
+class Program {
+   
+   public void run() {
+      while ( false ) {         
+        while ( false ) {            
+            while ( false ) {               
+                break;
+            }            
+            break;
+         }         
+         break;
+      }      
+      break;   //#
+   }   
+
+}
+
+

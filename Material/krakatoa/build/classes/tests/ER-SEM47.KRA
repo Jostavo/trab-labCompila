@@ -1,0 +1,38 @@
+@ce(24, "Chamada a método inexistente utilizando 'super'",
+      "Method 'm' was not found in superclass 'B' or its superclasses",
+	  "comp.Compiler.factor()")
+
+class A {
+   
+   private int n;
+   
+   public void set(int n) {
+      this.n = n;
+   }   
+   public int get() {
+      return this.n;
+   }   
+
+}
+
+
+class B extends A {
+   
+   public void m() {
+   }   
+   public int get() {
+      super.m();       //#
+      return 0;
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+   }   
+
+}
+
+

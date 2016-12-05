@@ -1,0 +1,34 @@
+@ce(21, "Chamada a método privado da superclasse", 
+   "Method 'p' was not found in the public interface of 'A' or its superclasses",
+   "comp.Compiler.factor()" )
+  
+
+
+class A {
+  
+    private void p() {
+    }
+  
+    public void m() {
+       this.p();
+    }
+
+}
+
+class B extends A {
+  
+    public void m() {
+       super.p();   //#
+    }
+}
+
+class Program {
+  
+    public void run() {
+
+       B b;
+       b = new B();
+       b.m();
+    }
+
+}

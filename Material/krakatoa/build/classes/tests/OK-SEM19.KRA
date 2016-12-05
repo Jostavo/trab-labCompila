@@ -1,0 +1,75 @@
+@nce
+
+/*
+  @filename   ok-sem19.kra
+
+  @comment    testa se o compilador aceita algumas operações, como atribuições
+              e leitura/escrita com variáveis estáticas
+
+*/
+
+class A {
+  static private int staticAnInt;
+  private int anInt;
+  static private A staticAnA;
+  private A anA;
+	
+  public int getAnInt() { return this.anInt; }
+  public void setAnInt(int anInt) { this.anInt = anInt; }
+  public A getAnA() { return this.anA; }
+  public void setAnA(A anA) { this.anA = anA; }
+  
+  static public void staticMethod() {
+	  
+	  A a;
+	  a = new A();
+	  A b;
+      b = new A();
+	  b.setAnInt(0);
+	  a.setAnA(b);
+	  A.staticAnInt = a.getAnInt();
+	  A.staticAnA = a.getAnA();
+	  read(A.staticAnInt);
+	  A.staticAnA.setAnInt(1);
+	  write(A.staticAnA.getAnInt());
+	  a.setAnInt(2);
+	  A.staticAnInt = A.staticAnInt + 1;
+  }
+  
+  public void method() {
+	  this.anInt = 5;
+	  this.anA = new A();
+	  this.anA.setAnInt(6);
+	  write(this.anA.getAnInt());
+	  A b;
+      b = this.anA.getAnA();
+	  write(b.getAnInt());
+  }
+}
+
+class B extends A {
+  static private int staticAnInt;
+  private A anAB;
+  
+  static public void staticMethod() {
+	  B.staticAnInt = 10;
+  }
+  public void method() {
+	  this.anAB = new A();
+	  this.anAB.setAnInt(11);
+  }
+  static public int getAnIntB() { return B.staticAnInt; }
+}
+
+class Program {
+  public void run() {
+	  A a;
+      a = new A();
+	  a.method();
+	  A.staticMethod();
+	  B b;
+      b = new B();
+	  B.staticMethod();
+	  b.method();
+  }
+}

@@ -1,0 +1,17 @@
+@nce
+
+/*
+  @filename   ok-sin13.kra
+
+  @comment    testa se aceita - unario em uma sequencia de somas
+*/
+
+class Program {
+   
+   public void run() {
+      write( (1 + 2) + (-3) );
+   }   
+
+}
+
+

@@ -1,0 +1,33 @@
+@nce
+
+/*
+  @filename   ok-sem13.kra
+
+  @comment    Testa se o compilador aceita variavel local com mesmo
+  nome que metodo
+  */
+
+class A {
+   
+   public void m() {
+   }   
+   
+   public void p() {
+      int m;
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      a.p();
+   }   
+
+}
+
+

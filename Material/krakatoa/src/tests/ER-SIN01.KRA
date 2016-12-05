@@ -1,0 +1,12 @@
+@ce(8, "'{' esperado após a assinatura do método", 
+   "'{' expected", "comp.Compiler.methodDec()")
+   
+      
+class Program {
+  
+    public void run() 
+         int i;     //#
+    {
+    }
+
+}

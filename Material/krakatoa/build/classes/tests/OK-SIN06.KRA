@@ -1,0 +1,37 @@
+@nce
+
+/*
+  @filename   ok-sin06.kra
+
+  @comment    Testa se o sintatico aceita algumas estruturas como expressoes
+  em valores de retorno e chamadas de metodo em write's.
+  */
+
+class A {
+   
+   public int m(int n) {
+      A a;
+      
+      a = new A();
+      if (n > 1) {
+         return n * a.m(n - 1);
+      }
+      else
+         return 1;
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      write( a.m(5) );
+   }   
+
+}
+
+

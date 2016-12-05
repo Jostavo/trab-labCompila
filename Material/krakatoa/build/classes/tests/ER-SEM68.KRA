@@ -1,0 +1,19 @@
+@ce(12, "chamada a método não existente", 
+   "Method 'p' was not found in class 'Program' or its superclasses", 
+   "comp.Compiler.factor()")
+
+
+class Program {
+    
+    public void t() { 
+    }
+    
+    public void m() {  
+        this.p();                      //#
+    }
+  
+ 
+    public void run() {
+    }
+
+}

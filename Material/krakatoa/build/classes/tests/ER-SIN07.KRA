@@ -1,0 +1,13 @@
+@ce(9, "'read' sem argumentos",
+   "Command 'read' without arguments",
+   "comp.Compiler.readStatement()")
+
+class Program {
+  
+    public void run() {
+        
+       read();   //#
+       
+    }
+
+}

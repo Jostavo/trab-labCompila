@@ -1,0 +1,30 @@
+@nce
+
+/*
+  @filename   ok-sin04.kra
+      
+  @comment    Confere se o sintatico consegue manipular comandos profundamente
+  aninhados
+  */
+
+
+class Program {
+   
+   public void run() {
+      if (1 < 2) {
+         if (2 < 3) {
+            if (3 < 4) {
+               if (4 < 5) {
+                  if (5 < 6) {
+                     if (6 < 7) {
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }   
+
+}
+
+

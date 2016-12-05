@@ -1,0 +1,17 @@
+@ce(14, "Classe esperada",
+  "'class' expected", "comp.Compiler.program()")
+      
+class Program {
+  
+    public void run() {
+    }
+
+}
+
+
+/* Ok, permite comentarios */
+      
+Isto deveria ser um comentario, mas  ...  //#
+      
+// Nao deve existir nada depois do }, exceto comentarios
+

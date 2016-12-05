@@ -1,0 +1,10 @@
+@ce(7, "método run deve retornar 'void'", 
+  "Method 'run' of class 'Program' with a return value type different from 'void'",
+  "comp.Compiler.methodDec()" )
+
+class Program {
+    
+    public int run() {  //#
+    }
+
+}

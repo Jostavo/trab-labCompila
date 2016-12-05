@@ -1,0 +1,27 @@
+@ce(10, "Método com nome igual a de variável de instância", 
+   "Method 'i' has name equal to an instance variable",
+   "comp.Compiler.methodDec()")
+  
+
+class A {
+   
+   private int i;
+   
+   public void i() {   //#
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      a.i();
+   }   
+
+}
+
+

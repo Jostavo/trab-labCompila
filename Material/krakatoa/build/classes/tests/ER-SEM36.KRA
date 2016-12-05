@@ -1,0 +1,25 @@
+@ce(20, "Instrução 'i = a.m()' admite que m retorna algum valor", 
+        "Expression expected in the right-hand side of assignment",
+		"comp.Compiler.assignExprLocalDec()")
+
+class A {
+   
+   public void m() {
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      int i;
+      
+      a = new A();
+      i = a.m();          //#
+   }   
+
+}
+
+

@@ -1,0 +1,25 @@
+@nce
+
+/*
+  @filename   ok-sin03.kra
+      
+  @comment    Testa expressoes aritmeticas e logicas, menos unario, &&, || e
+  todos os operadores de comparacao
+  */
+
+
+class Program {
+   
+   public void run() {
+      int i;
+      boolean b;
+      
+      i = (-7) + ((2) * (3 + 5));
+      i = (-7) + 8;
+      b = ((((((!true) || (i <= 0)) || (i < 0)) || (i >= 0)) || (i > 0)) || (i == 7)) 
+          || (i != 3);
+   }   
+
+}
+
+

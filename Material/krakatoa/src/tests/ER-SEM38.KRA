@@ -1,0 +1,25 @@
+@ce(20, "A instrução 'b = a' está errada. Variáveis de subclasses não podem receber objetos de superclasses",
+   "Type error: type of the right-hand side of the assignment is not a subclass of the left-hand side",
+   "comp.Compiler.assignExprLocalDec()")
+
+class A {
+}
+
+
+class B extends A {
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      B b;
+      
+      a = new A();
+      b = a;         //#
+   }   
+
+}
+
+

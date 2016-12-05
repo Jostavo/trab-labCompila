@@ -1,0 +1,21 @@
+@ce(16, "Método com tipo de retorno deve ter pelo menos um comando return",
+  "Missing 'return' statement in method 'm'", 
+  "comp.Compiler.methodDec()" )
+ 
+      
+class Program {
+
+    public int m() {
+       int i;
+
+       i = 1;
+       while ( i < 10 ) {
+          write(i);
+          i = i + 1;
+       }
+    }  //#
+  
+    public void run() {
+    }
+
+}

@@ -1,0 +1,43 @@
+@nce
+
+/*
+  @filename   ok-sem12.kra
+
+  @comment    Testa se o compilador aceita variavel com nome de classe
+  */
+
+class A {
+   
+   public void m() {
+   }   
+
+}
+
+
+class B extends A {
+   
+   public void p() {
+      B A;
+      
+      A = new B();
+      A.m();
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      B b;
+      
+      a = new A();
+      b = new B();
+      a.m();
+      b.p();
+   }   
+
+}
+
+

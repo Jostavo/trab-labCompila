@@ -1,0 +1,11 @@
+@ce(8, "Palavra reservada utilizada como variavel", 
+  "Identifier expected", "comp.Compiler.localDec()")
+  
+      
+class Program {
+  
+    public void run() {
+       int read;        //#
+    }
+
+}

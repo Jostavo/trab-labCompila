@@ -1,0 +1,35 @@
+@nce
+
+/*
+  @filename   ok-ger21.kra
+
+  @comment    testa se o compilador gera código correto se run não é o primeiro método da classe
+
+*/
+
+class A {
+   private int n;
+   public void set(int n) { this.n = n; }
+   public int  get() { return this.n; }
+   
+}
+
+class Program {
+    private A a;
+    public void print() { write(this.a.get()); }
+    private void set( A a ) { this.a = a; }
+    public A get() { return this.a; }
+    
+    public void run() {
+
+      writeln("");
+      writeln("Ok-ger21");
+      writeln("The output should be :");
+      writeln("0");
+
+      write("0");
+       
+
+    }
+
+}

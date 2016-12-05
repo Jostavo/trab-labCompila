@@ -1,0 +1,92 @@
+@nce
+
+/*
+    @filename   ok-ger22.kra
+
+    @comment    testa geracao de codigo para metodos e classes finais
+
+*/
+
+class A {
+	public int f() {
+	    return 0;
+	}
+	final public void m() {
+	    write(this.f());
+	}
+}
+
+class B extends A {
+	public int g() { return 1; }
+	   // f pode ser chamado antes de ser definido pois é
+	   // definido na superclasse
+	final public void p() {
+		write( this.g() + this.f() );
+	}
+	public void r() {
+		write(2);
+	}
+	public int f() { return 10; }
+}
+
+class C extends B { 
+    public int f() { return 20; }
+	public int g() { return 101; }
+	public void r() {
+	    write(200);
+	}
+}
+
+class D extends A {
+}
+
+final class F {
+	public int f() { return 3; }
+    public void m() {
+	    write(this.f());
+	}
+}
+
+class Program {
+  
+	public void run() {
+		writeln("");
+		writeln("Ok-ger22");
+		writeln("The output should be: ");
+		writeln("0 10 11 2 20 121 200 20 121 200 0 0 3");
+      
+        A a;
+		a = new A();
+		a.m();
+		
+		B b;
+		b = new B();
+		b.m();
+		b.p();
+		b.r();
+		
+		C c;
+		c = new C();
+		c.m();
+		c.p();
+		c.r();
+		
+		b = c;
+		b.m();
+		b.p();
+		b.r();
+		
+		D d;
+		d = new D();
+		d.m();
+		a = d;
+		a.m();
+		
+		F f;
+		f = new F();
+		f.m();
+		
+		
+  }
+
+}

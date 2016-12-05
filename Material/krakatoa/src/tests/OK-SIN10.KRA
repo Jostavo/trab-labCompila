@@ -1,0 +1,55 @@
+@nce
+
+/*
+  @filename   ok-sin10.kra
+
+  @comment    Testa escrita com super e this (variaveis de instancia e metodos).
+  */
+
+class A {
+   
+   private int n;
+   
+   public int get() {
+      return this.n;
+   }   
+   public void set(int pn) {
+      this.n = pn;
+   }   
+
+}
+
+
+class B extends A {
+   
+   private int k;
+   
+   public void m() {
+      int i;
+      
+      read(i);
+      read(this.k);
+      super.set(0);
+      write( super.get(), this.get(), this.k, i );
+   }   
+   
+   public void print() {
+      write( this.k );
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      B b;
+      
+      b = new B();
+      b.set(1);
+      b.m();
+   }   
+
+}
+
+

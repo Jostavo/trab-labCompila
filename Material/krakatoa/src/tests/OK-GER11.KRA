@@ -1,0 +1,54 @@
+@nce
+
+/*
+  @filename   ok-ger11.kra
+
+  @comment    Teste se a geracao de codigo para chamadas para self esta correta.
+  Um dos metodos chamado pertence 'a subclasse.
+  Deve escrever
+  4 1 2 3 4
+
+  */
+
+class A {
+   
+   public void m1() {
+      write( 2 );
+   }   
+   public void m2(int n) {
+      write( n );
+      this.m1();
+   }   
+
+}
+
+
+class B extends A {
+   
+   public void m1() {
+      write( 4 );
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      B b;
+      
+      writeln("");
+      writeln("Ok-ger11");
+      writeln("The output should be :");
+      writeln("4 1 2 3 4");
+      write( 4 );
+      a = new A();
+      a.m2(1);
+      a = new B();
+      a.m2(3);
+   }   
+
+}
+
+

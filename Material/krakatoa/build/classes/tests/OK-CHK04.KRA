@@ -1,0 +1,45 @@
+@nce
+
+/*
+  @filename   ok-chk04.kra
+
+  @comment    Variavel de instancia 'e usada mas instanciada em read
+
+  */
+
+class A {
+   
+   private int n;
+   
+   public void m() {
+      int k;
+      
+      k = this.n;
+      write( k );
+   }   
+   
+   public void p() {
+      write( this.n );
+   }   
+   
+   public void s() {
+      read( this.n );
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      a.s();
+      a.m();
+      a.p();
+   }   
+
+}
+
+

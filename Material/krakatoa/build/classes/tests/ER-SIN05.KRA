@@ -1,0 +1,14 @@
+@ce(10, "expressão ausente depois da ','", 
+  "Expression expected", "comp.Compiler.factor()")
+
+      
+class Program {
+  
+    public void run() {
+        
+       int i, j;
+       read(i, j, );    //#
+       
+    }
+
+}

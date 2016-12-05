@@ -1,0 +1,16 @@
+@ce(12, "'{' deve vir depois de 'do'", 
+  "'{' expected after 'do'", 
+  "comp.Compiler.doWhileStatement()")
+
+class Program {
+
+    public void run() {
+
+    	int i;
+	    i = 0;
+		do 
+		    i = i + 1;
+		while (i < 10);	
+    }
+
+}

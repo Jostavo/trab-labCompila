@@ -1,0 +1,12 @@
+@ce(6, "Tipo ausente na declaração de parâmetros",
+  "Identifier expected", "comp.Compiler.paramDec()")
+
+class Program {
+  
+    public void m( x ) {   //#
+    }
+    
+    public void run() {
+    }
+
+}

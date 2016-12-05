@@ -1,0 +1,13 @@
+@ce(10, "Construtores não tomam parâmetros", 
+  "')' expected", 
+  "comp.Compiler.factor()")
+
+class Program {
+
+    public void run() {
+
+       Program p;
+       p = new Program(null);
+    }
+
+}

@@ -1,0 +1,10 @@
+@ce(7, "Caractere '#' não é utilizado pela linguagem",
+    "Unknown character '#'", "lexer.Lexer.nextToken()")
+
+class Program {
+  
+    public void run() {
+       int a1234567890123456789012345678901234567890#1234567890;     //#
+    }
+
+}

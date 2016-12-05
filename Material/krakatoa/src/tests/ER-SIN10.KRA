@@ -1,0 +1,13 @@
+@ce(9, "Falta '(' depois de 'read'", "'(' expected after 'read' command",
+     "comp.Compiler.readStatement()")
+      
+class Program {
+  
+    public void run() {
+        
+       int i;
+       read i);          //#
+       
+    }
+
+}

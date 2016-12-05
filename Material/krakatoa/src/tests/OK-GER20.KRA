@@ -1,0 +1,64 @@
+@nce
+
+/*
+  @filename   ok-ger20.kra
+
+  @comment    testa geracao de codigo para classes que referem-se a si mesmas
+
+*/
+
+class A {
+   private A myself;
+   static private A staticMyself;
+   private int n;
+
+   static public A get() {
+       return A.staticMyself;
+   }
+
+   public A get() {
+       return this.myself;
+   }
+   
+   
+   static public void set( A myself ) {
+       A.staticMyself = myself;
+   }
+   
+   public void set( A myself ) {
+       this.myself = myself;
+   }
+   public void setInt(int n) { this.n = n; }
+   public int  getInt() { return this.n; }
+   
+}
+
+class Program {
+    
+    public void run() {
+        A a, bInstance, bStatic;
+        
+        writeln("");
+        writeln("Ok-ger20");
+        writeln("The output should be: ");
+        writeln("0 1 2");
+        
+        a = new A();
+        bInstance = new A();
+        bStatic   = new A();
+        a.setInt(0);
+        bInstance.setInt(1);
+        bStatic.setInt(2); 
+        
+        a.set(bInstance);
+        A.set(bStatic);
+        write(a.getInt());
+        A c;
+        c = a.get();
+        write(c.getInt());
+        c = A.get(); 
+        write(c.getInt());
+
+    }
+
+}

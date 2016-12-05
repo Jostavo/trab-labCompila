@@ -1,0 +1,12 @@
+@ce(6, "';' na declaração de parâmetros",
+  "')' expected", "comp.Compiler.methodDec()")
+
+class Program {
+  
+    public void m( int x, int y ; ) {   //#
+    }
+    
+    public void run() {
+    }
+
+}

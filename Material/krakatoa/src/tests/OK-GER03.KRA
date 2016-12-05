@@ -1,0 +1,69 @@
+@nce
+
+/*
+  @filename   ok-ger03.kra
+  
+  @comment    Este programa testa se o codigo para os operadores logicos
+      &&    ||   !
+  sao gerados corretamente.
+  */
+
+class A {
+   
+   public void m() {
+    
+      write( 6 );
+      if (true && true) {
+         write( 1 );
+      }
+      if (false && true) {
+         write( 1000 );
+      }
+      if (true && false) {
+         write( 1000 );
+      }
+      if (false && false) {
+         write( 1000 );
+      }
+      if (true || true) {
+         write( 2 );
+      }
+      if (true || false) {
+         write( 3 );
+      }
+      if (false || true) {
+         write( 4 );
+      }
+      if (false || false) {
+         write( 1000 );
+      }
+      if (!false) {
+         write( 5 );
+      }
+      if (!true) {
+         write( 1000 );
+      }
+      if (true || (true && false)) {
+         write( 6 );
+      }
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      writeln("");
+      writeln("Ok-ger03");
+      writeln("The output should be :");
+      writeln("6 1 2 3 4 5 6" );
+      a = new A();
+      a.m();
+   }   
+
+}
+
+

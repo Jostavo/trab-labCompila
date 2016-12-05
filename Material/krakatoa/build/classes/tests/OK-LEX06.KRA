@@ -1,0 +1,10 @@
+@nce
+
+/*
+  @filename   ok-lex06.kra
+      
+  @comment    Testa se ^I ou  \t, carater de tabulacao, 'e considerado como
+  branco pelo analisador lexico
+  */
+
+	class	Program	{	public	void			run(	)		{}}

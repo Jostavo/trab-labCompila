@@ -1,0 +1,17 @@
+@ce(11, "Chamada a método de instância publico em método estático", 
+  "Call to 'this' in a static method",
+  "comp.Compiler.factor()")
+
+class Program {
+    
+    public void m() {
+    }
+    
+    static public void set() {  
+        this.m();               //#
+    }
+  
+    public void run() {
+    }
+
+}

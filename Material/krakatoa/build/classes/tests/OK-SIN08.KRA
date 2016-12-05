@@ -1,0 +1,29 @@
+@nce
+
+/*
+  @filename   ok-sin08.kra
+
+  @comment    Testa chamada de metodos 
+  */
+
+class A {
+   
+   public int m(int x, int y, boolean ok) {
+      return x + y;
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = new A();
+      write( a.m(3, 4, true) );
+   }   
+
+}
+
+

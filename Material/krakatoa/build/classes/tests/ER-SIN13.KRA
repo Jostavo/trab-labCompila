@@ -1,0 +1,14 @@
+@ce(6, "Corpo do método ausente", 
+   "'{' expected", "comp.Compiler.methodDec()")
+      
+class A {
+  
+    public void m() }  //#
+
+
+class Program {
+  
+    public void run() {
+    }
+
+}

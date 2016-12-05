@@ -1,0 +1,11 @@
+@ce(8, "Parametros de read devem ser variaveis", 
+   "Command 'read' expects a variable", "comp.Compiler.readStatement())")
+  
+      
+class Program {
+  
+    public void run() {
+        read(0);  //#
+    }
+
+}

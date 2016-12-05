@@ -1,0 +1,15 @@
+@ce(12, "Chamada incorreta a método estático", 
+   "'.' or '=' expected after an identifier OR statement expected", 
+   "comp.Compiler.factor()")  
+
+
+class Program {
+    
+    static public void m() {  
+    }
+  
+    public void run() {
+        m();                 //#
+    }
+
+}

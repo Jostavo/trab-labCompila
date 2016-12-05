@@ -1,0 +1,14 @@
+@ce(9, "O compilador devera sinalizar erro 'break fora de while'", 
+  "'break' statement found outside a 'while' statement", 
+  "comp.Compiler.statement())")
+  
+
+class Program {
+   
+   public void run() {
+      break;        //#
+   }   
+
+}
+
+

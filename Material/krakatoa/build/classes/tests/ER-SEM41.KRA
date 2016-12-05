@@ -1,0 +1,19 @@
+@ce(14, "Objeto não pode receber valores de tipos basicos",
+     "Type error: the type of the expression of the right-hand side is a basic type and the type of the variable of the left-hand side is a class",
+	 "comp.Compiler.assignExprLocalDec()")
+
+class A {
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      a = 0;        //#
+   }   
+
+}
+
+

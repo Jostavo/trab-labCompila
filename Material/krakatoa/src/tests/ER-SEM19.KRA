@@ -1,0 +1,22 @@
+@ce(8, "Tipo invalido", 
+   "Type 'Program' was not found", "comp.Compiler.localDec()")
+  
+      
+class A {
+  
+    public void m() {
+       Program i;       //#
+    }
+
+}
+
+class Program {
+  
+    public void run() {
+
+       A a;
+       a = new A();
+       a.m();
+    }
+
+}

@@ -1,0 +1,24 @@
+@ce(7, "Variável de instância pública",
+   "Attempt to declare public instance variable 'i'",
+   "comp.Compiler.classDec()")
+
+class A {
+
+   public int i;  //#
+
+   public void m() {
+   }
+
+}
+
+
+class Program {
+  
+    public void run() {
+       A a;
+
+       a = new A();
+       a.m();
+    }
+
+}

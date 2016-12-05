@@ -1,0 +1,42 @@
+@nce
+
+/*
+  @filename   ok-ger05.kra
+      
+  @comment    Testa se codigo para read e write 'e gerado
+  corretamente.  
+  */
+
+class A {
+   
+   public void m() {
+      int a;
+      int b;
+      int c;
+      int d;
+      int e;
+      int f;
+      
+      read(a, b, c, d, e, f );
+      write( a, b, c, d, e, f );
+   }   
+
+}
+
+
+class Program {
+   
+   public void run() {
+      A a;
+      
+      writeln("");
+      writeln("Ok-ger05");
+      writeln( "The output should be what you give as input." );
+      writeln( "Type in six numbers" );
+      a = new A();
+      a.m();
+   }   
+
+}
+
+

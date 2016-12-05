@@ -1,0 +1,14 @@
+@ce(9, "Valor booleano em expressao inteira", 
+  "operator '+' of 'int' expects an 'int' value",
+  "comp.Compiler.simpleExpr()")
+  
+
+class Program {
+   
+   public void run() {
+      write(  1 + 2 + true + 1 + 0 );   //#
+   }   
+
+}
+
+
