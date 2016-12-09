@@ -11,6 +11,7 @@ package ast;
  */
 public class Method extends Variable {
     private StatementList sl;
+    private ParamList pl;
     
     public Method(String nome, Type tipo){
     	super(nome, tipo);
@@ -22,5 +23,9 @@ public class Method extends Variable {
     
     public StatementList getStatementList() {
         return this.sl;
+    }
+    
+    public void setParamList(ParamList pl){
+        this.pl = pl;
     }
 }

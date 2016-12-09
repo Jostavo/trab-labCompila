@@ -49,18 +49,6 @@ public class Compiler {
         return program;
     }
 
-    /**
-     * parses a metaobject call as <code>{@literal @}ce(...)</code> in <br>
-     * <code>
-     *
-     * @ce(5, "'class' expected") <br>
-     * clas Program <br>
-     * public void run() { } <br>
-     * end <br>
-     * </code>
-     *
-     *
-     */
     @SuppressWarnings("incomplete-switch")
     private MetaobjectCall metaobjectCall() {
         String name = lexer.getMetaobjectName();
@@ -250,6 +238,7 @@ public class Compiler {
 		 * MethodDec ::= Qualifier Return Id "("[ FormalParamDec ] ")" "{"
 		 *                StatementList "}"
          */
+        ParamList paramlist;
         
         if (classeAtual.getName().equals("Program") && name.equals("run") && qualifier == Symbol.PRIVATE) {
             signalError.showError("Method 'run' of class 'Program' cannot be private");
@@ -263,7 +252,10 @@ public class Compiler {
         
         lexer.nextToken();
         if (lexer.token != Symbol.RIGHTPAR) {
-            formalParamDec();
+            paramlist = formalParamDec();
+            
+            if(classeAtual.getName().equals("Program") && metodoAtual.getName().equals("run") && paramlist.getSize() != 0)
+                signalError.showError("Method 'run' of class 'Program' cannot take parameters");
         }
         if (lexer.token != Symbol.RIGHTPAR) {
             signalError.showError(") expected");
@@ -306,26 +298,40 @@ public class Compiler {
             symbolTable.putInLocal(v.getName(), v);
             lexer.nextToken();
         }
+        
+        if(lexer.token != Symbol.SEMICOLON){
+            signalError.showError("Missing ';'", true);
+        }
+        lexer.nextToken();
     }
 
-    private void formalParamDec() {
+    private ParamList formalParamDec() {
         // FormalParamDec ::= ParamDec { "," ParamDec }
+        
+        ParamList pl = new ParamList();
 
-        paramDec();
+        pl.addElement(paramDec());
         while (lexer.token == Symbol.COMMA) {
             lexer.nextToken();
-            paramDec();
+            pl.addElement(paramDec());
         }
+        
+        return pl;
     }
 
-    private void paramDec() {
+    private Parameter paramDec() {
         // ParamDec ::= Type Id
+        Parameter param;
+        Type aux;
 
-        type();
+        aux = type();
         if (lexer.token != Symbol.IDENT) {
             signalError.showError("Identifier expected");
         }
+        param = new Parameter(lexer.getStringValue(), aux);
         lexer.nextToken();
+        
+        return param;
     }
 
     private Type type() {
