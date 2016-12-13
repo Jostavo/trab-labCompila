@@ -26,6 +26,16 @@ public class KraClass extends Type {
     public KraClass getSuperClass() {
         return this.superclass;
     }
+    
+    public boolean hasSuperClass(String className) {
+        if (this.superclass == null) {
+            return false;
+        } else if (this.superclass.getName().equals(className)) {
+            return true;
+        } else {
+            return this.superclass.hasSuperClass(className);
+        }
+    }
 
     public Method getSuperMethod(String methodName) {
         if (this.superclass == null) {
@@ -89,6 +99,37 @@ public class KraClass extends Type {
 
     public void setPrivateMethod(Method m) {
         this.privateMethodList.addElement(m);
+    }
+    
+    public Method getMethod(String methodName) {
+        Iterator<Method> methodItr = this.publicMethodList.elements();
+
+        while (methodItr.hasNext()) {
+            Method method = methodItr.next();
+            if (method.getName().equals(methodName)) {
+                return method;
+            }
+        }
+        
+        methodItr = this.privateMethodList.elements();
+        
+        while (methodItr.hasNext()) {
+            Method method = methodItr.next();
+            if (method.getName().equals(methodName)) {
+                return method;
+            }
+        }
+        
+        if (this.superclass == null) {
+            return null;
+        } else {
+            Method m = this.superclass.getPublicMethod(methodName);
+            if (m != null) {
+                return m;
+            } else {
+                return this.superclass.getSuperMethod(methodName);
+            }
+        }
     }
 
     private String name;

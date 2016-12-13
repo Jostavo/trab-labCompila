@@ -14,5 +14,9 @@ public class VariableExpr extends Expr {
         return v.getType();
     }
     
+    public Variable getVar() {
+        return this.v;
+    }
+    
     private Variable v;
 }

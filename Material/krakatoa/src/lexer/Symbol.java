@@ -12,6 +12,7 @@ public enum Symbol {
     COMMA(","),
     DIV("/"),
     DOT("."),
+    DO("do"),
     ELSE("else"),
     EOF("~eof"),
     EQ("=="),

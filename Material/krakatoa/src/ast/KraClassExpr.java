@@ -15,6 +15,10 @@ public class KraClassExpr extends Expr {
     public KraClassExpr(KraClass k) {
         this.k = k;
     }
+    
+    public KraClass getKraClass() {
+        return this.k;
+    }
 
     @Override
     public void genC(PW pw, boolean putParenthesis) {
