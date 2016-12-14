@@ -5,14 +5,14 @@ import java.util.*;
 public class ParamList {
 
     public ParamList() {
-       paramList = new ArrayList<Variable>();
+       paramList = new ArrayList<Parameter>();
     }
 
-    public void addElement(Variable v) {
-       paramList.add(v);
+    public void addElement(Parameter p) {
+       paramList.add(p);
     }
 
-    public Iterator<Variable> elements() {
+    public Iterator<Parameter> elements() {
         return paramList.iterator();
     }
 
@@ -20,6 +20,6 @@ public class ParamList {
         return paramList.size();
     }
 
-    private ArrayList<Variable> paramList;
+    private ArrayList<Parameter> paramList;
 
 }
