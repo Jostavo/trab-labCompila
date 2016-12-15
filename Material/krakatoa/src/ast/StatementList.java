@@ -18,13 +18,9 @@ public class StatementList {
     
     public StatementList() {
         this.statements = new ArrayList<Statement>();
-        this.hasReturn = false;
     }
     
     public void addElement(Statement s) {
-        if (s instanceof ReturnStatement) {
-            this.hasReturn = true;
-        }
         this.statements.add(s);
     }
     

@@ -15,9 +15,19 @@ public class Method extends Variable {
 
     private StatementList sl;
     private ParamList pl;
+    private boolean hasReturn;
 
     public Method(String nome, Type tipo) {
         super(nome, tipo);
+        this.hasReturn = false;
+    }
+    
+    public void setHasReturn(boolean hasReturn) {
+        this.hasReturn = hasReturn;
+    }
+    
+    public boolean getHasReturn() {
+        return this.hasReturn;
     }
 
     public void setStatementList(StatementList sl) {
@@ -36,15 +46,15 @@ public class Method extends Variable {
         return this.pl;
     }
 
-    public Variable getParam(String paramName) {
+    public Parameter getParam(String paramName) {
         if (this.pl != null) {
-            Iterator<Variable> vItr = this.pl.elements();
+            Iterator<Parameter> pItr = this.pl.elements();
 
-            while (vItr.hasNext()) {
-                Variable v = vItr.next();
+            while (pItr.hasNext()) {
+                Parameter p = pItr.next();
 
-                if (v.getName().equals(paramName)) {
-                    return v;
+                if (p.getName().equals(paramName)) {
+                    return p;
                 }
             }
         }
