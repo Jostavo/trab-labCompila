@@ -1,8 +1,0 @@
-@ce(5, "método run nao pode ser estatico", "Method 'run' cannot be static")
-
-class Program {
-    
-    static public void run() {  //#
-    }
-
-}
