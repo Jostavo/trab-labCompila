@@ -20,6 +20,12 @@ public class WhileStatement extends Statement {
 
     @Override
     public void genC(PW pw) {
-        
+        pw.print("while(");
+        e.genC(pw, false);
+        pw.println("){");
+        pw.add();
+        s.genC(pw);
+        pw.sub();
+        pw.println("}");
     }
 }
