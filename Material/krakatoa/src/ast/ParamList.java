@@ -23,6 +23,8 @@ public class ParamList {
     public void genC(PW pw){
         for(Parameter aux: paramList){
             aux.genC(pw);
+            if(aux != paramList.get(paramList.size()-1))
+                pw.print(", ");
         }
     }
 
