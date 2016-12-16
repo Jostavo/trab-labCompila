@@ -156,7 +156,7 @@ public class KraClass extends Type {
             pw.println();
             pw.println("_class_"+ this.getCname() + " *new_"+ this.getCname() +"(void);");
             pw.println();
-            //publicMethodList.genC(pw, this.getName());
+            publicMethodList.genC(pw, this.getName());
             //privateMethodList.genC(pw, this.getName());
     }
 

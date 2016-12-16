@@ -31,4 +31,10 @@ public class StatementList {
     public Iterator<Statement> elements() {
         return this.statements.iterator();
     }
+    
+    public void genC(PW pw){
+        for(Statement aux: statements){
+            aux.genC(pw);
+        }
+    }
 }

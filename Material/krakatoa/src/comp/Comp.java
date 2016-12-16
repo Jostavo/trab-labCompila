@@ -254,7 +254,7 @@ public class Comp {
         	   
                FileOutputStream  outputStream;
                try {
-                  outputStream = new FileOutputStream(outputFileName + ".kra2");
+                  outputStream = new FileOutputStream(outputFileName + ".c");
                } catch ( IOException e ) {
                    String msg = "File " + outputFileName + " was not found";
                    outError.println(msg);

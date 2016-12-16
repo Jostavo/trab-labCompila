@@ -1,11 +1,35 @@
 Relat�rio do Compilador
 
 0 de um total de 123 erros que deveriam ser sinalizados n�o o foram (0%)
-0 erros foram sinalizados na linha errada (0%)
-0 erros foram sinalizados em 69 arquivos sem erro (0%)
+2 erros foram sinalizados na linha errada (1%)
+6 erros foram sinalizados em 69 arquivos sem erro (8%)
 Todos os erros que deveriam ter sido sinalizados o foram
-Um ou mais arquivos de teste tinham erros, mas estes foram sinalizados nos n�meros de linhas corretos
-O compilador n�o sinalizou nenhum erro que n�o deveria ter sinalizado
+######################################################
+Erros que foram sinalizados na linha errada:
+
+ER-SEM59.KRA
+    correto:    25, Method 'p' was not found in the public interface of 'A' or its superclasses (comp.Compiler.factor())
+    sinalizado: 13, Type error: the type of the real parameter is not subclass of the type of the formal parameter
+
+ER-SEM60.KRA
+    correto:    21, Method 'p' was not found in the public interface of 'A' or its superclasses (comp.Compiler.factor())
+    sinalizado: 13, Type error: the type of the real parameter is not subclass of the type of the formal parameter
+
+######################################################
+Erros que foram sinalizados mas n�o deveriam ter sido:
+
+OK-GER16.KRA, 22, Type error: the type of the real parameter is not subclass of the type of the formal parameter
+
+OK-GER11.KRA, 20, Type error: the type of the real parameter is not subclass of the type of the formal parameter
+
+OK-SIN10.KRA, 33, Type error: the type of the real parameter is not subclass of the type of the formal parameter
+
+OK-GER15.KRA, 30, Type error: the type of the real parameter is not subclass of the type of the formal parameter
+
+OK-GER12.KRA, 41, Type error: the type of the real parameter is not subclass of the type of the formal parameter
+
+OK-SIN09.KRA, 27, Type error: the type of the real parameter is not subclass of the type of the formal parameter
+
 ######################################################
 Em todos os testes abaixo, o compilador sinalizou o erro na linha correta (quando o teste tinha erros) ou n�o sinalizou o erro (quando o teste N�O tinha erros). Mas � necess�rio conferir se as mensagens emitidas pelo compilador s�o compat�veis com as mensagens de erro sugeridas pelas chamadas aos metaobjetos dos testes. 
 
@@ -59,11 +83,6 @@ The 'ce' message is:      "Expression expected OR invalid sequence of symbols"
 ER-SEM48.KRA
 The compiler message was: "Identifier expected"
 The 'ce' message is:      "Identifier expected"
-
-
-ER-SEM59.KRA
-The compiler message was: "Method 'p' was not found in class 'A' or its superclasses"
-The 'ce' message is:      "Method 'p' was not found in the public interface of 'A' or its superclasses"
 
 
 ER-LEX02.KRA
@@ -234,11 +253,6 @@ The 'ce' message is:      "Missing ';'"
 ER-SEM62.KRA
 The compiler message was: "Variable 'a' was not declared"
 The 'ce' message is:      "Identifier 'a' was not found"
-
-
-ER-SEM60.KRA
-The compiler message was: "Method 'p' was not found in the public interface of 'A' or its superclasses"
-The 'ce' message is:      "Method 'p' was not found in the public interface of 'A' or its superclasses"
 
 
 ER-SEM82.KRA
@@ -626,4 +640,3 @@ The compiler message was: "'(' expected"
 The 'ce' message is:      "'(' expected after 'while'"
 
 
-Para os casos de teste que voc� utilizou, o compilador est� correto

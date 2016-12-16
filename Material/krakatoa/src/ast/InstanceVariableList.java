@@ -23,6 +23,7 @@ public class InstanceVariableList {
     public void genC(PW pw){
         for(Variable aux: this.instanceVariableList){
             aux.genC(pw);
+            pw.println(";");
         }
     }
 

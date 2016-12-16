@@ -15,9 +15,9 @@ public class Variable {
     
     public void genC(PW pw){
         if(this.type.getName().equals("String")){
-            pw.printlnIdent(this.getType().getCname() + "_" + this.getName() + ";");
+            pw.printIdent(this.getType().getCname() + "_" + this.getName());
         }else{
-            pw.printlnIdent(this.getType().getCname() + " _" + this.getName() + ";");
+            pw.printIdent(this.getType().getCname() + " _" + this.getName());
         }
     }
 

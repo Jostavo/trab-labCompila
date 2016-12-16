@@ -19,6 +19,12 @@ public class ParamList {
     public int getSize() {
         return paramList.size();
     }
+    
+    public void genC(PW pw){
+        for(Parameter aux: paramList){
+            aux.genC(pw);
+        }
+    }
 
     private ArrayList<Parameter> paramList;
 

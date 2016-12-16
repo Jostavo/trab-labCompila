@@ -18,6 +18,6 @@ public class ReadStatement extends Statement {
 
     @Override
     public void genC(PW pw) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 }
