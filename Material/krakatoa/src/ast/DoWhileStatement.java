@@ -20,7 +20,11 @@ public class DoWhileStatement extends Statement {
 
     @Override
     public void genC(PW pw) {
-        
+        pw.printIdent("do ");;
+        cs.genC(pw);
+        pw.print(" while");
+        e.genC(pw, true);
+        pw.println(";");
     }
     
 }

@@ -223,7 +223,7 @@ public class Compiler {
             signalError.showError("public/private or \"}\" expected");
         }
         lexer.nextToken();
-        
+
         return classeAtual;
     }
 
@@ -355,7 +355,6 @@ public class Compiler {
         LocalVariableList lvl = new LocalVariableList();
         Type type = type();
         if (lexer.token != Symbol.IDENT) {
-            System.out.println("show" + lexer.token);
             signalError.showError("Identifier expected");
         }
         Variable v = new Variable(lexer.getStringValue(), type);
@@ -830,9 +829,8 @@ public class Compiler {
         Type et = e.getType();
 
         if (et != Type.intType && et != Type.booleanType && et != Type.stringType && et != Type.undefinedType && et != Type.voidType) {
-            KraClassExpr kce = (KraClassExpr) e;
-
-            if (kce.getType() != metodoAtual.getType()) {
+            if (e.getType() != metodoAtual.getType()) {
+                KraClassExpr kce = (KraClassExpr) e;
                 if (!kce.getKraClass().hasSuperClass(metodoAtual.getType().getName())) {
                     signalError.showError("Type error: type of the expression returned is not subclass of the method return type");
                 }
