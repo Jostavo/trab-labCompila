@@ -29,6 +29,9 @@ public class VariableList {
         return variableList.size();
     }
 
+    public ArrayList<Variable> getList(){
+        return variableList;
+    }
 
     private ArrayList<Variable> variableList;
 
