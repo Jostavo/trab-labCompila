@@ -25,7 +25,7 @@ public class WriteStatement extends Statement {
 
     @Override
     public void genC(PW pw) {
-        
+                
     }
     
 }
