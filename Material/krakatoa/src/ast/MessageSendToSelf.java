@@ -42,6 +42,7 @@ public class MessageSendToSelf extends MessageSend {
             pw.print("_"+ nome + "_" + nomeMet + "(this");
             <param>
         }*/
+       pw.printIdent("");
     }
     
 }
