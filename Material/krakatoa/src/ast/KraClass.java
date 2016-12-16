@@ -145,6 +145,20 @@ public class KraClass extends Type {
             }
         }
     }
+    
+    public void genC(PW pw) {
+            pw.println("typedef struct _St_" + this.getCname()+ " {");
+            pw.add();
+            this.instanceVariableList.genC(pw);
+            pw.printlnIdent("Func *vt;");
+            pw.sub();
+            pw.println("} _class_"+ this.getCname() +";");
+            pw.println();
+            pw.println("_class_"+ this.getCname() + " *new_"+ this.getCname() +"(void);");
+            pw.println();
+            //publicMethodList.genC(pw, this.getName());
+            //privateMethodList.genC(pw, this.getName());
+    }
 
     private String name;
     private KraClass superclass;

@@ -17,6 +17,19 @@ public class Program {
 	}
 
 	public void genC(PW pw) {
+            pw.println("#include <malloc.h>");
+            pw.println("#include <stdlib.h>");
+            pw.println("#include <stdio.h>");
+            pw.println();
+            pw.println("typedef int boolean;");
+            pw.println("#define true 1");
+            pw.println("#define false 0");
+            pw.println();
+            pw.println("typedef void (*Func)();");
+            pw.println();
+            for(KraClass aux: classList){
+                aux.genC(pw);
+            }
 	}
 	
 	public ArrayList<KraClass> getClassList() {

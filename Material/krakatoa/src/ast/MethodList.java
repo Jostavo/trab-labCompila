@@ -31,4 +31,10 @@ public class MethodList {
     public int getSize() {
         return methodList.size();
     }
+    
+    public void genC(PW pw, String mother){
+        for(Method aux: methodList){
+            aux.genC(pw, mother);
+        }
+    }
 }

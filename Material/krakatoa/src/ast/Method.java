@@ -61,4 +61,24 @@ public class Method extends Variable {
 
         return null;
     }
+    
+    public void genC(PW pw, String mother){
+        if(this.getType().getName().equals("String")){
+            pw.println(this.getType().getCname() + "_" + mother + "_" + this.getName());
+        }else{
+            pw.println(this.getType().getCname() + " _" + mother + "_" + this.getName());
+        }
+        
+        pw.print("( _class_" + mother + " *this");
+        if(this.getParamList().getSize() != 0){
+            pw.print(", ");
+            //this.getParamList().genC(pw);
+        }
+        pw.print(" )");
+        pw.println("{");
+        pw.add();
+        //
+        pw.sub();
+        pw.println("}");
+    }
 }

@@ -12,6 +12,14 @@ public class Variable {
     public Type getType() {
         return type;
     }
+    
+    public void genC(PW pw){
+        if(this.type.getName().equals("String")){
+            pw.printlnIdent(this.getType().getCname() + "_" + this.getName() + ";");
+        }else{
+            pw.printlnIdent(this.getType().getCname() + " _" + this.getName() + ";");
+        }
+    }
 
     private String name;
     private Type type;

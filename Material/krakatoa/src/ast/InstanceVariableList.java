@@ -19,6 +19,12 @@ public class InstanceVariableList {
     public int getSize() {
         return instanceVariableList.size();
     }
+    
+    public void genC(PW pw){
+        for(Variable aux: this.instanceVariableList){
+            aux.genC(pw);
+        }
+    }
 
     private ArrayList<InstanceVariable> instanceVariableList;
 
