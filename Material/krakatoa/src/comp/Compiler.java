@@ -40,9 +40,9 @@ public class Compiler {
             while (lexer.token == Symbol.MOCall) {
                 metaobjectCallList.add(metaobjectCall());
             }
-            classDec();
+            program.getClassList().add(classDec());
             while (lexer.token == Symbol.CLASS) {
-                classDec();
+                program.getClassList().add(classDec());
             }
 
             if (!hasProgram) {
@@ -114,7 +114,7 @@ public class Compiler {
         return new MetaobjectCall(name, metaobjectParamList);
     }
 
-    private void classDec() {
+    private KraClass classDec() {
         // Note que os m�todos desta classe n�o correspondem exatamente �s
         // regras
         // da gram�tica. Este m�todo classDec, por exemplo, implementa
@@ -222,7 +222,8 @@ public class Compiler {
             signalError.showError("public/private or \"}\" expected");
         }
         lexer.nextToken();
-
+        
+        return classeAtual;
     }
 
     private InstanceVariableList instanceVarDec(Type type, String name) {
