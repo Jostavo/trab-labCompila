@@ -1,0 +1,11 @@
+@ce(6, "Tipo da variável ausente",
+  "Identifier expected", "comp.Compiler.classDec()")
+
+class Program {
+    
+    private static x; //#
+    
+    public void run() {
+    }
+
+}

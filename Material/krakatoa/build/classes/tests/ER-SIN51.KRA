@@ -1,0 +1,14 @@
+@ce(7, "'static' deve vir antes de 'public' na declaração de um método",
+   "Identifier expected", "comp.Compiler.classDec()")
+
+
+class Program {
+    
+    public static void m() {  //#
+    }
+  
+    public void run() {
+       Program.m();
+    }
+
+}

@@ -54,6 +54,7 @@ public class Compiler {
             }
         } catch (RuntimeException e) {
             // if there was an exception, there is a compilation signalError
+//            e.printStackTrace();
         }
         return program;
     }
@@ -1354,11 +1355,11 @@ public class Compiler {
 
                         ParamList pl = tm.getParamList();
 
-                        if ((exprList != null && pl == null) || (exprList == null && pl != null)) {
+                        if ((exprList != null && pl.getSize() == 0) || (exprList == null && pl.getSize() != 0)) {
                             signalError.showError("Type error: the type of the real parameter is not subclass of the type of the formal parameter");
                         }
 
-                        if (pl != null) {
+                        if (exprList != null) {
                             Iterator<Parameter> pItr = pl.elements();
                             Iterator<Expr> eItr = exprList.elements();
 
