@@ -18,6 +18,6 @@ public class PlusPlusStatement extends Statement {
 
     @Override
     public void genC(PW pw) {
-        
+        pw.print(v.getName() + "++");
     }
 }
