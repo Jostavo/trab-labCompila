@@ -347,9 +347,10 @@ public class Compiler {
         return metodoAtual;
     }
 
-    private void localDec() {
+    private LocalDecStatement localDec() {
         // LocalDec ::= Type IdList ";"
 
+        LocalVariableList lvl = new LocalVariableList();
         Type type = type();
         if (lexer.token != Symbol.IDENT) {
             System.out.println("show" + lexer.token);
@@ -362,6 +363,7 @@ public class Compiler {
         }
 
         symbolTable.putInLocal(v.getName(), v);
+        lvl.addElement(v);
         lexer.nextToken();
         while (lexer.token == Symbol.COMMA) {
             lexer.nextToken();
@@ -370,7 +372,18 @@ public class Compiler {
             }
             v = new Variable(lexer.getStringValue(), type);
             symbolTable.putInLocal(v.getName(), v);
+            lvl.addElement(v);
             lexer.nextToken();
+
+            if (lexer.token == Symbol.ASSIGN) {
+                lexer.nextToken();
+
+                Expr e = expr();
+
+                if (v.getType() != e.getType()) {
+                    signalError.showError("Incompatible types");
+                }
+            }
         }
 
         if (lexer.token == Symbol.ASSIGN) {
@@ -387,6 +400,8 @@ public class Compiler {
             signalError.showError("Missing ';'", true);
         }
         lexer.nextToken();
+
+        return new LocalDecStatement(type, lvl);
     }
 
     private ParamList formalParamDec() {
@@ -496,94 +511,94 @@ public class Compiler {
             case INT:
             case BOOLEAN:
             case STRING:
-                assignExprLocalDec();
-                break;
+                return assignExprLocalDec();
             case ASSERT:
-                assertStatement();
-                break;
+                return assertStatement();
             case RETURN:
                 return returnStatement();
             case READ:
-                readStatement();
-                break;
+                return readStatement();
             case WRITE:
-                writeStatement();
-                break;
+                return writeStatement();
             case WRITELN:
-                writelnStatement();
-                break;
+                return writelnStatement();
             case IF:
-                ifStatement();
-                break;
+                return ifStatement();
             case BREAK:
-                breakStatement();
-                break;
+                return breakStatement();
             case WHILE:
                 return whileStatement();
             case DO:
                 return doWhileStatement();
             case SEMICOLON:
-                nullStatement();
-                break;
+                return nullStatement();
             case LEFTCURBRACKET:
-                compositeStatement();
-                break;
+                return compositeStatement();
             case PLUS:
-                lexer.nextToken();
-
-                if (lexer.token != Symbol.PLUS) {
-                    signalError.showError("Statement expected");
-                }
-
-                lexer.nextToken();
-
-                Variable v = symbolTable.getInLocal(lexer.getStringValue());
-
-                if (v == null) {
-                    signalError.showError("Variable '" + lexer.getStringValue() + "' not declared");
-                } else if (v.getType() != Type.intType) {
-                    signalError.showError("Incompatible types");
-                }
-
-                lexer.nextToken();
-
-                if (lexer.token != Symbol.SEMICOLON) {
-                    signalError.showError("Missing ;");
-                }
-
-                lexer.nextToken();
-
-                break;
+                return plusPlusStatement();
             case MINUS:
-                lexer.nextToken();
-
-                if (lexer.token != Symbol.MINUS) {
-                    signalError.showError("Statement expected");
-                }
-
-                lexer.nextToken();
-
-                Variable v2 = symbolTable.getInLocal(lexer.getStringValue());
-
-                if (v2 == null) {
-                    signalError.showError("Variable '" + lexer.getStringValue() + "' not declared");
-                } else if (v2.getType() != Type.intType) {
-                    signalError.showError("Incompatible types");
-                }
-
-                lexer.nextToken();
-
-                if (lexer.token != Symbol.SEMICOLON) {
-                    signalError.showError("Missing ;");
-                }
-
-                lexer.nextToken();
-                break;
+                return minusMinusStatement();
             default:
                 signalError.showError("Statement expected");
         }
 
         return null;
+    }
+
+    private PlusPlusStatement plusPlusStatement() {
+        lexer.nextToken();
+
+        if (lexer.token != Symbol.PLUS) {
+            signalError.showError("Statement expected");
+        }
+
+        lexer.nextToken();
+
+        Variable v = symbolTable.getInLocal(lexer.getStringValue());
+
+        if (v == null) {
+            signalError.showError("Variable '" + lexer.getStringValue() + "' not declared");
+        } else if (v.getType() != Type.intType) {
+            signalError.showError("Incompatible types");
+        }
+
+        lexer.nextToken();
+
+        if (lexer.token != Symbol.SEMICOLON) {
+            signalError.showError("Missing ;");
+        }
+
+        lexer.nextToken();
+
+        return new PlusPlusStatement(v);
+    }
+
+    private MinusMinusStatement minusMinusStatement() {
+        lexer.nextToken();
+
+        if (lexer.token != Symbol.MINUS) {
+            signalError.showError("Statement expected");
+        }
+
+        lexer.nextToken();
+
+        Variable v = symbolTable.getInLocal(lexer.getStringValue());
+
+        if (v == null) {
+            signalError.showError("Variable '" + lexer.getStringValue() + "' not declared");
+        } else if (v.getType() != Type.intType) {
+            signalError.showError("Incompatible types");
+        }
+
+        lexer.nextToken();
+
+        if (lexer.token != Symbol.SEMICOLON) {
+            signalError.showError("Missing ;");
+        }
+
+        lexer.nextToken();
+
+        return new MinusMinusStatement(v);
     }
 
     private Statement assertStatement() {
@@ -635,7 +650,7 @@ public class Compiler {
 			 * AssignExprLocalDec ::= Expression [ ``$=$'' Expression ] | LocalDec 
 			 * LocalDec ::= Type IdList ``;''
              */
-            localDec();
+            return localDec();
         } else {
             /*
 			 * AssignExprLocalDec ::= Expression [ ``$=$'' Expression ]
@@ -650,6 +665,12 @@ public class Compiler {
                     if (right.getType() == null) {
                         if (left.getType() == Type.booleanType || left.getType() == Type.intType || left.getType() == Type.stringType || left.getType() == Type.undefinedType || left.getType() == Type.voidType) {
                             signalError.showError("Type error: 'null' cannot be assigned to a variable of a basic type");
+                        }
+                    } else if (left.getType() instanceof KraClass && right.getType() instanceof KraClass) {
+                        KraClass kc = (KraClass) right.getType();
+
+                        if (!kc.hasSuperClass(left.getType().getName())) {
+                            signalError.showError("Type error: value of the right-hand side is not subtype of the variable of the left-hand side.");
                         }
                     } else {
                         signalError.showError("Type error: value of the right-hand side is not subtype of the variable of the left-hand side.");
@@ -666,9 +687,8 @@ public class Compiler {
                 MessageSendToVariable mstv = (MessageSendToVariable) left;
                 signalError.showError("Message send '" + mstv.getClassVariableName() + "." + mstv.getMethodName() + "()' returns a value that is not used");
             }
+            return new AssignStatement(left, right);
         }
-
-        return new AssignStatement(left, right);
     }
 
     private boolean isSubType(Expr left, Expr right) {
@@ -772,23 +792,27 @@ public class Compiler {
         return new DoWhileStatement(cs, e);
     }
 
-    private void ifStatement() {
+    private IfStatement ifStatement() {
 
         lexer.nextToken();
         if (lexer.token != Symbol.LEFTPAR) {
             signalError.showError("( expected");
         }
         lexer.nextToken();
-        expr();
+        Expr e = expr();
         if (lexer.token != Symbol.RIGHTPAR) {
             signalError.showError(") expected");
         }
         lexer.nextToken();
-        statement();
+        Statement sIf = statement();
+
+        Statement sElse = null;
         if (lexer.token == Symbol.ELSE) {
             lexer.nextToken();
-            statement();
+            sElse = statement();
         }
+
+        return new IfStatement(e, sIf, sElse);
     }
 
     private ReturnStatement returnStatement() {
@@ -823,7 +847,8 @@ public class Compiler {
         return new ReturnStatement(e);
     }
 
-    private void readStatement() {
+    private ReadStatement readStatement() {
+        VariableList vl = new VariableList();
         lexer.nextToken();
         if (lexer.token != Symbol.LEFTPAR) {
             signalError.showError("( expected");
@@ -851,11 +876,15 @@ public class Compiler {
             if (isThis) {
                 iv = classeAtual.getInstanceVariable(name);
 
+                vl.addElement(iv);
+
                 if (iv.getType() == Type.booleanType) {
                     signalError.showError("Command 'read' does not accept 'boolean' variables");
                 }
             } else {
                 v = symbolTable.getInLocal(name);
+
+                vl.addElement(v);
 
                 if (v.getType() == Type.booleanType) {
                     signalError.showError("Command 'read' does not accept 'boolean' variables");
@@ -878,9 +907,11 @@ public class Compiler {
             signalError.show(ErrorSignaller.semicolon_expected);
         }
         lexer.nextToken();
+
+        return new ReadStatement(vl);
     }
 
-    private void writeStatement() {
+    private WriteStatement writeStatement() {
         lexer.nextToken();
         if (lexer.token != Symbol.LEFTPAR) {
             signalError.showError("( expected");
@@ -907,16 +938,18 @@ public class Compiler {
             signalError.show(ErrorSignaller.semicolon_expected);
         }
         lexer.nextToken();
+
+        return new WriteStatement(el);
     }
 
-    private void writelnStatement() {
+    private WriteStatement writelnStatement() {
 
         lexer.nextToken();
         if (lexer.token != Symbol.LEFTPAR) {
             signalError.showError("( expected");
         }
         lexer.nextToken();
-        exprList();
+        ExprList el = exprList();
         if (lexer.token != Symbol.RIGHTPAR) {
             signalError.showError(") expected");
         }
@@ -925,9 +958,11 @@ public class Compiler {
             signalError.show(ErrorSignaller.semicolon_expected);
         }
         lexer.nextToken();
+
+        return new WriteStatement(el, true);
     }
 
-    private void breakStatement() {
+    private BreakStatement breakStatement() {
         if (whileCounter == 0) {
             signalError.showError("Command 'break' outside a command 'while'");
         }
@@ -937,10 +972,14 @@ public class Compiler {
             signalError.show(ErrorSignaller.semicolon_expected);
         }
         lexer.nextToken();
+
+        return new BreakStatement();
     }
 
-    private void nullStatement() {
+    private NullStatement nullStatement() {
         lexer.nextToken();
+
+        return new NullStatement();
     }
 
     private ExprList exprList() {
@@ -1160,7 +1199,7 @@ public class Compiler {
 
                 lexer.nextToken();
                 exprList = realParameters();
-                break;
+                return new MessageSendToSuper(m, exprList);
             case IDENT:
                 /*
           	 * PrimaryExpr ::=  
@@ -1206,15 +1245,7 @@ public class Compiler {
 						 * Contudo, se vari�veis est�ticas n�o estiver nas especifica��es,
 						 * sinalize um erro neste ponto.
                              */
-                            lexer.nextToken();
-                            if (lexer.token != Symbol.IDENT) {
-                                signalError.showError("Identifier expected");
-                            }
-                            messageName = lexer.getStringValue();
-                            lexer.nextToken();
-                            exprList = this.realParameters();
-
-                            return new MessageSendToSuper(exprList);
+                            signalError.showError("Static Variables not implemented");
                         } else if (lexer.token == Symbol.LEFTPAR) {
                             // Id "." Id "(" [ ExpressionList ] ")"
                             Variable var = symbolTable.getInLocal(firstId);
@@ -1251,9 +1282,34 @@ public class Compiler {
 						 * m�todo 'ident' na classe de 'firstId'
                              */
 
-                            return new MessageSendToVariable(calledMethod.getType(), firstId, calledMethod.getName());
+                            return new MessageSendToVariable(calledMethod, firstId, exprList);
                         } else {
                             // retorne o objeto da ASA que representa Id "." Id
+                            Variable var = symbolTable.getInLocal(firstId);
+
+                            if (var == null) {
+                                var = metodoAtual.getParam(firstId);
+                                if (var == null) {
+                                    signalError.showError("Variable '" + firstId + "' was not declared");
+                                }
+                            }
+
+                            Type t = var.getType();
+                            if (t == Type.booleanType || t == Type.intType || t == Type.stringType || t == Type.undefinedType || t == Type.voidType) {
+                                signalError.showError("Message send to a non-object receiver");
+                            }
+
+                            KraClass firstClass = symbolTable.getInGlobal(var.getType().getName());
+                            InstanceVariable iv = firstClass.getInstanceVariable(id);
+
+                            if (iv == null) {
+                                iv = firstClass.getSuperInstanceVariable(id);
+                                if (iv == null) {
+                                    signalError.showError("Instance variable '" + id + "' was not found in class '" + var.getType().getName() + "' or its superclasses");
+                                }
+                            }
+
+                            return new MessageSendToVariable(iv, firstId);
                         }
                     }
                 }
@@ -1272,7 +1328,7 @@ public class Compiler {
                     // only 'this'
                     // retorne um objeto da ASA que representa 'this'
                     // confira se n�o estamos em um m�todo est�tico
-                    return null;
+                    return new MessageSendToSelf(classeAtual);
                 } else {
                     lexer.nextToken();
                     if (lexer.token != Symbol.IDENT) {
@@ -1310,10 +1366,20 @@ public class Compiler {
                                 Parameter pAux = pItr.next();
 
                                 if (eAux.getType() != pAux.getType()) {
-                                    signalError.showError("Type error: the type of the real parameter is not subclass of the type of the formal parameter");
+                                    if (eAux.getType() instanceof KraClass && pAux.getType() instanceof KraClass) {
+                                        KraClass kc = (KraClass) eAux.getType();
+
+                                        if (!kc.hasSuperClass(pAux.getType().getName())) {
+                                            signalError.showError("Type error: the type of the real parameter is not subclass of the type of the formal parameter");
+                                        }
+                                    } else {
+                                        signalError.showError("Type error: the type of the real parameter is not subclass of the type of the formal parameter");
+                                    }
                                 }
                             }
                         }
+
+                        return new MessageSendToSelf(classeAtual, tm, exprList);
                     } else if (lexer.token == Symbol.DOT) {
                         // "this" "." Id "." Id "(" [ ExpressionList ] ")"
                         lexer.nextToken();

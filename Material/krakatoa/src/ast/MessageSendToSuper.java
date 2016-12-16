@@ -2,13 +2,15 @@ package ast;
 
 public class MessageSendToSuper extends MessageSend { 
     private ExprList el;
+    private Method m;
     
-    public MessageSendToSuper(ExprList el) {
+    public MessageSendToSuper(Method m, ExprList el) {
+        this.m = m;
         this.el = el;
     }
     
     public Type getType() { 
-        return null;
+        return m.getType();
     }
 
     public void genC( PW pw, boolean putParenthesis ) {

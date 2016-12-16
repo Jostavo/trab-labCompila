@@ -12,8 +12,24 @@ public class MessageSendToSelf extends MessageSend {
         this.iv = iv;
     }
     
+    public MessageSendToSelf(KraClass k, Method m, ExprList el) {
+        this.k = k;
+        this.m = m;
+        this.el = el;
+    }
+    
+    public MessageSendToSelf(KraClass k) {
+        this.k = k;
+    }
+    
     public Type getType() { 
-        return this.iv.getType();
+        if (this.iv != null) {
+            return this.iv.getType();
+        } else if (this.m != null) {
+            return this.m.getType();
+        } else {
+            return this.k;
+        }
     }
     
     public void genC( PW pw, boolean putParenthesis ) {

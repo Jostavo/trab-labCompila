@@ -2,22 +2,28 @@ package ast;
 
 
 public class MessageSendToVariable extends MessageSend {
-    private Type t;
-    private String methodName;
+    private Method m;
+    private InstanceVariable iv;
+    private ExprList el;
     private String classVariableName;
     
-    public MessageSendToVariable(Type t, String classVariableName, String methodName) {
-        this.t = t;
+    public MessageSendToVariable(InstanceVariable iv, String classVariableName) {
         this.classVariableName = classVariableName;
-        this.methodName = methodName;
+        this.iv = iv;
+    }
+    
+    public MessageSendToVariable(Method m, String classVariableName, ExprList el) {
+        this.classVariableName = classVariableName;
+        this.m = m;
+        this.el = el;
     }
 
     public Type getType() { 
-        return this.t;
+        return this.m.getType();
     }
     
     public String getMethodName() {
-        return this.methodName;
+        return this.m.getName();
     }
     
     public String getClassVariableName() {

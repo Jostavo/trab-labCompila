@@ -22,11 +22,11 @@ public class KraClass extends Type {
     public void setSuperClass(KraClass k) {
         this.superclass = k;
     }
-    
+
     public KraClass getSuperClass() {
         return this.superclass;
     }
-    
+
     public boolean hasSuperClass(String className) {
         if (this.superclass == null) {
             return false;
@@ -61,6 +61,20 @@ public class KraClass extends Type {
         }
 
         return null;
+    }
+
+    public InstanceVariable getSuperInstanceVariable(String instanceVaraibleName) {
+        if (this.superclass == null) {
+            return null;
+        } else {
+            InstanceVariable iv = this.superclass.getInstanceVariable(instanceVaraibleName);
+
+            if (iv != null) {
+                return iv;
+            } else {
+                return this.superclass.getSuperInstanceVariable(instanceVaraibleName);
+            }
+        }
     }
 
     public void setInstanceVariable(InstanceVariable i) {
@@ -100,7 +114,7 @@ public class KraClass extends Type {
     public void setPrivateMethod(Method m) {
         this.privateMethodList.addElement(m);
     }
-    
+
     public Method getMethod(String methodName) {
         Iterator<Method> methodItr = this.publicMethodList.elements();
 
@@ -110,16 +124,16 @@ public class KraClass extends Type {
                 return method;
             }
         }
-        
+
         methodItr = this.privateMethodList.elements();
-        
+
         while (methodItr.hasNext()) {
             Method method = methodItr.next();
             if (method.getName().equals(methodName)) {
                 return method;
             }
         }
-        
+
         if (this.superclass == null) {
             return null;
         } else {
