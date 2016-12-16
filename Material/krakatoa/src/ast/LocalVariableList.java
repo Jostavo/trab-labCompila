@@ -19,6 +19,10 @@ public class LocalVariableList {
     public int getSize() {
         return localList.size();
     }
+    
+    public ArrayList<Variable> getLista(){
+        return localList;
+    }
 
     private ArrayList<Variable> localList;
 

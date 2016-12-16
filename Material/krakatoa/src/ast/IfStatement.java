@@ -22,7 +22,7 @@ public class IfStatement extends Statement {
     @Override
     public void genC(PW pw) {
         pw.printIdent("if");
-        e.genC(pw, true);
+        e.genC(pw, false);
         pw.println("{");
         pw.add();
         sIf.genC(pw);

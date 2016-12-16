@@ -13,7 +13,8 @@ public class MessageSendToSuper extends MessageSend {
         return m.getType();
     }
 
-    public void genC( PW pw, boolean putParenthesis ) {
+    @Override
+    public void genC( PW pw, boolean putParenthesis) {
         
     }
     

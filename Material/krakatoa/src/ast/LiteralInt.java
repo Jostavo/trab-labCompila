@@ -10,7 +10,7 @@ public class LiteralInt extends Expr {
         return value;
     }
     public void genC( PW pw, boolean putParenthesis ) {
-        pw.printIdent("" + value);
+        pw.printIdent(""+value);
     }
     
     public Type getType() {

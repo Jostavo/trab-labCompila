@@ -20,7 +20,12 @@ public class AssignStatement extends Statement {
     
     @Override
     public void genC(PW pw) {
-        
+        left.genC(pw, false);
+        if(right != null){
+            pw.print(" = ");
+            right.genC(pw, false);
+            pw.println(";");
+        }
     }
     
 }

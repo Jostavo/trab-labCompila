@@ -6,6 +6,7 @@
 package ast;
 
 import java.util.Iterator;
+import lexer.Symbol;
 
 /**
  *
@@ -16,12 +17,14 @@ public class Method extends Variable {
     private StatementList sl;
     private ParamList pl;
     private boolean hasReturn;
+    private Symbol qualifier;
 
-    public Method(String nome, Type tipo) {
+    public Method(String nome, Type tipo, Symbol qualifier) {
         super(nome, tipo);
         this.hasReturn = false;
         this.pl = new ParamList();
         this.sl = new StatementList();
+        this.qualifier = qualifier;
     }
     
     public void setHasReturn(boolean hasReturn) {
@@ -62,6 +65,10 @@ public class Method extends Variable {
         }
 
         return null;
+    }
+    
+    public Symbol getQual(){
+        return qualifier;
     }
     
     public void genC(PW pw, String mother){
