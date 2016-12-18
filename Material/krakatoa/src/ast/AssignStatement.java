@@ -22,19 +22,11 @@ public class AssignStatement extends Statement {
     @Override
     public void genC(PW pw) {
         left.genC(pw, false);
-<<<<<<< HEAD
         if (right != null) {
             pw.print(" = ");
             right.genC(pw, false);
         }
         pw.println(";");
-=======
-        if(right != null){
-            pw.print(" = ");
-            right.genC(pw, false);
-            pw.println(";");
-        }
->>>>>>> ae9783e2a2684d436f90ed1a45a924638e1d3376
     }
 
 }

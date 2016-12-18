@@ -145,19 +145,58 @@ public class KraClass extends Type {
             }
         }
     }
-    
+
     public void genC(PW pw) {
-            pw.println("typedef struct _St_" + this.getCname()+ " {");
-            pw.add();
-            this.instanceVariableList.genC(pw);
-            pw.printlnIdent("Func *vt;");
-            pw.sub();
-            pw.println("} _class_"+ this.getCname() +";");
-            pw.println();
-            pw.println("_class_"+ this.getCname() + " *new_"+ this.getCname() +"(void);");
-            pw.println();
-            publicMethodList.genC(pw, this.getName());
-            privateMethodList.genC(pw, this.getName());
+        pw.println("typedef struct _St_" + this.getCname() + " {");
+        pw.add();
+        pw.printlnIdent("Func *vt;");
+
+        this.instanceVariableList.genC(pw);
+
+        pw.sub();
+        pw.println("} _class_" + this.getCname() + ";");
+        pw.println();
+        pw.println("_class_" + this.getCname() + " *new_" + this.getCname() + "(void);");
+        pw.println();
+        this.publicMethodList.genC(pw, this.getName());
+        this.privateMethodList.genC(pw, this.getName());
+
+        pw.printlnIdent("Func VTclass_" + this.getCname() + "[] = {");
+        pw.add();
+        this.printMethodsPrototype(pw);
+        pw.sub();
+        pw.printlnIdent("};");
+        pw.println();
+        pw.printlnIdent("_class_" + this.getCname() + " *new_" + this.getCname() + "()");
+        pw.printlnIdent("{");
+        pw.add();
+        pw.printlnIdent("_class_" + this.getCname() + " *t;");
+        pw.println();
+        pw.printlnIdent("if ( (t = malloc(sizeof(_class_" + this.getCname() + "))) != NULL )");
+        pw.add();
+        pw.printlnIdent("t->vt = VTclass_" + this.getCname() + ";");
+        pw.sub();
+        pw.println();
+        pw.printlnIdent("return t;");
+        pw.sub();
+        pw.printlnIdent("}");
+    }
+
+    public void printMethodsPrototype(PW pw) {
+        if (this.superclass != null) {
+            this.superclass.printMethodsPrototype(pw);
+        }
+
+        Iterator<Method> mItr = publicMethodList.elements();
+
+        while (mItr.hasNext()) {
+            pw.printIdent("( void (*)() ) _" + this.getCname() + "_" + mItr.next().getName());
+            if (mItr.hasNext()) {
+                pw.println(",");
+            } else {
+                pw.println();
+            }
+        }
     }
 
     private String name;

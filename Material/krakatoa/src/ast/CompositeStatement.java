@@ -19,15 +19,11 @@ public class CompositeStatement extends Statement {
 
     @Override
     public void genC(PW pw) {
-<<<<<<< HEAD
         pw.println("{");
         pw.add();
         sl.genC(pw);
         pw.sub();
         pw.printIdent("}");
-=======
-        sl.genC(pw);
->>>>>>> ae9783e2a2684d436f90ed1a45a924638e1d3376
     }
     
 }
