@@ -20,7 +20,15 @@ public class LocalDecStatement extends Statement {
 
     @Override
     public void genC(PW pw) {
-        
+        pw.printIdent(t.getName());
+        for(Variable aux: lvl.getLista()){
+            pw.print(aux.getName());
+            if(aux != lvl.getLista().get(lvl.getSize()-1)){
+                pw.print(", ");
+            }
+        }
+        pw.print(";");
+        pw.println();
     }
     
 }

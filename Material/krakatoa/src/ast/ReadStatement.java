@@ -19,7 +19,8 @@ public class ReadStatement extends Statement {
     @Override
     public void genC(PW pw) {
         for(Variable aux: vl.getList()){
-            pw.println("{");
+            pw.printlnIdent("{");
+            pw.add();
             pw.printlnIdent("char __s[512];");
             pw.printlnIdent("gets(__s);");
             if(aux.getType().getName().equals("String")){
@@ -29,7 +30,8 @@ public class ReadStatement extends Statement {
             }else if(aux.getType().getName().equals("int")){
                 pw.printlnIdent("sscanf(__s, \"%d\", &_"+ aux.getName()+");");
             }
-            pw.println("}");
+            pw.sub();
+            pw.printlnIdent("}");
             pw.println();
         }
     }

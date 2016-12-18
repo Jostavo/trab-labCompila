@@ -29,7 +29,8 @@ public class MessageSendToVariable extends MessageSend {
     public String getClassVariableName() {
         return this.classVariableName;
     }
-     
+    
+    @Override 
     public void genC( PW pw, boolean putParenthesis ) {
         
     }

@@ -21,7 +21,19 @@ public class IfStatement extends Statement {
     
     @Override
     public void genC(PW pw) {
-        
+        pw.printIdent("if");
+        e.genC(pw, false);
+        pw.println("{");
+        pw.add();
+        sIf.genC(pw);
+        pw.sub();
+        if(sElse != null){
+            pw.printlnIdent("}else{");
+            pw.add();
+            sElse.genC(pw);
+            pw.sub();
+        }
+        pw.printlnIdent("}");
     }
     
 }

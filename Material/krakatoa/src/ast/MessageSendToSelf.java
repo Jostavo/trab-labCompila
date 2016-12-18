@@ -1,5 +1,7 @@
 package ast;
 
+import lexer.Symbol;
+
 
 public class MessageSendToSelf extends MessageSend {
     private KraClass k;
@@ -32,8 +34,15 @@ public class MessageSendToSelf extends MessageSend {
         }
     }
     
-    public void genC( PW pw, boolean putParenthesis ) {
+    @Override
+    public void genC(PW pw, boolean putParenthesis) {
+       /* if(m.getQual() == Symbol.PUBLIC){
+            só jesus salva
+        }else{
+            pw.print("_"+ nome + "_" + nomeMet + "(this");
+            <param>
+        }*/
+       pw.printIdent("");
     }
-    
     
 }

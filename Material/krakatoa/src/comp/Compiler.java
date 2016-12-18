@@ -287,7 +287,7 @@ public class Compiler {
             signalError.showError("Method '" + name + "' of subclass '" + classeAtual.getName() + "' has a signature different from method inherited from superclass '" + classeAtual.getSuperClass().getName() + "'");
         }
 
-        metodoAtual = new Method(name, type);
+        metodoAtual = new Method(name, type, qualifier);
 
         lexer.nextToken();
         if (lexer.token != Symbol.RIGHTPAR) {
@@ -1412,7 +1412,7 @@ public class Compiler {
         return null;
     }
 
-    private LiteralInt literalInt() {
+    private Expr literalInt() {
 
         LiteralInt e = null;
 
@@ -1421,7 +1421,8 @@ public class Compiler {
         // Method intValue returns that value as an value of type int.
         int value = lexer.getNumberValue();
         lexer.nextToken();
-        return new LiteralInt(value);
+        e = new LiteralInt(value);
+        return e;
     }
 
     private static boolean startExpr(Symbol token) {

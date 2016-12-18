@@ -7,7 +7,11 @@ public class VariableExpr extends Expr {
     }
     
     public void genC( PW pw, boolean putParenthesis ) {
-        pw.print( v.getName() );
+        if(putParenthesis)
+            pw.print("(");
+        pw.print(v.getName());
+        if(putParenthesis)
+            pw.print(")");
     }
     
     public Type getType() {

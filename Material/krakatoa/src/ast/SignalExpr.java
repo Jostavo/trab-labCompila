@@ -10,7 +10,7 @@ public class SignalExpr extends Expr {
     }
 
     @Override
-	public void genC( PW pw, boolean putParenthesis ) {
+    public void genC( PW pw, boolean putParenthesis ) {
        if ( putParenthesis )
           pw.print("(");
        pw.print( oper == Symbol.PLUS ? "+" : "-" );

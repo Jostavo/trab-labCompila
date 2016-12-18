@@ -22,7 +22,7 @@ public class KraClassExpr extends Expr {
 
     @Override
     public void genC(PW pw, boolean putParenthesis) {
-        pw.println(this.k.getCname() + "()");
+        pw.print("new_"+this.k.getCname() + "()");
     }
 
     @Override
