@@ -1,3 +1,6 @@
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package ast;
 
 public class Variable {
@@ -13,16 +16,8 @@ public class Variable {
         return type;
     }
     
-    public void genC(PW pw){
-        if(this.type.getName().equals("String")){
-            pw.printIdent(this.getType().getCname() + "_" + this.getName());
-        }else if(this.getType().getName().equals("boolean")){
-            pw.printIdent(this.getType().getName() + " _" + this.getName());
-        }else{
-            pw.printIdent(this.getType().getCname() + " _" + this.getName());
-        }
-    }
-
+    public String getCname() { return "_" + name; }
+    
     private String name;
     private Type type;
 }

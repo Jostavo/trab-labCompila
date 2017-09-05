@@ -1,3 +1,6 @@
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package comp;
 import java.io.*;
 import java.util.ArrayList;
@@ -64,6 +67,7 @@ public class Comp {
         			   try {
         			       compileProgram(f, filename, outError);
         			   } catch (RuntimeException e ) {
+                                            e.printStackTrace();
         				   System.out.println("Runtime exception");
         			   }
         			   catch (Throwable t) {

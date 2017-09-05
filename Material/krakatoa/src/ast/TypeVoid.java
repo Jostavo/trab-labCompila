@@ -1,3 +1,6 @@
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package ast;
 
 public class TypeVoid extends Type {

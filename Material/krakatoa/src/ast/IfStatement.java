@@ -1,8 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package ast;
 
 /**
@@ -22,15 +20,32 @@ public class IfStatement extends Statement {
     @Override
     public void genC(PW pw) {
         pw.printIdent("if");
-        e.genC(pw, false);
-        pw.println("{");
+        e.genC(pw, true);
+        pw.println(" {");
         pw.add();
         sIf.genC(pw);
         pw.sub();
         if(sElse != null){
-            pw.printlnIdent("}else{");
+            pw.printlnIdent("} else {");
             pw.add();
             sElse.genC(pw);
+            pw.sub();
+        }
+        pw.printlnIdent("}");
+    }
+    
+    @Override
+    public void genKra(PW pw) {
+        pw.printIdent("if");
+        e.genKra(pw, true);
+        pw.println(" {");
+        pw.add();
+        sIf.genKra(pw);
+        pw.sub();
+        if(sElse != null){
+            pw.printlnIdent("} else {");
+            pw.add();
+            sElse.genKra(pw);
             pw.sub();
         }
         pw.printlnIdent("}");

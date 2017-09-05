@@ -1,8 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package ast;
 
 import java.util.ArrayList;
@@ -35,6 +33,12 @@ public class StatementList {
     public void genC(PW pw){
         for(Statement aux: statements){
             aux.genC(pw);
+        }
+    }
+    
+    public void genKra(PW pw){
+        for(Statement aux: statements){
+            aux.genKra(pw);
         }
     }
 }

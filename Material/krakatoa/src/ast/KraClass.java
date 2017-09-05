@@ -1,3 +1,6 @@
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package ast;
 
 import java.util.Iterator;
@@ -16,7 +19,7 @@ public class KraClass extends Type {
 
     @Override
     public String getCname() {
-        return getName();
+        return "_class_" + this.getName();
     }
 
     public void setSuperClass(KraClass k) {
@@ -48,6 +51,20 @@ public class KraClass extends Type {
                 return this.superclass.getSuperMethod(methodName);
             }
         }
+    }
+    
+    public KraClass getSuperOwner(String methodName) {
+    	if (this.superclass == null) {
+    		return null;
+    	} else {
+    		Method m = this.superclass.getPublicMethod(methodName);
+    		
+    		if (m != null) {
+    			return this.superclass;
+    		} else {
+    			return this.superclass.getSuperOwner(methodName);
+    		}
+    	}
     }
 
     public InstanceVariable getInstanceVariable(String instanceVariableName) {
@@ -145,36 +162,45 @@ public class KraClass extends Type {
             }
         }
     }
+    
+    public void genKra(PW pw) {
+    	pw.printlnIdent("class " + this.getName() + " {");
+    	pw.add();
+    	this.instanceVariableList.genKra(pw);
+    	this.privateMethodList.genKra(pw);
+    	this.publicMethodList.genKra(pw);
+    	pw.sub();
+    	pw.printlnIdent("}");
+    }
 
     public void genC(PW pw) {
-        pw.println("typedef struct _St_" + this.getCname() + " {");
+        pw.println("typedef struct _St_" + this.getName() + " {");
         pw.add();
         pw.printlnIdent("Func *vt;");
 
-        this.instanceVariableList.genC(pw);
+        this.printInstanceVariables(pw);
 
         pw.sub();
-        pw.println("} _class_" + this.getCname() + ";");
+        pw.println("} " + this.getCname() + ";");
         pw.println();
-        pw.println("_class_" + this.getCname() + " *new_" + this.getCname() + "(void);");
+        pw.println(this.getCname() + " *new_" + this.getName() + "(void);");
         pw.println();
-        this.publicMethodList.genC(pw, this.getName());
         this.privateMethodList.genC(pw, this.getName());
-
-        pw.printlnIdent("Func VTclass_" + this.getCname() + "[] = {");
+        this.publicMethodList.genC(pw, this.getName());
+        pw.printlnIdent("Func VTclass_" + this.getName() + "[] = {");
         pw.add();
-        this.printMethodsPrototype(pw);
+        this.printMethodsPrototype(pw, null);
         pw.sub();
         pw.printlnIdent("};");
         pw.println();
-        pw.printlnIdent("_class_" + this.getCname() + " *new_" + this.getCname() + "()");
+        pw.printlnIdent(this.getCname() + " *new_" + this.getName() + "()");
         pw.printlnIdent("{");
         pw.add();
-        pw.printlnIdent("_class_" + this.getCname() + " *t;");
+        pw.printlnIdent(this.getCname() + " *t;");
         pw.println();
-        pw.printlnIdent("if ( (t = malloc(sizeof(_class_" + this.getCname() + "))) != NULL )");
+        pw.printlnIdent("if ( (t = malloc(sizeof(" + this.getCname() + "))) != NULL )");
         pw.add();
-        pw.printlnIdent("t->vt = VTclass_" + this.getCname() + ";");
+        pw.printlnIdent("t->vt = VTclass_" + this.getName() + ";");
         pw.sub();
         pw.println();
         pw.printlnIdent("return t;");
@@ -182,24 +208,93 @@ public class KraClass extends Type {
         pw.printlnIdent("}");
     }
 
-    public void printMethodsPrototype(PW pw) {
+    public void printMethodsPrototype(PW pw, KraClass child) {
         if (this.superclass != null) {
-            this.superclass.printMethodsPrototype(pw);
+            this.superclass.printMethodsPrototype(pw, this);
         }
 
-        Iterator<Method> mItr = publicMethodList.elements();
+        Iterator<Method> mItr = this.publicMethodList.elements();
 
         while (mItr.hasNext()) {
-            pw.printIdent("( void (*)() ) _" + this.getCname() + "_" + mItr.next().getName());
-            if (mItr.hasNext()) {
-                pw.println(",");
-            } else {
-                pw.println();
+            Method m = mItr.next();
+            if (child == null || child.getPublicMethod(m.getName()) == null) {
+                pw.printIdent("( void (*)() ) _" + this.getName() + "_" + m.getName());
+                if (mItr.hasNext() || child != null) {
+                    pw.println(",");
+                } else {
+                    pw.println();
+                }
             }
         }
     }
 
-    private String name;
+    public int getMethodPosition(String methodName) {
+        Iterator<Method> mItr = this.publicMethodList.elements();
+        int counter = 0;
+
+        while (mItr.hasNext()) {
+            Method m = mItr.next();
+
+            if (m.getName().equals(methodName)) {
+                if (this.superclass != null) {
+                    counter += this.getMethodsBefore();
+                }
+
+                return counter;
+            }
+
+            counter++;
+        }
+
+        return this.superclass.getMethodPosition(methodName);
+    }
+    
+    public boolean isPrivate(String methodName) {
+    	Iterator<Method> mItr = this.privateMethodList.elements();
+    	
+    	while (mItr.hasNext()) {
+    		Method m = mItr.next();
+    		
+    		if (m.getName().equals(methodName)) {
+    			return true;
+    		}
+    	}
+    	
+    	return false;
+    }
+
+    public int getMethodsBefore() {
+        int counter = 0;
+
+        if (this.superclass != null) {
+            counter += this.superclass.getMethodsBefore();
+            
+            MethodList superMethods = this.superclass.getPublicMethodList();
+            
+            Iterator<Method> smItr = superMethods.elements();
+            
+            while (smItr.hasNext()) {
+            	if (this.getPublicMethod(smItr.next().getName()) == null) {
+            		counter++;
+            	}
+            }
+        }
+
+        return counter;
+    }
+    
+    public MethodList getPublicMethodList() {
+    	return this.publicMethodList;
+    }
+
+    public void printInstanceVariables(PW pw) {
+        if (this.superclass != null) {
+            this.superclass.printInstanceVariables(pw);
+        }
+
+        this.instanceVariableList.genC(pw, this.getName());
+    }
+
     private KraClass superclass;
     private InstanceVariableList instanceVariableList;
     private MethodList publicMethodList, privateMethodList;

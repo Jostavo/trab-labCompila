@@ -1,3 +1,6 @@
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package ast;
 
 import java.util.ArrayList;
@@ -32,9 +35,15 @@ public class MethodList {
         return methodList.size();
     }
     
-    public void genC(PW pw, String mother){
+    public void genC(PW pw, String className){
         for(Method aux: methodList){
-            aux.genC(pw, mother);
+            aux.genC(pw, className);
+        }
+    }
+    
+    public void genKra(PW pw){
+        for(Method aux: methodList){
+            aux.genKra(pw);
         }
     }
 }

@@ -1,3 +1,6 @@
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package ast;
 
 import java.util.*;
@@ -23,6 +26,14 @@ public class ParamList {
     public void genC(PW pw){
         for(Parameter aux: paramList){
             aux.genC(pw);
+            if(aux != paramList.get(paramList.size()-1))
+                pw.print(", ");
+        }
+    }
+    
+    public void genKra(PW pw){
+        for(Parameter aux: paramList){
+            aux.genKra(pw);
             if(aux != paramList.get(paramList.size()-1))
                 pw.print(", ");
         }

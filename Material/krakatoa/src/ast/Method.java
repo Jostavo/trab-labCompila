@@ -1,8 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package ast;
 
 import java.util.Iterator;
@@ -67,18 +65,14 @@ public class Method extends Variable {
         return null;
     }
     
-    public Symbol getQual(){
-        return qualifier;
-    }
-    
-    public void genC(PW pw, String mother){
-        if(this.getType().getName().equals("String")){
-            pw.print(this.getType().getCname() + "_" + mother + "_" + this.getName());
+    public void genC(PW pw, String className){
+        if(this.getType() == Type.stringType){
+            pw.print(this.getType().getCname() + "_" + className + "_" + this.getName());
         }else{
-            pw.print(this.getType().getCname() + " _" + mother + "_" + this.getName());
+            pw.print(this.getType().getCname() + " _" + className + "_" + this.getName());
         }
         
-        pw.print("( _class_" + mother + " *this");
+        pw.print("( _class_" + className + " *this");
         if(this.getParamList().getSize() > 0){
             pw.print(", ");
             this.getParamList().genC(pw);
@@ -88,7 +82,21 @@ public class Method extends Variable {
         pw.add();
         this.getStatementList().genC(pw);
         pw.sub();
-        pw.println("}");
+        pw.printlnIdent("}");
+        pw.println();
+    }
+    
+    public void genKra(PW pw){
+    	pw.printlnIdent(qualifier + " " + this.getType().getName() + " " + this.getName() + " (");
+    	if(this.getParamList().getSize() > 0) {
+            this.getParamList().genKra(pw);
+        }
+        pw.print(" )");
+        pw.println("{");
+    	pw.add();
+    	this.getStatementList().genKra(pw);
+    	pw.sub();
+    	pw.printlnIdent("}");
         pw.println();
     }
 }

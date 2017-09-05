@@ -1,8 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package ast;
 
 /**
@@ -22,7 +20,24 @@ public class KraClassExpr extends Expr {
 
     @Override
     public void genC(PW pw, boolean putParenthesis) {
-        pw.print("new_"+this.k.getCname() + "()");
+        if (putParenthesis) {
+            pw.print("(");
+        }
+        pw.print("new_"+this.k.getName() + "()");
+        if (putParenthesis) {
+            pw.print(")");
+        }
+    }
+    
+    @Override
+    public void genKra(PW pw, boolean putParenthesis) {
+        if (putParenthesis) {
+            pw.print("(");
+        }
+        pw.print("new " + this.k.getName() + "()");
+        if (putParenthesis) {
+            pw.print(")");
+        }
     }
 
     @Override

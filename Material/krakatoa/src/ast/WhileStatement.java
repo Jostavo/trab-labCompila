@@ -1,8 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package ast;
 
 /**
@@ -25,6 +23,17 @@ public class WhileStatement extends Statement {
         pw.println("){");
         pw.add();
         s.genC(pw);
+        pw.sub();
+        pw.println("}");
+    }
+    
+    @Override
+    public void genKra(PW pw) {
+        pw.print("while(");
+        e.genKra(pw, false);
+        pw.println("){");
+        pw.add();
+        s.genKra(pw);
         pw.sub();
         pw.println("}");
     }

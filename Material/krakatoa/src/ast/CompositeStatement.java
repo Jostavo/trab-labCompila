@@ -1,3 +1,6 @@
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package ast;
 
 /*
@@ -22,6 +25,15 @@ public class CompositeStatement extends Statement {
         pw.println("{");
         pw.add();
         sl.genC(pw);
+        pw.sub();
+        pw.printIdent("}");
+    }
+    
+    @Override
+    public void genKra(PW pw) {
+        pw.println("{");
+        pw.add();
+        sl.genKra(pw);
         pw.sub();
         pw.printIdent("}");
     }

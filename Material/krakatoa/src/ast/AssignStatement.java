@@ -1,8 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package ast;
 
 /**
@@ -21,12 +19,25 @@ public class AssignStatement extends Statement {
 
     @Override
     public void genC(PW pw) {
+        pw.printIdent("");
         left.genC(pw, false);
         if (right != null) {
             pw.print(" = ");
             right.genC(pw, false);
+            pw.println(";");
         }
-        pw.println(";");
+
+    }
+    
+    @Override
+    public void genKra(PW pw) {
+    	pw.printIdent("");
+        left.genKra(pw, false);
+        if (right != null) {
+            pw.print(" = ");
+            right.genKra(pw, false);
+            pw.println(";");
+        }
     }
 
 }

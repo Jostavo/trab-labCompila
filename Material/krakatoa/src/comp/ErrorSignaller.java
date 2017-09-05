@@ -1,3 +1,6 @@
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package comp;
 import java.io.*;
 import java.util.ArrayList;

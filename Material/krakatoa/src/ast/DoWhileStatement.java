@@ -1,8 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
 package ast;
 
 /**
@@ -20,10 +17,19 @@ public class DoWhileStatement extends Statement {
 
     @Override
     public void genC(PW pw) {
-        pw.printIdent("do ");;
+        pw.printIdent("do ");
         cs.genC(pw);
-        pw.print(" while");
+        pw.print(" while ");
         e.genC(pw, true);
+        pw.println(";");
+    }
+    
+    @Override
+    public void genKra(PW pw) {
+        pw.printIdent("do ");
+        cs.genKra(pw);
+        pw.print(" while ");
+        e.genKra(pw, true);
         pw.println(";");
     }
     

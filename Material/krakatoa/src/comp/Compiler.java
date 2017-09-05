@@ -1,4 +1,5 @@
-//Enrique Sampaio dos Santos e Gustavo Rodrigues
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
 package comp;
 
 import ast.*;
@@ -555,15 +556,11 @@ public class Compiler {
 
         lexer.nextToken();
 
-        Variable v = symbolTable.getInLocal(lexer.getStringValue());
+        Expr e = expr();
 
-        if (v == null) {
-            signalError.showError("Variable '" + lexer.getStringValue() + "' not declared");
-        } else if (v.getType() != Type.intType) {
+        if (e.getType() != Type.intType) {
             signalError.showError("Incompatible types");
         }
-
-        lexer.nextToken();
 
         if (lexer.token != Symbol.SEMICOLON) {
             signalError.showError("Missing ;");
@@ -571,7 +568,7 @@ public class Compiler {
 
         lexer.nextToken();
 
-        return new PlusPlusStatement(v);
+        return new PlusPlusStatement(e);
     }
 
     private MinusMinusStatement minusMinusStatement() {
@@ -583,11 +580,9 @@ public class Compiler {
 
         lexer.nextToken();
 
-        Variable v = symbolTable.getInLocal(lexer.getStringValue());
+        Expr e = expr();
 
-        if (v == null) {
-            signalError.showError("Variable '" + lexer.getStringValue() + "' not declared");
-        } else if (v.getType() != Type.intType) {
+        if (e.getType() != Type.intType) {
             signalError.showError("Incompatible types");
         }
 
@@ -599,7 +594,7 @@ public class Compiler {
 
         lexer.nextToken();
 
-        return new MinusMinusStatement(v);
+        return new MinusMinusStatement(e);
     }
 
     private Statement assertStatement() {
@@ -663,7 +658,7 @@ public class Compiler {
                 right = expr();
 
                 if (left.getType() != right.getType() && !isSubType(left, right)) {
-                    if (right.getType() == null) {
+                    if (right.getType() == Type.nullType) {
                         if (left.getType() == Type.booleanType || left.getType() == Type.intType || left.getType() == Type.stringType || left.getType() == Type.undefinedType || left.getType() == Type.voidType) {
                             signalError.showError("Type error: 'null' cannot be assigned to a variable of a basic type");
                         }
@@ -688,6 +683,7 @@ public class Compiler {
                 MessageSendToVariable mstv = (MessageSendToVariable) left;
                 signalError.showError("Message send '" + mstv.getClassVariableName() + "." + mstv.getMethodName() + "()' returns a value that is not used");
             }
+
             return new AssignStatement(left, right);
         }
     }
@@ -880,6 +876,8 @@ public class Compiler {
 
                 if (iv.getType() == Type.booleanType) {
                     signalError.showError("Command 'read' does not accept 'boolean' variables");
+                } else if (iv.getType() != Type.intType && iv.getType() != Type.stringType) {
+                	signalError.showError("'int' or 'String' expression expected");
                 }
             } else {
                 v = symbolTable.getInLocal(name);
@@ -888,6 +886,8 @@ public class Compiler {
 
                 if (v.getType() == Type.booleanType) {
                     signalError.showError("Command 'read' does not accept 'boolean' variables");
+                } else if (v.getType() != Type.intType && v.getType() != Type.stringType) {
+                	signalError.showError("'int' or 'String' expression expected");
                 }
             }
 
@@ -1004,7 +1004,7 @@ public class Compiler {
             lexer.nextToken();
             Expr right = simpleExpr();
 
-            if (left.getType() != right.getType() && left.getType() != null && right.getType() != null && !isSubType(left, right) && !isSubType(right, left)) {
+            if (left.getType() != right.getType() && left.getType() != Type.nullType && right.getType() != Type.nullType && !isSubType(left, right) && !isSubType(right, left)) {
                 switch (op) {
                     case EQ:
                         signalError.showError("Incompatible types cannot be compared with '==' because the result will always be 'false'");
@@ -1199,7 +1199,7 @@ public class Compiler {
 
                 lexer.nextToken();
                 exprList = realParameters();
-                return new MessageSendToSuper(m, exprList);
+                return new MessageSendToSuper(m, exprList, classeAtual);
             case IDENT:
                 /*
           	 * PrimaryExpr ::=  
@@ -1282,7 +1282,7 @@ public class Compiler {
 						 * m�todo 'ident' na classe de 'firstId'
                              */
 
-                            return new MessageSendToVariable(calledMethod, firstId, exprList);
+                            return new MessageSendToVariable(calledMethod, firstId, exprList, firstClass);
                         } else {
                             // retorne o objeto da ASA que representa Id "." Id
                             Variable var = symbolTable.getInLocal(firstId);
@@ -1309,7 +1309,7 @@ public class Compiler {
                                 }
                             }
 
-                            return new MessageSendToVariable(iv, firstId);
+                            return new MessageSendToVariable(iv, firstId, firstClass);
                         }
                     }
                 }
@@ -1382,12 +1382,60 @@ public class Compiler {
                         return new MessageSendToSelf(classeAtual, tm, exprList);
                     } else if (lexer.token == Symbol.DOT) {
                         // "this" "." Id "." Id "(" [ ExpressionList ] ")"
+
+                        InstanceVariable iv = classeAtual.getInstanceVariable(id);
+                        KraClass firstClass = symbolTable.getInGlobal(iv.getType().getName());
+
+                        if (iv == null) {
+                            signalError.showError("Instance variable not found");
+                        }
+
                         lexer.nextToken();
                         if (lexer.token != Symbol.IDENT) {
                             signalError.showError("Identifier expected");
                         }
+
+                        String methodName = lexer.getStringValue();
+
+                        Method m2 = firstClass.getPublicMethod(methodName);
+
+                        if (m2 == null) {
+                            signalError.showError("Method not found");
+                        }
+
                         lexer.nextToken();
+
                         exprList = this.realParameters();
+
+                        ParamList pl = m2.getParamList();
+
+                        if ((exprList != null && pl.getSize() == 0) || (exprList == null && pl.getSize() != 0)) {
+                            signalError.showError("Type error: the type of the real parameter is not subclass of the type of the formal parameter");
+                        }
+
+                        if (exprList != null) {
+                            Iterator<Parameter> pItr = pl.elements();
+                            Iterator<Expr> eItr = exprList.elements();
+
+                            while (eItr.hasNext()) {
+                                Expr eAux = eItr.next();
+                                Parameter pAux = pItr.next();
+
+                                if (eAux.getType() != pAux.getType()) {
+                                    if (eAux.getType() instanceof KraClass && pAux.getType() instanceof KraClass) {
+                                        KraClass kc = (KraClass) eAux.getType();
+
+                                        if (!kc.hasSuperClass(pAux.getType().getName())) {
+                                            signalError.showError("Type error: the type of the real parameter is not subclass of the type of the formal parameter");
+                                        }
+                                    } else {
+                                        signalError.showError("Type error: the type of the real parameter is not subclass of the type of the formal parameter");
+                                    }
+                                }
+                            }
+                        }
+                        
+                        return new MessageSendToSelf(classeAtual, m2, exprList, iv, firstClass);
                     } else {
                         // retorne o objeto da ASA que representa "this" "." Id
                         /*
@@ -1404,7 +1452,6 @@ public class Compiler {
                         return new MessageSendToSelf(classeAtual, iv);
                     }
                 }
-                break;
             default:
                 signalError.showError("Expression expected");
         }

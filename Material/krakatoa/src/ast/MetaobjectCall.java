@@ -1,6 +1,6 @@
-/**
-  
- */
+// Enrique Sampaio dos Santos
+// Gustavo Rodrigues
+
 package ast;
 
 import java.util.ArrayList;
